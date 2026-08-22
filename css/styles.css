@@ -1,0 +1,1854 @@
+/* =========================================================
+   VARIABLES GLOBALES (design tokens)
+   Centralizamos colores, radios y sombras que se repetían
+   decenas de veces en el archivo original con valores hex
+   sueltos. Cambiar el theme ahora es cambiar esto una vez.
+   ========================================================= */
+
+:root {
+    /* Colores de marca */
+    --color-primary: #8b5cf6;
+    --color-primary-dark: #7c3aed;
+    --color-primary-bg: #f3e8ff;
+    --color-primary-bg-soft: #f5f3ff; /* Figma: fondo de opción seleccionada */
+
+    /* Texto */
+    --color-text-black: #000000;   /* Figma: título principal del formulario */
+    --color-text-dark: #111827;
+    --color-text-body: #1f2937;
+    --color-text-muted: #4b5563;
+    --color-text-muted-2: #6b7280;
+    --color-text-faint: #9ca3af;
+
+    /* Fondos y bordes */
+    --color-bg-page: #f7f8fc;
+    --color-bg-white: #ffffff;
+    --color-bg-alt: #f9fafb;
+    --color-border: #e5e7eb;
+    --color-border-strong: #d1d5db; /* Figma: borde de tarjetas de opción */
+    --color-border-soft: #f3f4f6;
+
+    /* Estados */
+    --color-success: #84cc16;
+    --color-warning: #d97706;
+    --color-warning-bg: #fef3c7;
+    --color-danger: #ef4444;
+    --color-yellow-bg: #fefce8;
+    --color-yellow-border: #fde047;
+    --color-yellow-text: #ca8a04;
+
+    /* Radios */
+    --radius-xl: 32px;
+    --radius-lg: 24px;
+    --radius-xl-alt: 40px;  /* Figma: caja de imagen de pantallas de transición */
+    --radius-md: 16px;
+    --radius-option: 20px;  /* Figma: tarjetas de opción */
+    --radius-sm: 12px;
+    --radius-full: 9999px;  /* Figma: botones siempre en píldora */
+
+    /* Sombras */
+    --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Figma: shadow-2xl de la tarjeta */
+    --shadow-card-soft: 0 4px 12px rgba(0, 0, 0, 0.02);
+    --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* Figma: sombra neutra, no morada */
+    --shadow-btn-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25); /* Figma: opción seleccionada */
+}
+
+
+/* =========================================================
+   RESET Y BASE
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    background-color: var(--color-bg-page);
+    color: var(--color-text-body);
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+
+/* =========================================================
+   CONTENEDORES PRINCIPALES
+   NOTA: .main-card, .welcome-container y .form-container
+   compartían casi todas sus propiedades (ancho, fondo,
+   padding, radio, sombra, flex column). Se agrupan aquí y
+   solo se declaran por separado las diferencias reales
+   (min-height, margin, justify-content, position).
+   Antes .form-container NO tenía margin ni las mismas
+   dimensiones que las otras dos: si eso no era intencional,
+   revisar — se mantiene el comportamiento original.
+   ========================================================= */
+
+.main-card,
+.welcome-container,
+.form-container {
+    width: min(100%, 720px);
+    background-color: var(--color-bg-white);
+    padding: clamp(28px, 5vw, 48px);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-card,
+.welcome-container {
+    min-height: min(850px, calc(100vh - 40px));
+    min-height: min(850px, calc(100dvh - 40px)); /* dvh: altura real en móviles, evita saltos por la barra de direcciones */
+    margin: 20px auto;
+}
+
+.main-card {
+    overflow: hidden;
+}
+
+/* Si la tarjeta no es una pantalla especial (chart, text-center), no
+   tiene un botón fijo abajo (.form-footer) y no tiene una lista de
+   opciones (.options-list, que ya usa flex-grow para empujar su
+   propio botón al fondo), centramos el contenido verticalmente. Sin
+   esto, pantallas con poco contenido (ej. elegir edad) dejaban un
+   hueco enorme vacío debajo en móvil, porque la tarjeta se estira a
+   min-height:100vh igual. Si además tiene .options-list, dejar que
+   ESA regla empuje el botón — centrar aquí generaba justo el hueco
+   raro entre la última opción y el botón "CONTINUAR". */
+.main-card:not(.text-center):not(:has(.chart-wrapper)):not(:has(.form-footer)):not(:has(.options-list)) {
+    justify-content: center;
+}
+
+.welcome-container {
+    justify-content: space-between;
+    position: relative;
+}
+
+.form-container {
+    min-height: calc(100vh - 40px);
+    min-height: calc(100dvh - 40px);
+}
+
+.page-container {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--color-bg-page);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+
+/* =========================================================
+   TEXTO Y ENCABEZADOS
+   ========================================================= */
+
+.form-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.form-header h1 {
+    font-size: clamp(22px, 5vw, 28px);
+    font-weight: 700;
+    line-height: 1.25; /* 35px / 28px, exacto de Figma */
+    color: var(--color-text-black); /* Figma: #000000, no el navy usado en el resto */
+    margin-bottom: 12px;
+}
+
+.form-header h2 {
+    font-size: clamp(22px, 6vw, 28px);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text-dark);
+    margin-bottom: 8px;
+}
+
+.helper-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* Usado en varios formularios (ej. <div class="divider"></div>)
+   entre el encabezado y las opciones. En el diseño no es una línea
+   visible, es puro espacio de separación. */
+.divider {
+    height: 1px;
+    background: transparent;
+    margin: clamp(20px, 5vw, 36px) 0;
+}
+
+.highlight {
+    color: var(--color-primary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* =========================================================
+   BOTONES
+   ========================================================= */
+
+.btn-primary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 60px;
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    text-align: center;
+    text-decoration: none;
+    padding: 16px 0;
+    border-radius: var(--radius-full);
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: var(--shadow-btn);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-btn-hover);
+}
+
+.btn-secondary-outline {
+    display: block;
+    width: 100%;
+    background: var(--color-bg-white);
+    color: var(--color-text-body);
+    text-align: center;
+    text-decoration: none;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-card-soft);
+    transition: all 0.2s ease;
+}
+
+.btn-secondary-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-action-primary {
+    margin-top: auto;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    padding: 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.btn-action-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn-margin-top {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   PANTALLA DE BIENVENIDA
+   ========================================================= */
+
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: clamp(40px, 8vh, 80px);
+}
+
+.icon-circle {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    background-color: var(--color-bg-white);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
+    margin-bottom: 35px;
+}
+
+.sparkle-icon {
+    font-size: 38px;
+}
+
+.welcome-content h1 {
+    font-size: clamp(25px, 4vw, 32px);
+    font-weight: 800;
+    color: var(--color-text-dark);
+    line-height: 1.25;
+    margin-bottom: 16px;
+}
+
+.subtitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    margin-bottom: 8px;
+}
+
+.description {
+    font-size: 13px;
+    color: var(--color-text-muted-2);
+    max-width: 420px;
+    line-height: 1.5;
+}
+
+.welcome-footer {
+    width: 100%;
+    padding-top: 25px;
+}
+
+
+/* =========================================================
+   OPCIONES DE EDAD
+   .age-grid y .age-options son alias del mismo componente:
+   se agrupan siempre juntos. Si en el HTML solo se usa uno
+   de los dos nombres, se puede eliminar el otro.
+   ========================================================= */
+
+.age-grid,
+.age-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 20px);
+    row-gap: clamp(24px, 4vw, 34px);
+    margin-top: 20px;
+}
+
+.age-btn {
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.age-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    min-width: 0;
+}
+
+.age-img-container {
+    width: 100%;
+    height: clamp(140px, 25vw, 220px);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-bg-white);
+}
+
+.age-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(3);
+    transform-origin: center;
+}
+
+.btn-option {
+    width: 100%;
+    background-color: var(--color-primary);
+    color: var(--color-bg-white);
+    padding: 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    transition: background 0.2s ease;
+}
+
+.btn-option:hover {
+    background-color: var(--color-primary-dark);
+}
+
+
+/* =========================================================
+   LISTAS DE OPCIONES
+   ========================================================= */
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+    flex-grow: 1;
+}
+
+.option-card,
+.option-card-custom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-option);
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.option-card:hover,
+.option-card-custom:hover {
+    border-color: var(--color-primary);
+}
+
+.option-card-custom.selected {
+    border: 2px solid var(--color-primary);
+    background: var(--color-primary-bg-soft);
+    box-shadow: var(--shadow-option-selected);
+}
+
+.option-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-body);
+    max-width: calc(100% - 45px);
+    line-height: 1.5;
+}
+
+.option-text-normal {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.option-text-selected {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
+.option-checkbox {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    background-color: var(--color-border-soft);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.option-checkbox:checked {
+    background-color: var(--color-text-body);
+    border-color: var(--color-text-body);
+}
+
+.option-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.option-card:has(.option-checkbox:checked) {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-bg-soft);
+    box-shadow: var(--shadow-option-selected);
+}
+
+.option-radio {
+    accent-color: var(--color-primary);
+}
+
+
+/* =========================================================
+   FOOTER DE FORMULARIOS
+   ========================================================= */
+
+.form-footer {
+    padding-top: 20px;
+    margin-top: auto;
+}
+
+
+/* =========================================================
+   RESUMEN DE PERFIL
+   ========================================================= */
+
+.profile-summary-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: var(--color-bg-white);
+    border: 1.5px solid var(--color-border);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-card-soft);
+}
+
+.profile-text-data {
+    font-size: 20px;
+    color: var(--color-text-body);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.profile-avatar {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid #f1f5f9;
+}
+
+/* El zoom con transform: scale() es un hack para recortar
+   márgenes de las imágenes fuente. Si en el futuro se
+   regeneran los assets sin ese margen, se puede quitar
+   este scale y usar solo object-fit: contain. */
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(2.2);
+    transform-origin: center center;
+}
+
+.profile-info-box {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    font-size: 18px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow-card-soft);
+}
+
+
+/* =========================================================
+   PROGRESO
+   ========================================================= */
+
+.progress-bar-container {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.progress-step {
+    flex: 1;
+    height: 4px;
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+.progress-step.active {
+    background: var(--color-primary);
+}
+
+
+/* =========================================================
+   DIMENSIÓN
+   ========================================================= */
+
+.dimension-badge-wrapper {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.dimension-badge {
+    display: inline-block;
+    background: var(--color-yellow-bg);
+    border: 1px solid var(--color-yellow-border);
+    color: var(--color-yellow-text);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+.form-header-title {
+    font-size: clamp(18px, 3vw, 21px);
+    font-weight: 700;
+    color: var(--color-text-dark);
+    text-align: center;
+    line-height: 1.4;
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   PANTALLAS DE CARGA
+   .loading-* y .loader-* son el mismo componente con dos
+   nombres distintos: se mantienen agrupados por compatibilidad,
+   pero conviene unificar a un solo nombre en el HTML.
+   ========================================================= */
+
+.loading-card-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.loading-element-wrapper {
+    margin-bottom: 30px;
+}
+
+.loading-circle-progress,
+.loader-circle-dark {
+    width: clamp(120px, 25vw, 150px);
+    height: clamp(120px, 25vw, 150px);
+    border: 4px solid var(--color-text-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+}
+
+.loading-counter-text,
+.loader-counter-text {
+    font-size: clamp(32px, 7vw, 38px);
+    font-weight: 700;
+    color: var(--color-primary);
+    font-family: sans-serif;
+}
+
+.loading-counter-symbol,
+.loader-counter-symbol {
+    font-size: 20px;
+    vertical-align: super;
+}
+
+.loading-title {
+    font-size: clamp(20px, 4vw, 22px);
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.loading-subtitle {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    padding: 0 15px;
+}
+
+.loading-success-circle,
+.loader-circle-success {
+    width: clamp(120px, 25vw, 150px);
+    height: clamp(120px, 25vw, 150px);
+    background: var(--color-success);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(132, 204, 22, 0.3);
+}
+
+
+/* =========================================================
+   RESULTADOS / RUTA
+   .results-* y .route-* vuelven a ser el mismo componente
+   con dos nombres. Igual que arriba: se agrupan para no
+   perder estilos, pero es candidato claro a unificar nombres.
+   ========================================================= */
+
+.results-body,
+.route-body-bg {
+    min-height: 100vh;
+    background-color: #0f172a;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.results-phone-container,
+.route-main-wrapper {
+    width: min(100%, 720px);
+    height: min(900px, calc(100vh - 40px));
+    background: var(--color-bg-white);
+    border-radius: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.results-header-purple,
+.route-header {
+    background: var(--color-primary);
+    padding: 35px 24px 60px;
+    text-align: center;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.results-content-scroll,
+.route-content-body {
+    padding: 0 24px 24px;
+    margin-top: -40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.results-card-white,
+.route-card-level {
+    background: var(--color-bg-white);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--color-border-soft);
+    text-align: center;
+}
+
+.route-header-title {
+    color: var(--color-bg-white);
+    font-size: clamp(20px, 4vw, 24px);
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.route-header-subtitle {
+    color: #ede9fe;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.route-level-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--color-text-muted-2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.route-level-title {
+    font-size: clamp(18px, 4vw, 21px);
+    font-weight: 900;
+    color: var(--color-text-dark);
+    margin: 6px 0 4px;
+}
+
+.route-level-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-warning);
+    margin-bottom: 16px;
+}
+
+.route-progress-track {
+    width: 100%;
+    background: var(--color-border);
+    height: 6px;
+    border-radius: 4px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.route-progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 35%;
+    height: 100%;
+    background: var(--color-danger);
+    border-radius: 4px;
+}
+
+.route-progress-dot {
+    position: absolute;
+    left: 33%;
+    top: -3px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-danger);
+    border: 2px solid var(--color-bg-white);
+    border-radius: 50%;
+}
+
+.route-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-faint);
+}
+
+.route-progress-current {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.route-section-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--color-text-dark);
+    margin-bottom: 12px;
+}
+
+.route-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.route-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #fafaf9;
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+}
+
+.route-item-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.route-icon-box {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.route-icon-box.bg-gray {
+    background: var(--color-border-soft);
+    color: #374151;
+}
+
+.route-icon-box.bg-yellow {
+    background: var(--color-warning-bg);
+    color: var(--color-warning);
+}
+
+.route-icon-box.bg-purple {
+    background: var(--color-primary-bg);
+    color: var(--color-primary);
+}
+
+.route-item-heading {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.route-item-desc {
+    font-size: 11px;
+    color: var(--color-text-muted-2);
+    margin-top: 2px;
+}
+
+.route-btn-action {
+    flex-shrink: 0;
+    background: var(--color-primary);
+    color: var(--color-bg-white);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
+.route-icon-link {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.route-icon-link.text-yellow {
+    color: var(--color-warning);
+}
+
+
+/* =========================================================
+   TRANSICIÓN (imagen + texto genérico)
+   ========================================================= */
+
+.transition-img-box {
+    background: #f8fafc;
+    border-radius: var(--radius-md);
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #f1f5f9;
+}
+
+.transition-img {
+    max-width: 100%;
+    max-height: 180px;
+    width: auto;
+    margin: 0 auto;
+    object-fit: contain;
+}
+
+.header-spacing {
+    margin-bottom: 20px;
+}
+
+.transition-title {
+    font-size: clamp(18px, 4vw, 21px);
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--color-text-dark);
+}
+
+.transition-text {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    padding: 0 10px;
+    margin-bottom: auto;
+}
+
+
+/* =========================================================
+   GRÁFICO - EVOLUCIÓN DE COMUNICACIÓN
+   ========================================================= */
+
+.chart-view {
+    position: relative;
+    overflow: hidden;
+    gap: 0;
+}
+
+.chart-view .form-header {
+    margin-bottom: 18px;
+}
+
+.chart-view .form-header h1 {
+    font-size: clamp(23px, 4vw, 30px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    color: var(--color-text-dark);
+    margin-bottom: 14px;
+}
+
+.chart-title {
+    max-width: 520px;
+    margin: 0 auto;
+    font-size: clamp(15px, 2.5vw, 18px);
+    font-weight: 600;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 8px auto 0;
+    padding: 22px 18px 16px;
+    background: linear-gradient(145deg, #ffffff 0%, #faf9ff 100%);
+    border: 1px solid #ede9fe;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+    animation: chartAppear 0.55s ease-out both;
+}
+
+.chart-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), #a78bfa, #c4b5fd);
+    border-radius: 0 0 8px 8px;
+}
+
+.chart-wrapper::after {
+    content: "Habilidades sociales     •     Confianza     •     Respeto";
+    display: block;
+    margin: 14px auto 0;
+    padding: 9px 12px;
+    width: fit-content;
+    max-width: 100%;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted-2);
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.line-chart {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 250px;
+    overflow: visible;
+}
+
+.line-chart line {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    opacity: 0.85;
+}
+
+.line-chart path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.line-chart path:nth-of-type(1) {
+    stroke: #f97316;
+    filter: drop-shadow(0 2px 3px rgba(249, 115, 22, 0.2));
+}
+
+.line-chart path:nth-of-type(2) {
+    stroke: #3b82f6;
+    filter: drop-shadow(0 2px 3px rgba(59, 130, 246, 0.2));
+}
+
+.line-chart path:nth-of-type(3) {
+    stroke: #10b981;
+    filter: drop-shadow(0 2px 3px rgba(16, 185, 129, 0.2));
+}
+
+.line-chart circle {
+    stroke: var(--color-bg-white);
+    stroke-width: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+}
+
+.line-chart text {
+    font-family: 'Inter', sans-serif;
+}
+
+.chart-axis-x {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2px 2px 0 42px;
+    padding-top: 8px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.chart-axis-x span {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-text-faint);
+    letter-spacing: 0.2px;
+}
+
+.chart-footer-text {
+    margin: 18px auto 16px;
+    max-width: 450px;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    animation: chartTextAppear 0.6s ease-out 0.1s both;
+}
+
+.chart-footer-text::before {
+    content: "✦";
+    display: inline-block;
+    margin-right: 6px;
+    color: var(--color-primary);
+    font-size: 12px;
+}
+
+.chart-view .btn-primary {
+    margin-top: 0;
+    letter-spacing: 0.2px;
+    box-shadow: var(--shadow-btn);
+    animation: buttonAppear 0.6s ease-out 0.15s both;
+}
+
+.chart-view .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hover);
+}
+
+@keyframes chartAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes chartTextAppear {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes buttonAppear {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* =========================================================
+   PANTALLA DE CÁLCULO / TRANSICIÓN (.main-card.text-center)
+   Valores tomados directamente del export de Figma (Dev Mode).
+   ========================================================= */
+
+.main-card.text-center {
+    position: relative;
+    justify-content: flex-start;
+    text-align: center;
+    min-height: min(850px, calc(100vh - 40px));
+    padding-top: clamp(32px, 6vh, 55px);
+    padding-bottom: clamp(28px, 5vh, 45px);
+}
+
+.main-card.text-center .transition-img-box {
+    width: 100%;
+    aspect-ratio: 352 / 288;
+    max-height: 288px;
+    margin: 10px auto 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* Athens Gray, como en el export */
+    background: var(--color-border-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl-alt);
+
+    overflow: hidden;
+}
+
+.main-card.text-center .transition-img {
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.main-card.text-center .form-header {
+    width: 100%;
+    margin: 0 auto 18px;
+}
+
+.main-card.text-center .transition-title {
+    max-width: 580px;
+    margin: 0 auto;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.267; /* 38px / 30px, exacto de Figma */
+    color: var(--color-text-dark);
+}
+
+.main-card.text-center .transition-title .highlight {
+    color: var(--color-primary);
+}
+
+.main-card.text-center .transition-text {
+    width: min(100%, 560px);
+    margin: 0 auto;
+    color: var(--color-text-muted);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.625; /* 26px / 16px, exacto de Figma */
+    text-align: center;
+}
+
+.main-card.text-center .btn-primary {
+    margin-top: 22px;
+}
+
+
+
+/* =========================================================
+   PANTALLA - PLAN DE CRECIMIENTO LISTO (.main-card:has(.chart-wrapper))
+   NOTA: se mantienen los !important porque están pisando
+   estilos más genéricos de .form-header/.btn-primary — para
+   quitarlos del todo habría que renombrar esta pantalla con
+   una clase propia (ej. .growth-plan-card) en vez de
+   depender de :has(), que además obliga a recalcular
+   selectores cada vez que cambia el contenido interno.
+   ========================================================= */
+
+.main-card:has(.chart-wrapper) {
+    position: relative;
+    overflow: hidden;
+}
+
+.main-card:has(.chart-wrapper)::before {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: -190px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(139, 92, 246, 0.07);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.main-card:has(.chart-wrapper) .form-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 18px !important;
+    text-align: center;
+}
+
+.main-card:has(.chart-wrapper) .form-header h1 {
+    font-size: clamp(23px, 4vw, 29px);
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--color-text-dark);
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+}
+
+.main-card:has(.chart-wrapper) .form-header h2 {
+    font-size: clamp(18px, 3vw, 21px) !important;
+    font-weight: 700 !important;
+    line-height: 1.35;
+    color: #374151;
+    margin-top: 0 !important;
+}
+
+.main-card:has(.chart-wrapper) .chart-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin: 5px 0 18px !important;
+    padding: 18px 14px 14px;
+    background: linear-gradient(145deg, #ffffff 0%, #faf5ff 100%);
+    border: 1px solid #ede9fe;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.08), 0 3px 8px rgba(0, 0, 0, 0.025);
+}
+
+.main-card:has(.chart-wrapper) .line-chart {
+    width: 100%;
+    height: clamp(180px, 32vw, 240px);
+    display: block;
+    overflow: visible;
+}
+
+.main-card:has(.chart-wrapper) .line-chart path {
+    filter: drop-shadow(0 3px 5px rgba(16, 185, 129, 0.18));
+}
+
+.main-card:has(.chart-wrapper) .line-chart circle {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+}
+
+.main-card:has(.chart-wrapper) .line-chart rect {
+    filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.12));
+}
+
+.main-card:has(.chart-wrapper) .chart-axis-x {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 5px 0 !important;
+    color: var(--color-text-faint);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+}
+
+.main-card:has(.chart-wrapper) .chart-axis-x span {
+    white-space: nowrap;
+}
+
+/* Selector frágil: apunta a un div identificado solo por su
+   atributo style inline. Si se puede, reemplazar el div por
+   una clase propia (ej. .growth-plan-summary) en el HTML. */
+.main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+    position: relative;
+    z-index: 1;
+    margin: 2px 0 0 !important;
+    padding: 15px 18px;
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:first-child {
+    margin-bottom: 7px !important;
+    font-size: 11px !important;
+    font-weight: 500;
+    color: var(--color-primary) !important;
+}
+
+.main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:last-child {
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: 1.5 !important;
+    color: #374151 !important;
+}
+
+.main-card:has(.chart-wrapper) > .btn-primary {
+    position: relative;
+    z-index: 1;
+    margin-top: 20px !important;
+    box-shadow: var(--shadow-btn);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.main-card:has(.chart-wrapper) > .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-btn-hover);
+}
+
+.main-card:has(.chart-wrapper) > .btn-primary:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   Antes cada pantalla (formularios, gráfico, transición,
+   plan de crecimiento) repetía su PROPIO bloque
+   @media (min-width:600px), otro (900px), otro (max:599px),
+   etc. — 4 juegos de las mismas media queries a lo largo
+   del archivo. Se consolidan aquí: un solo bloque por
+   breakpoint con todos los selectores agrupados dentro.
+   ========================================================= */
+
+/* ---------- TABLET (min-width: 600px) ---------- */
+@media (min-width: 600px) {
+
+    .age-img-container {
+        height: 220px;
+    }
+
+    .option-card,
+    .option-card-custom {
+        padding: 18px 20px;
+    }
+
+    .chart-wrapper {
+        padding: 24px 24px 18px;
+        margin-top: 12px;
+    }
+
+    .line-chart {
+        min-height: 280px;
+    }
+
+    .chart-footer-text {
+        margin-top: 20px;
+        margin-bottom: 16px;
+    }
+
+    .chart-view .btn-primary {
+        min-height: 52px;
+    }
+
+    .main-card.text-center .btn-primary {
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .main-card:has(.chart-wrapper) {
+        padding-top: 35px;
+        padding-bottom: 35px;
+    }
+
+    .main-card:has(.chart-wrapper) .chart-wrapper {
+        padding: 20px 18px 16px;
+        margin-bottom: 20px !important;
+    }
+
+    .main-card:has(.chart-wrapper) .line-chart {
+        height: 230px;
+    }
+
+    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+        padding: 17px 25px;
+    }
+
+    .main-card:has(.chart-wrapper) > .btn-primary {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ---------- ESCRITORIO (min-width: 900px) ---------- */
+@media (min-width: 900px) {
+
+    body {
+        padding: 20px;
+    }
+
+    .main-card,
+    .form-container,
+    .welcome-container {
+        width: min(100%, 760px);
+    }
+
+    .welcome-content {
+        margin-top: 60px;
+    }
+
+    .results-phone-container,
+    .route-main-wrapper {
+        width: min(100%, 760px);
+        height: calc(100vh - 40px);
+    }
+
+    .results-content-scroll,
+    .route-content-body {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
+    .chart-wrapper {
+        padding: 26px 28px 20px;
+        border-radius: 26px;
+    }
+
+    .line-chart {
+        min-height: 300px;
+    }
+
+    .chart-footer-text {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+}
+
+/* ---------- MÓVILES (max-width: 599px) ---------- */
+@media (max-width: 599px) {
+
+    body {
+        padding: 0;
+    }
+
+    .main-card,
+    .form-container,
+    .welcome-container {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        margin: 0;
+        border-radius: 0;
+        padding: 28px 20px;
+        box-shadow: none;
+    }
+
+    .page-container {
+        padding: 0;
+    }
+
+    .welcome-content {
+        margin-top: 40px;
+    }
+
+    .results-body,
+    .route-body-bg {
+        padding: 0;
+        min-height: 100vh;
+        min-height: 100dvh;
+    }
+
+    .results-phone-container,
+    .route-main-wrapper {
+        width: 100%;
+        height: 100vh;
+        height: 100dvh;
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .results-header-purple,
+    .route-header {
+        border-radius: 0 0 30px 30px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .results-content-scroll,
+    .route-content-body {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .chart-view .form-header {
+        margin-bottom: 14px;
+    }
+
+    .chart-view .form-header h1 {
+        margin-bottom: 10px;
+    }
+
+    .chart-title {
+        font-size: 14px;
+    }
+
+    .chart-wrapper {
+        padding: 18px 10px 13px;
+        border-radius: 20px;
+        margin-top: 4px;
+    }
+
+    .chart-wrapper::before {
+        left: 20px;
+        right: 20px;
+    }
+
+    .line-chart {
+        min-height: 210px;
+    }
+
+    .chart-axis-x {
+        margin-left: 34px;
+    }
+
+    .chart-axis-x span {
+        font-size: 10px;
+    }
+
+    .chart-wrapper::after {
+        font-size: 9px;
+        padding: 8px 9px;
+        margin-top: 10px;
+    }
+
+    .chart-footer-text {
+        margin-top: 14px;
+        margin-bottom: 12px;
+        font-size: 12px;
+    }
+
+    .main-card.text-center {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+
+    .main-card.text-center .btn-primary {
+        margin-top: 20px;
+    }
+
+    .main-card:has(.chart-wrapper) {
+        padding-top: 28px;
+        padding-bottom: 28px;
+    }
+
+    .main-card:has(.chart-wrapper) .form-header {
+        margin-bottom: 14px !important;
+    }
+
+    .main-card:has(.chart-wrapper) .form-header h1 {
+        font-size: 23px;
+        line-height: 1.3;
+    }
+
+    .main-card:has(.chart-wrapper) .form-header h2 {
+        font-size: 18px !important;
+    }
+
+    .main-card:has(.chart-wrapper) .chart-wrapper {
+        padding: 14px 10px 12px;
+        margin: 2px 0 16px !important;
+        border-radius: 20px;
+    }
+
+    .main-card:has(.chart-wrapper) .line-chart {
+        height: 185px;
+    }
+
+    .main-card:has(.chart-wrapper) .chart-axis-x {
+        font-size: 9px;
+        padding-top: 7px !important;
+    }
+
+    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+        padding: 13px 15px;
+        border-radius: 14px;
+    }
+
+    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:last-child {
+        font-size: 12px !important;
+    }
+
+    .main-card:has(.chart-wrapper) > .btn-primary {
+        margin-top: 18px !important;
+    }
+}
+
+/* ---------- MÓVILES PEQUEÑOS (max-width: 380px) ---------- */
+@media (max-width: 380px) {
+
+    .main-card,
+    .form-container,
+    .welcome-container {
+        padding: 24px 16px;
+    }
+
+    .age-options,
+    .age-grid {
+        column-gap: 10px;
+        row-gap: 20px;
+    }
+
+    .age-img-container {
+        height: 130px;
+    }
+
+    .option-card,
+    .option-card-custom {
+        padding: 13px 14px;
+    }
+
+    .option-text {
+        font-size: 14px;
+    }
+
+    .route-item-card {
+        align-items: flex-start;
+    }
+
+    .route-btn-action {
+        padding: 6px 11px;
+    }
+
+    .chart-wrapper {
+        padding: 14px 6px 10px;
+    }
+
+    .line-chart {
+        min-height: 190px;
+    }
+
+    .chart-wrapper::after {
+        display: none;
+    }
+
+    .chart-footer-text {
+        font-size: 11px;
+        margin-top: 12px;
+    }
+
+    .main-card.text-center {
+        padding-top: 24px;
+    }
+
+    .main-card.text-center .btn-primary {
+        margin-top: 18px;
+    }
+
+    .main-card:has(.chart-wrapper) {
+        padding-top: 24px;
+    }
+
+    .main-card:has(.chart-wrapper) .form-header h1 {
+        font-size: 21px;
+    }
+
+    .main-card:has(.chart-wrapper) .form-header h2 {
+        font-size: 17px !important;
+    }
+
+    .main-card:has(.chart-wrapper) .chart-wrapper {
+        padding: 10px 7px;
+    }
+
+    .main-card:has(.chart-wrapper) .line-chart {
+        height: 165px;
+    }
+
+    .main-card:has(.chart-wrapper) .chart-axis-x {
+        font-size: 8px;
+    }
+
+    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+        padding: 12px;
+    }
+
+    .main-card:has(.chart-wrapper) > .btn-primary {
+        margin-top: 16px !important;
+    }
+}
+
+/* ---------- PANTALLAS MUY BAJAS (max-height: 650px) ---------- */
+@media (max-height: 650px) {
+
+    .welcome-content {
+        margin-top: 20px;
+    }
+
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 20px;
+    }
+
+    .sparkle-icon {
+        font-size: 30px;
+    }
+
+    .welcome-content h1 {
+        margin-bottom: 10px;
+    }
+}
+
+
+/* =========================================================
+   TRANSICIONES ENTRE PÁGINAS
+   Cada pantalla es un HTML distinto (no es una SPA), así que
+   no existe overlap real entre la página que se va y la que
+   entra. Se simula el movimiento continuo así:
+     1) al hacer clic en un link interno, page-transitions.js
+        agrega .page-exit-up o .page-exit-left al <body>
+        actual y espera a que termine la animación,
+     2) navega a la siguiente página,
+     3) esa página, al cargar, agrega .page-enter-up o
+        .page-enter-left (leyendo sessionStorage) para entrar
+        desde el lado opuesto.
+   Ver js/page-transitions.js — no hace falta tocar este CSS
+   para usarlo, solo incluir el script en cada página.
+   ========================================================= */
+
+html {
+    background-color: var(--color-bg-page);
+}
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+body.page-exit-up,
+body.page-exit-left,
+body.page-enter-up,
+body.page-enter-left {
+    animation-fill-mode: both;
+}
+
+/* Salida: la página actual se va */
+body.page-exit-up {
+    animation: pageExitUp 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.page-exit-left {
+    animation: pageExitLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Entrada: la nueva página aparece */
+body.page-enter-up {
+    animation: pageEnterUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.page-enter-left {
+    animation: pageEnterLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pageExitUp {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-100%); }
+}
+
+@keyframes pageEnterUp {
+    from { transform: translateY(100%); }
+    to   { transform: translateY(0); }
+}
+
+@keyframes pageExitLeft {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+}
+
+@keyframes pageEnterLeft {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.page-exit-up,
+    body.page-exit-left,
+    body.page-enter-up,
+    body.page-enter-left {
+        animation: none !important;
+    }
+}

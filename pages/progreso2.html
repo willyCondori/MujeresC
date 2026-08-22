@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizando respuestas - #MujeresConPoder</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="page-container">
+
+    <main class="main-card loading-card-center">
+        
+        <!-- CONTENEDOR DINÁMICO (Cambia de porcentaje a círculo verde) -->
+        <div id="elementoAnimado" class="loading-element-wrapper">
+            <!-- Estado 1: Círculo con contador de porcentaje -->
+            <div class="loading-circle-progress">
+                <span id="contadorTexto" class="loading-counter-text">00<span class="loading-counter-symbol">%</span></span>
+            </div>
+        </div>
+
+        <!-- Textos informativos -->
+        <div class="form-header">
+            <h1 class="loading-title">
+                Analizando tus respuestas...
+            </h1>
+            <p class="loading-subtitle">
+                Estamos diseñando tu ruta de liderazgo personalizada.
+            </p>
+        </div>
+
+    </main>
+
+    <!-- SCRIPT DE ANIMACIÓN Y REDIRECCIÓN -->
+    <script>
+        let porcentaje = 30;
+        const contador = document.getElementById('contadorTexto');
+        const contenedor = document.getElementById('elementoAnimado');
+
+        // Incrementa el porcentaje del 0 al 100
+        const intervalo = setInterval(() => {
+            porcentaje += 2;
+            if (porcentaje <= 60) {
+                // Formatea para que siempre tenga 2 dígitos (ej: 04%, 12%, etc.)
+                let textoFormateado = porcentaje < 10 ? '0' + porcentaje : porcentaje;
+                contador.innerHTML = textoFormateado + '<span class="loading-counter-symbol">%</span>';
+            } else {
+                clearInterval(intervalo);
+                
+                // Al llegar al 100%, cambia inmediatamente al círculo verde con el check
+                contenedor.innerHTML = `
+                    <div class="loading-success-circle">
+                        <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                `;
+
+                // Espera 1 segundo con el check verde en pantalla y redirige a la siguiente página
+                setTimeout(() => {
+                    window.location.href = 'cuestionario7.html'; // Cambia esto por tu siguiente página objetivo
+                }, 1000);
+            }
+        }, 30); // Velocidad de la carga
+    </script>
+
+</body>
+</html>
