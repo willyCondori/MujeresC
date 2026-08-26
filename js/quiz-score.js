@@ -2,8 +2,8 @@
     'use strict';
 
     var STORAGE_KEY = 'quizAnswers';
+    var RESULT_KEY = 'quizResult';
 
-    // Los 12 grupos de preguntas con puntaje (1 = Nunca ... 4 = Siempre)
     var QUESTION_NAMES = [
         'pregunta_autoestima',
         'pregunta_decisiones',
@@ -36,18 +36,19 @@
         } catch (error) {}
     }
 
-    // Si la página actual tiene alguno de los 12 grupos de preguntas,
-    // guarda la respuesta seleccionada (incluyendo la marcada por defecto)
-    // y actualiza el valor guardado cada vez que el usuario cambia su respuesta.
     function captureQuestionAnswers() {
         QUESTION_NAMES.forEach(function (name) {
-            var radios = document.querySelectorAll('input[type="radio"][name="' + name + '"]');
+            var radios = document.querySelectorAll(
+                'input[type="radio"][name="' + name + '"]'
+            );
 
             if (!radios.length) {
                 return;
             }
 
-            var checkedRadio = document.querySelector('input[type="radio"][name="' + name + '"]:checked');
+            var checkedRadio = document.querySelector(
+                'input[type="radio"][name="' + name + '"]:checked'
+            );
 
             if (checkedRadio) {
                 saveAnswer(name, checkedRadio.value);
@@ -78,10 +79,43 @@
         return total;
     }
 
-    // Expone una API mínima para que otras páginas (ej. final.html)
-    // puedan leer el puntaje total sin duplicar la lista de preguntas.
+    function saveFinalResult() {
+        var total = getTotalScore();
+        var maxScore = QUESTION_NAMES.length * 4;
+        var percentage = (total / maxScore) * 100;
+
+        var result = {
+            score: total,
+            maxScore: maxScore,
+            percentage: percentage,
+            completedAt: new Date().toISOString()
+        };
+
+        try {
+            localStorage.setItem(
+                RESULT_KEY,
+                JSON.stringify(result)
+            );
+        } catch (error) {
+            console.error('No se pudo guardar el resultado final:', error);
+        }
+
+        return result;
+    }
+
+    function getFinalResult() {
+        try {
+            var raw = localStorage.getItem(RESULT_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
     window.QuizScore = {
         getTotal: getTotalScore,
+        saveFinalResult: saveFinalResult,
+        getFinalResult: getFinalResult,
         minScore: QUESTION_NAMES.length * 1,
         maxScore: QUESTION_NAMES.length * 4
     };
