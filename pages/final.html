@@ -46,7 +46,7 @@
 
                 <div class="route-progress-labels">
                     <span>0 pts</span>
-                    <span class="route-progress-current">Tú (18)</span>
+                    <span class="route-progress-current" id="score-current">Tú (18)</span>
                     <span>48 pts</span>
                 </div>
             </div>
@@ -112,5 +112,28 @@
 
     </div>
 
+    <script src="../js/quiz-score.js"></script>
+    <script>
+        (function () {
+            var total = window.QuizScore.getTotal();
+            var max = window.QuizScore.maxScore;
+            var percent = Math.max(0, Math.min(100, (total / max) * 100));
+
+            var scoreLabel = document.getElementById('score-current');
+            if (scoreLabel) {
+                scoreLabel.textContent = 'Tú (' + total + ')';
+            }
+
+            var fill = document.querySelector('.route-progress-fill');
+            if (fill) {
+                fill.style.width = percent + '%';
+            }
+
+            var dot = document.querySelector('.route-progress-dot');
+            if (dot) {
+                dot.style.left = percent + '%';
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -443,6 +443,18 @@ textarea {
     accent-color: var(--color-primary);
 }
 
+.option-card-custom:has(.option-radio:checked) {
+    border: 2px solid var(--color-primary);
+    background: var(--color-primary-bg-soft);
+    box-shadow: var(--shadow-option-selected);
+}
+
+.option-card-custom:has(.option-radio:checked) .option-text-normal,
+.option-card-custom:has(.option-radio:checked) .option-text-selected {
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
 
 .form-footer {
     padding-top: 20px;
