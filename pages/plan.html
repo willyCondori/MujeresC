@@ -5,117 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes de Crecimiento - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/plan.css">
 </head>
 <body class="page-container">
 
-    <main class="main-card" style="padding-top: 25px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h1 style="font-size: 18px; font-weight: 700; color: #111827; line-height: 1.2;">Plan de <br>crecimiento</h1>
+    <main class="main-card plan-page">
+        <div class="plan-header">
+            <h1 class="plan-title">Plan de <br>crecimiento</h1>
             <!-- Botón que activa el modal -->
-            <button id="btnAbrirModal" class="btn-primary" style="width: auto; padding: 10px 16px; font-size: 12px; margin-top: 0; border: none; cursor: pointer;">OBTENER MI PLAN</button>
+            <button id="btnAbrirModal" class="btn-primary btn-header">OBTENER MI PLAN</button>
         </div>
 
         <!-- Comparativa de perfiles -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: #fafafa; padding: 10px; border-radius: 14px;">
-            <div style="text-align: center;">
-                <p style="font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 5px;">Ahora</p>
-                <img src="../assets/avatar-mujer.png" alt="Avatar" style="width: 60px; height: auto;" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
-                <p style="font-size: 10px; color: #4b5563; margin-top: 5px;"><strong>Nivel de confianza:</strong> Bajo</p>
-                <p style="font-size: 10px; color: #4b5563; margin-top: 2px;"><strong>Capacidad de comunicación:</strong> Principiante</p>
+        <div class="profile-compare">
+            <div class="profile-col">
+                <p class="profile-col-label">Ahora</p>
+                <div class="profile-avatar-small">
+                    <img src="../assets/img/avatars/rango2.jfif" alt="Avatar" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                </div>
+                <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Bajo</p>
+                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Principiante</p>
             </div>
-            <div style="text-align: center;">
-                <p style="font-size: 13px; font-weight: 700; color: #8b5cf6; margin-bottom: 5px;">Tu objetivo</p>
-                <img src="../assets/avatar-mujer.png" alt="Avatar Objetivo" style="width: 60px; height: auto;" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
-                <p style="font-size: 10px; color: #4b5563; margin-top: 5px;"><strong>Nivel de confianza:</strong> Alta</p>
-                <p style="font-size: 10px; color: #4b5563; margin-top: 2px;"><strong>Capacidad de comunicación:</strong> Experto</p>
+            <div class="profile-col">
+                <p class="profile-col-label profile-col-label--target">Tu objetivo</p>
+                <div class="profile-avatar-small">
+                    <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Objetivo" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                </div>
+                <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Alta</p>
+                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Experto</p>
             </div>
         </div>
 
         <!-- Opciones de Planes de pago -->
-        <div class="options-list" style="gap: 8px;">
-            <label class="option-card" style="padding: 10px 14px;">
+        <div class="options-list plan-options-list">
+            <label class="option-card">
                 <div>
-                    <span class="option-text" style="font-size: 13px; font-weight: 700;">Plan 24 semanas</span>
-                    <span style="display: block; font-size: 11px; color: #9ca3af; text-decoration: line-through;">$74.99</span>
+                    <span class="option-text plan-name">Plan 24 semanas</span>
+                    <span class="plan-price-old">$74.99</span>
                 </div>
-                <div style="text-align: right;">
-                    <span style="display: block; font-size: 13px; font-weight: 700; color: #111827;">$0.45</span>
-                    <span style="font-size: 9px; color: #6b7280;">por día</span>
+                <div class="plan-price-box">
+                    <span class="plan-price-current">$0.45</span>
+                    <span class="plan-price-unit">por día</span>
                 </div>
                 <input type="checkbox" class="option-checkbox">
             </label>
 
-            <label class="option-card" style="padding: 10px 14px;">
+            <label class="option-card">
                 <div>
-                    <span class="option-text" style="font-size: 13px; font-weight: 700;">Plan 12 semanas</span>
-                    <span style="display: block; font-size: 11px; color: #9ca3af;">$39.99</span>
+                    <span class="option-text plan-name">Plan 12 semanas</span>
+                    <span class="plan-price-old plan-price-old--plain">$39.99</span>
                 </div>
-                <div style="text-align: right;">
-                    <span style="display: block; font-size: 13px; font-weight: 700; color: #111827;">$0.48</span>
-                    <span style="font-size: 9px; color: #6b7280;">por día</span>
+                <div class="plan-price-box">
+                    <span class="plan-price-current">$0.48</span>
+                    <span class="plan-price-unit">por día</span>
                 </div>
                 <input type="checkbox" class="option-checkbox">
             </label>
 
-            <label class="option-card" style="padding: 10px 14px;">
+            <label class="option-card">
                 <div>
-                    <span class="option-text" style="font-size: 13px; font-weight: 700;">Plan 4 semanas</span>
-                    <span style="display: block; font-size: 11px; color: #9ca3af;">$19.99</span>
+                    <span class="option-text plan-name">Plan 4 semanas</span>
+                    <span class="plan-price-old plan-price-old--plain">$19.99</span>
                 </div>
-                <div style="text-align: right;">
-                    <span style="display: block; font-size: 13px; font-weight: 700; color: #111827;">$0.71</span>
-                    <span style="font-size: 9px; color: #6b7280;">por día</span>
+                <div class="plan-price-box">
+                    <span class="plan-price-current">$0.71</span>
+                    <span class="plan-price-unit">por día</span>
                 </div>
                 <input type="checkbox" class="option-checkbox">
             </label>
         </div>
 
-        <button id="btnAbrirModalInferior" class="btn-primary" style="margin-top: 10px; width: 100%; border: none; cursor: pointer;">OBTENER MI PLAN</button>
+        <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">OBTENER MI PLAN</button>
     </main>
 
     <!-- ========================================== -->
-    <!-- VENTANA MODAL (Oculta por defecto)         -->
+    <!-- VENTANA MODAL         -->
     <!-- ========================================== -->
-    <div id="modalPago" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: flex-end;">
-        <div style="background: #ffffff; width: 100%; max-width: 420px; border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); box-sizing: border-box; position: relative;">
-            
+    <div id="modalPago" class="modal-overlay">
+        <div class="modal-content">
+
             <!-- Botón cerrar (X) -->
-            <button id="btnCerrarModal" style="position: absolute; top: 16px; left: 16px; background: #f3f4f6; border: none; border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer; color: #4b5563;">✕</button>
+            <button id="btnCerrarModal" class="modal-close-btn">✕</button>
 
             <!-- Título principal -->
-            <h3 style="text-align: center; font-size: 17px; color: #111827; margin-bottom: 20px; line-height: 1.4;">
-                El <span style="color: #4f46e5;">91% se queda</span> tras los primeros 30 días
+            <h3 class="modal-title">
+                El <span class="modal-highlight">91% se queda</span> tras los primeros 30 días
             </h3>
 
             <!-- Totales -->
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #f9fafb; padding: 12px 16px; border-radius: 12px; margin-bottom: 20px;">
-                <span style="font-size: 14px; font-weight: 600; color: #374151;">Total:</span>
+            <div class="modal-total-box">
+                <span class="modal-total-label">Total:</span>
                 <div>
-                    <span style="font-size: 13px; color: #9ca3af; text-decoration: line-through; margin-right: 8px;">39.99 USD</span>
-                    <span style="font-size: 16px; font-weight: 700; color: #111827;">19.99 USD</span>
+                    <span class="modal-total-old">39.99 USD</span>
+                    <span class="modal-total-new">19.99 USD</span>
                 </div>
             </div>
 
-            <p style="text-align: center; font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 15px;">
+            <p class="modal-pay-text">
                 Pague de forma rápida y segura con
             </p>
 
             <!-- Métodos de pago (Cajas seleccionables) -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px;">
-                <!-- Opción 1: Con un clic -->
-                <div style="border: 2px solid #8b5cf6; border-radius: 12px; padding: 12px; text-align: center; background: #faf5ff;">
-                    <p style="font-size: 12px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">Con un clic</p>
-                    <div style="font-size: 11px; color: #4b5563; font-weight: bold;"> Pay &nbsp; P<sub>aypal</sub></div>
+            <div class="payment-methods">
+                <div class="payment-option payment-option--selected">
+                    <p class="payment-option-label">Con un clic</p>
+                    <div class="payment-option-content">Pay &nbsp; P<sub>aypal</sub></div>
                 </div>
-                <!-- Opción 2: Tarjeta de crédito -->
-                <div style="border: 1px solid #e5e7eb; border-radius: 12px; padding: 12px; text-align: center; background: #ffffff;">
-                    <p style="font-size: 12px; font-weight: 600; color: #1f2937; margin-bottom: 8px;">Tarjeta de crédito</p>
-                    <div style="font-size: 9px; color: #6b7280; letter-spacing: -1px;">VISA MC DISC AMEX</div>
+                <div class="payment-option">
+                    <p class="payment-option-label">Tarjeta de crédito</p>
+                    <div class="payment-option-content payment-option-content--small">VISA MC DISC AMEX</div>
                 </div>
             </div>
 
             <!-- Botón final de pago -->
-            <a href="preparacion.html" style="display: block; width: 100%; background: #eab308; color: #111827; text-align: center; padding: 14px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 14px;">
+            <a href="preparacion.html" class="btn-pay-final">
                 Pagar con PayPal
             </a>
         </div>
@@ -133,12 +136,12 @@
         // Función para mostrar el modal
         function abrirModal(e) {
             e.preventDefault();
-            modal.style.display = 'flex';
+            modal.classList.add('is-open');
         }
 
         // Función para ocultar el modal
         function cerrarModal() {
-            modal.style.display = 'none';
+            modal.classList.remove('is-open');
         }
 
         btnAbrir1.addEventListener('click', abrirModal);

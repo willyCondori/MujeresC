@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Completar formulario - #MujeresConPoder</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/formulario.css">
+</head>
+<body class="page-container">
+
+    <main class="form-container">
+
+        <div class="form-header">
+            <h1>Completar <br>formulario</h1>
+            <p class="form-subtitle highlight">#MujeresConPoder</p>
+        </div>
+
+        <p class="helper-text text-center">
+            Hoy comienza tu transformación. Para ofrecerte un diagnóstico personalizado, necesitamos conocer tu perfil.
+        </p>
+
+        <form class="form-fields" id="formPerfil">
+            <input type="text" class="form-input" name="nombre" placeholder="Nombre completo" required>
+            <input type="email" class="form-input" name="correo" placeholder="Correo electrónico" required>
+            <input type="tel" class="form-input" name="whatsapp" placeholder="WhatsApp" required>
+
+            <div class="form-row">
+                <input type="text" class="form-input" name="ciudad" placeholder="Ciudad" required>
+                <input type="text" class="form-input" name="pais" placeholder="País" required>
+            </div>
+
+            <select class="form-input" name="ocupacion" required>
+                <option value="" selected disabled hidden>Selecciona tu ocupación...</option>
+                <option value="empleada">Empleada</option>
+                <option value="independiente">Trabajadora independiente</option>
+                <option value="emprendedora">Emprendedora</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="ama-de-casa">Ama de casa</option>
+                <option value="otro">Otro</option>
+            </select>
+        </form>
+
+        <div class="form-footer">
+            <a href="personalidad17.html" class="btn-primary btn-submit">CONTINUAR</a>
+        </div>
+
+    </main>
+
+    <script src="../js/page-transitions.js" defer></script>
+
+</body>
+</html>

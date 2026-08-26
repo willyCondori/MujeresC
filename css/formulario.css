@@ -1,0 +1,77 @@
+/* =========================================================
+   FORMULARIO - "Completar formulario #MujeresConPoder"
+   (Se apoya en las variables y clases base de styles.css)
+   ========================================================= */
+
+.btn-submit {
+    border: none;
+    cursor: pointer;
+}
+
+.form-subtitle {
+    font-size: clamp(19px, 4vw, 22px);
+    font-weight: 800;
+    text-align: center;
+    margin-top: 2px;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 22px 0;
+    flex-grow: 1;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-white);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-body);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: var(--color-text-faint);
+}
+
+.form-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+select.form-input {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    color: var(--color-text-faint);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 42px;
+}
+
+select.form-input:valid:not([value=""]) {
+    color: var(--color-text-body);
+}
+
+@media (max-width: 380px) {
+    .form-row {
+        gap: 10px;
+    }
+
+    .form-input {
+        padding: 14px 16px;
+    }
+}

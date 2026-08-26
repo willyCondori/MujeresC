@@ -1,19 +1,12 @@
-/* =========================================================
-   VARIABLES GLOBALES (design tokens)
-   Centralizamos colores, radios y sombras que se repetían
-   decenas de veces en el archivo original con valores hex
-   sueltos. Cambiar el theme ahora es cambiar esto una vez.
-   ========================================================= */
-
 :root {
     /* Colores de marca */
     --color-primary: #8b5cf6;
     --color-primary-dark: #7c3aed;
     --color-primary-bg: #f3e8ff;
-    --color-primary-bg-soft: #f5f3ff; /* Figma: fondo de opción seleccionada */
+    --color-primary-bg-soft: #f5f3ff;
 
     /* Texto */
-    --color-text-black: #000000;   /* Figma: título principal del formulario */
+    --color-text-black: #000000;  
     --color-text-dark: #111827;
     --color-text-body: #1f2937;
     --color-text-muted: #4b5563;
@@ -25,7 +18,7 @@
     --color-bg-white: #ffffff;
     --color-bg-alt: #f9fafb;
     --color-border: #e5e7eb;
-    --color-border-strong: #d1d5db; /* Figma: borde de tarjetas de opción */
+    --color-border-strong: #d1d5db; 
     --color-border-soft: #f3f4f6;
 
     /* Estados */
@@ -40,24 +33,19 @@
     /* Radios */
     --radius-xl: 32px;
     --radius-lg: 24px;
-    --radius-xl-alt: 40px;  /* Figma: caja de imagen de pantallas de transición */
+    --radius-xl-alt: 40px;  
     --radius-md: 16px;
-    --radius-option: 20px;  /* Figma: tarjetas de opción */
+    --radius-option: 20px; 
     --radius-sm: 12px;
-    --radius-full: 9999px;  /* Figma: botones siempre en píldora */
+    --radius-full: 9999px; 
 
     /* Sombras */
-    --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Figma: shadow-2xl de la tarjeta */
+    --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
     --shadow-card-soft: 0 4px 12px rgba(0, 0, 0, 0.02);
-    --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* Figma: sombra neutra, no morada */
+    --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
     --shadow-btn-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25); /* Figma: opción seleccionada */
+    --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25);
 }
-
-
-/* =========================================================
-   RESET Y BASE
-   ========================================================= */
 
 * {
     margin: 0;
@@ -88,19 +76,6 @@ textarea {
     font: inherit;
 }
 
-
-/* =========================================================
-   CONTENEDORES PRINCIPALES
-   NOTA: .main-card, .welcome-container y .form-container
-   compartían casi todas sus propiedades (ancho, fondo,
-   padding, radio, sombra, flex column). Se agrupan aquí y
-   solo se declaran por separado las diferencias reales
-   (min-height, margin, justify-content, position).
-   Antes .form-container NO tenía margin ni las mismas
-   dimensiones que las otras dos: si eso no era intencional,
-   revisar — se mantiene el comportamiento original.
-   ========================================================= */
-
 .main-card,
 .welcome-container,
 .form-container {
@@ -116,7 +91,7 @@ textarea {
 .main-card,
 .welcome-container {
     min-height: min(850px, calc(100vh - 40px));
-    min-height: min(850px, calc(100dvh - 40px)); /* dvh: altura real en móviles, evita saltos por la barra de direcciones */
+    min-height: min(850px, calc(100dvh - 40px)); 
     margin: 20px auto;
 }
 
@@ -124,15 +99,6 @@ textarea {
     overflow: hidden;
 }
 
-/* Si la tarjeta no es una pantalla especial (chart, text-center), no
-   tiene un botón fijo abajo (.form-footer) y no tiene una lista de
-   opciones (.options-list, que ya usa flex-grow para empujar su
-   propio botón al fondo), centramos el contenido verticalmente. Sin
-   esto, pantallas con poco contenido (ej. elegir edad) dejaban un
-   hueco enorme vacío debajo en móvil, porque la tarjeta se estira a
-   min-height:100vh igual. Si además tiene .options-list, dejar que
-   ESA regla empuje el botón — centrar aquí generaba justo el hueco
-   raro entre la última opción y el botón "CONTINUAR". */
 .main-card:not(.text-center):not(:has(.chart-wrapper)):not(:has(.form-footer)):not(:has(.options-list)) {
     justify-content: center;
 }
@@ -158,21 +124,16 @@ textarea {
     padding: 20px;
 }
 
-
-/* =========================================================
-   TEXTO Y ENCABEZADOS
-   ========================================================= */
-
 .form-header {
     text-align: center;
-    margin-bottom: 24px;
+    margin-bottom: 6px;
 }
 
 .form-header h1 {
     font-size: clamp(22px, 5vw, 28px);
     font-weight: 700;
-    line-height: 1.25; /* 35px / 28px, exacto de Figma */
-    color: var(--color-text-black); /* Figma: #000000, no el navy usado en el resto */
+    line-height: 1.25; 
+    color: var(--color-text-black);
     margin-bottom: 12px;
 }
 
@@ -191,9 +152,6 @@ textarea {
     line-height: 1.5;
 }
 
-/* Usado en varios formularios (ej. <div class="divider"></div>)
-   entre el encabezado y las opciones. En el diseño no es una línea
-   visible, es puro espacio de separación. */
 .divider {
     height: 1px;
     background: transparent;
@@ -207,11 +165,6 @@ textarea {
 .text-center {
     text-align: center;
 }
-
-
-/* =========================================================
-   BOTONES
-   ========================================================= */
 
 .btn-primary {
     display: flex;
@@ -280,11 +233,6 @@ textarea {
     margin-top: 20px;
 }
 
-
-/* =========================================================
-   PANTALLA DE BIENVENIDA
-   ========================================================= */
-
 .welcome-content {
     display: flex;
     flex-direction: column;
@@ -337,21 +285,14 @@ textarea {
     padding-top: 25px;
 }
 
-
-/* =========================================================
-   OPCIONES DE EDAD
-   .age-grid y .age-options son alias del mismo componente:
-   se agrupan siempre juntos. Si en el HTML solo se usa uno
-   de los dos nombres, se puede eliminar el otro.
-   ========================================================= */
-
 .age-grid,
 .age-options {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(12px, 2vw, 20px);
-    row-gap: clamp(24px, 4vw, 34px);
-    margin-top: 20px;
+    column-gap: clamp(8px, 2vw, 16px);
+    row-gap: 8px;
+    margin-top: 10px;
+    align-items: center;
 }
 
 .age-btn {
@@ -408,11 +349,6 @@ textarea {
     background-color: var(--color-primary-dark);
 }
 
-
-/* =========================================================
-   LISTAS DE OPCIONES
-   ========================================================= */
-
 .options-list {
     display: flex;
     flex-direction: column;
@@ -466,11 +402,6 @@ textarea {
     color: var(--color-text-dark);
 }
 
-
-/* =========================================================
-   CHECKBOX
-   ========================================================= */
-
 .option-checkbox {
     appearance: none;
     width: 24px;
@@ -513,19 +444,10 @@ textarea {
 }
 
 
-/* =========================================================
-   FOOTER DE FORMULARIOS
-   ========================================================= */
-
 .form-footer {
     padding-top: 20px;
     margin-top: auto;
 }
-
-
-/* =========================================================
-   RESUMEN DE PERFIL
-   ========================================================= */
 
 .profile-summary-box {
     display: flex;
@@ -562,10 +484,6 @@ textarea {
     border: 1px solid #f1f5f9;
 }
 
-/* El zoom con transform: scale() es un hack para recortar
-   márgenes de las imágenes fuente. Si en el futuro se
-   regeneran los assets sin ese margen, se puede quitar
-   este scale y usar solo object-fit: contain. */
 .profile-avatar img {
     width: 100%;
     height: 100%;
@@ -587,10 +505,6 @@ textarea {
 }
 
 
-/* =========================================================
-   PROGRESO
-   ========================================================= */
-
 .progress-bar-container {
     display: flex;
     gap: 6px;
@@ -609,9 +523,6 @@ textarea {
 }
 
 
-/* =========================================================
-   DIMENSIÓN
-   ========================================================= */
 
 .dimension-badge-wrapper {
     text-align: center;
@@ -643,9 +554,6 @@ textarea {
 
 /* =========================================================
    PANTALLAS DE CARGA
-   .loading-* y .loader-* son el mismo componente con dos
-   nombres distintos: se mantienen agrupados por compatibilidad,
-   pero conviene unificar a un solo nombre en el HTML.
    ========================================================= */
 
 .loading-card-center {
@@ -715,10 +623,7 @@ textarea {
 
 
 /* =========================================================
-   RESULTADOS / RUTA
-   .results-* y .route-* vuelven a ser el mismo componente
-   con dos nombres. Igual que arriba: se agrupan para no
-   perder estilos, pero es candidato claro a unificar nombres.
+   RESULTADOS
    ========================================================= */
 
 .results-body,
@@ -944,7 +849,7 @@ textarea {
 
 
 /* =========================================================
-   TRANSICIÓN (imagen + texto genérico)
+   TRANSICIÓN
    ========================================================= */
 
 .transition-img-box {
@@ -1164,8 +1069,7 @@ textarea {
 
 
 /* =========================================================
-   PANTALLA DE CÁLCULO / TRANSICIÓN (.main-card.text-center)
-   Valores tomados directamente del export de Figma (Dev Mode).
+   PANTALLA DE CÁLCULO / TRANSICIÓN 
    ========================================================= */
 
 .main-card.text-center {
@@ -1234,18 +1138,6 @@ textarea {
 .main-card.text-center .btn-primary {
     margin-top: 22px;
 }
-
-
-
-/* =========================================================
-   PANTALLA - PLAN DE CRECIMIENTO LISTO (.main-card:has(.chart-wrapper))
-   NOTA: se mantienen los !important porque están pisando
-   estilos más genéricos de .form-header/.btn-primary — para
-   quitarlos del todo habría que renombrar esta pantalla con
-   una clase propia (ej. .growth-plan-card) en vez de
-   depender de :has(), que además obliga a recalcular
-   selectores cada vez que cambia el contenido interno.
-   ========================================================= */
 
 .main-card:has(.chart-wrapper) {
     position: relative;
@@ -1335,9 +1227,6 @@ textarea {
     white-space: nowrap;
 }
 
-/* Selector frágil: apunta a un div identificado solo por su
-   atributo style inline. Si se puede, reemplazar el div por
-   una clase propia (ej. .growth-plan-summary) en el HTML. */
 .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
     position: relative;
     z-index: 1;
@@ -1381,18 +1270,6 @@ textarea {
     transform: translateY(0);
 }
 
-
-/* =========================================================
-   RESPONSIVE
-   Antes cada pantalla (formularios, gráfico, transición,
-   plan de crecimiento) repetía su PROPIO bloque
-   @media (min-width:600px), otro (900px), otro (max:599px),
-   etc. — 4 juegos de las mismas media queries a lo largo
-   del archivo. Se consolidan aquí: un solo bloque por
-   breakpoint con todos los selectores agrupados dentro.
-   ========================================================= */
-
-/* ---------- TABLET (min-width: 600px) ---------- */
 @media (min-width: 600px) {
 
     .age-img-container {
@@ -1773,82 +1650,120 @@ textarea {
     }
 }
 
+.card-centered {
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+}
+
+/* Icono y contenedor circular */
+.icon-badge {
+    width: 72px;
+    height: 72px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px auto;
+    border: 1px solid #f3f4f6;
+}
+
+.icon-sparkles {
+    width: 32px;
+    height: 32px;
+    stroke: #eab308;
+}
+
+/* Textos y Encabezados */
+.form-header {
+    margin-bottom: 30px;
+}
+
+.header-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+    line-height: 1.3;
+}
+
+.header-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.header-description {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.5;
+    padding: 0 10px;
+}
+
+/* Botón de acción */
+.btn-block {
+    margin-top: auto;
+    display: block;
+    text-decoration: none;
+}
 
 /* =========================================================
-   TRANSICIONES ENTRE PÁGINAS
-   Cada pantalla es un HTML distinto (no es una SPA), así que
-   no existe overlap real entre la página que se va y la que
-   entra. Se simula el movimiento continuo así:
-     1) al hacer clic en un link interno, page-transitions.js
-        agrega .page-exit-up o .page-exit-left al <body>
-        actual y espera a que termine la animación,
-     2) navega a la siguiente página,
-     3) esa página, al cargar, agrega .page-enter-up o
-        .page-enter-left (leyendo sessionStorage) para entrar
-        desde el lado opuesto.
-   Ver js/page-transitions.js — no hace falta tocar este CSS
-   para usarlo, solo incluir el script en cada página.
+   ANIMACIÓN DE ENTRADA DE PÁGINA
    ========================================================= */
 
-html {
-    background-color: var(--color-bg-page);
+body.page-container {
+    animation: pageFadeIn 0.45s ease-out both;
 }
 
-html,
-body {
-    overflow-x: hidden;
+body.page-container.page-enter-left {
+    animation: pageEnterLeft 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-body.page-exit-up,
-body.page-exit-left,
-body.page-enter-up,
-body.page-enter-left {
-    animation-fill-mode: both;
+body.page-container.page-enter-up {
+    animation: pageEnterUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Salida: la página actual se va */
-body.page-exit-up {
-    animation: pageExitUp 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-}
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+    }
 
-body.page-exit-left {
-    animation: pageExitLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Entrada: la nueva página aparece */
-body.page-enter-up {
-    animation: pageEnterUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-body.page-enter-left {
-    animation: pageEnterLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes pageExitUp {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-100%); }
-}
-
-@keyframes pageEnterUp {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0); }
-}
-
-@keyframes pageExitLeft {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-100%); }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes pageEnterLeft {
-    from { transform: translateX(100%); }
-    to   { transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translate3d(-60px, 0, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes pageEnterUp {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 40px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    body.page-exit-up,
-    body.page-exit-left,
-    body.page-enter-up,
-    body.page-enter-left {
-        animation: none !important;
+    body.page-container,
+    body.page-container.page-enter-left,
+    body.page-container.page-enter-up {
+        animation: none;
     }
 }

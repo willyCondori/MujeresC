@@ -1,139 +1,142 @@
-/**
- * page-transitions.js
- * -------------------------------------------------------------
- * Simula transiciones tipo "app" entre páginas HTML separadas.
- *
- * Uso:
- *   1) Incluir este script en TODAS las páginas, justo antes de
- *      </body> (o con `defer`):
- *        <script src="js/page-transitions.js" defer></script>
- *        <script src="../js/page-transitions.js" defer></script>  (subcarpetas)
- *
- *   2) Por defecto, todo link interno hace la transición "left"
- *      (la página actual se va a la izquierda, la siguiente
- *      entra desde la derecha).
- *
- *   3) Para la transición especial "up" (ej. Bienvenida -> Edad),
- *      agregar el atributo data-transition="up" al <a>:
- *        <a href="pages/edad.html" class="btn-primary" data-transition="up">
- *
- *   4) Para excluir un link puntual de la transición (por ejemplo
- *      un link externo o que abre en pestaña nueva), no hace
- *      falta hacer nada: los links externos, con target="_blank",
- *      con "#" o con data-no-transition se ignoran solos.
- *
- * Nota sobre el "flash" de la página anterior:
- * navegamos recién cuando el navegador confirma con el evento
- * `animationend` que la animación de salida terminó de verdad,
- * en vez de esperar un `setTimeout` con una duración fija que
- * puede desincronizarse con lo que se está pintando en pantalla.
- * -------------------------------------------------------------
- */
-
 (function () {
+    'use strict';
+
     var STORAGE_KEY = 'pageTransitionType';
     var DEFAULT_TRANSITION = 'left';
-    var DURATION = { up: 450, left: 400 };
-    var FALLBACK_BUFFER = 250; // margen extra por si animationend no dispara
 
     function prefersReducedMotion() {
         return window.matchMedia &&
             window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     }
 
+    function getTransitionType() {
+        var type = DEFAULT_TRANSITION;
+
+        try {
+            var stored = sessionStorage.getItem(STORAGE_KEY);
+
+            if (stored === 'left' || stored === 'up') {
+                type = stored;
+            }
+
+            sessionStorage.removeItem(STORAGE_KEY);
+        } catch (error) {}
+
+        return type;
+    }
+
+    function applyPageAnimation() {
+        var body = document.body;
+
+        if (!body) {
+            return;
+        }
+
+        if (!body.classList.contains('page-container')) {
+            return;
+        }
+
+        if (prefersReducedMotion()) {
+            return;
+        }
+
+        var type = getTransitionType();
+
+        body.classList.remove(
+            'page-enter-left',
+            'page-enter-up'
+        );
+
+        void body.offsetWidth;
+
+        body.classList.add(
+            type === 'up'
+                ? 'page-enter-up'
+                : 'page-enter-left'
+        );
+    }
+
     function isLocalPageLink(anchor) {
-        if (!anchor || !anchor.getAttribute) return false;
+        if (!anchor) {
+            return false;
+        }
 
         var href = anchor.getAttribute('href');
-        if (!href || href.startsWith('#')) return false;
-        if (anchor.target === '_blank') return false;
-        if (anchor.hasAttribute('data-no-transition')) return false;
-        if (anchor.origin !== window.location.origin) return false;
+
+        if (!href || href.charAt(0) === '#') {
+            return false;
+        }
+
+        if (anchor.target === '_blank') {
+            return false;
+        }
+
+        if (anchor.hasAttribute('data-no-transition')) {
+            return false;
+        }
+
+        try {
+            var url = new URL(href, window.location.href);
+
+            if (url.origin !== window.location.origin) {
+                return false;
+            }
+        } catch (error) {
+            return false;
+        }
 
         return true;
     }
 
-    function clearTransitionClasses() {
-        document.body.classList.remove(
-            'page-exit-up',
-            'page-exit-left',
-            'page-enter-up',
-            'page-enter-left'
-        );
+    function navigate(anchor, type) {
+        try {
+            sessionStorage.setItem(STORAGE_KEY, type);
+        } catch (error) {}
+
+        window.location.href = anchor.href;
     }
 
-    // Si esta página se abrió como destino de una transición,
-    // reproduce la animación de entrada correspondiente.
-    function playEnterAnimation() {
-        var type = sessionStorage.getItem(STORAGE_KEY);
-        if (!type) return;
-
-        sessionStorage.removeItem(STORAGE_KEY);
-        if (prefersReducedMotion()) return;
-
-        var enterClass = 'page-enter-' + type;
-        document.body.classList.add(enterClass);
-
-        document.body.addEventListener('animationend', function handler() {
-            document.body.classList.remove(enterClass);
-            document.body.removeEventListener('animationend', handler);
-        });
-    }
-
-    // Intercepta clicks en links internos: espera a que la animación
-    // de salida TERMINE DE VERDAD (animationend) antes de navegar,
-    // para no navegar a mitad de camino y dejar ver la página vieja.
-    function handleClick(e) {
-        var anchor = e.target.closest('a');
-        if (!isLocalPageLink(anchor)) return;
-
-        e.preventDefault();
-
-        var type = anchor.getAttribute('data-transition') || DEFAULT_TRANSITION;
-        var destination = anchor.href;
-
-        sessionStorage.setItem(STORAGE_KEY, type);
-
-        var navigated = false;
-        function goToDestination() {
-            if (navigated) return;
-            navigated = true;
-            window.location.href = destination;
-        }
-
-        // Sin animación (reduced motion): navegar directo, no hay nada
-        // que esperar y animationend nunca dispararía.
-        if (prefersReducedMotion()) {
-            goToDestination();
+    function handleClick(event) {
+        if (event.defaultPrevented) {
             return;
         }
 
-        var exitClass = 'page-exit-' + type;
-        document.body.classList.add(exitClass);
+        if (event.button !== 0) {
+            return;
+        }
 
-        document.body.addEventListener('animationend', function handler() {
-            document.body.removeEventListener('animationend', handler);
-            goToDestination();
-        });
+        if (
+            event.ctrlKey ||
+            event.metaKey ||
+            event.shiftKey ||
+            event.altKey
+        ) {
+            return;
+        }
 
-        // Red de seguridad: si por lo que sea animationend no dispara
-        // (ej. la pestaña pasó a segundo plano y el navegador pausó la
-        // animación), navegamos igual pasado un margen generoso.
-        window.setTimeout(goToDestination, (DURATION[type] || DURATION.left) + FALLBACK_BUFFER);
+        var anchor = event.target.closest('a');
+
+        if (!isLocalPageLink(anchor)) {
+            return;
+        }
+
+        var type = anchor.getAttribute('data-transition');
+
+        if (type !== 'left' && type !== 'up') {
+            type = DEFAULT_TRANSITION;
+        }
+
+        event.preventDefault();
+
+        navigate(anchor, type);
     }
 
-    // Si el navegador restaura la página desde bfcache (botón
-    // atrás/adelante), evita que quede invisible a mitad de una
-    // animación de salida y vuelve a mostrar la entrada.
-    window.addEventListener('pageshow', function (e) {
-        clearTransitionClasses();
-        if (e.persisted) {
-            playEnterAnimation();
-        }
-    });
+    applyPageAnimation();
 
-    document.addEventListener('DOMContentLoaded', function () {
-        playEnterAnimation();
-        document.addEventListener('click', handleClick);
-    });
+    document.addEventListener(
+        'click',
+        handleClick,
+        true
+    );
+
 })();
