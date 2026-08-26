@@ -1,32 +1,57 @@
-        (function () {
-            console.log('=== DEBUG RESULTADO ===');
-            console.log('quizAnswers:', sessionStorage.getItem('quizAnswers'));
-            console.log('QuizScore:', window.QuizScore);
-            var result = window.QuizScore.saveFinalResult();
-            console.log('Resultado final:', result);
-            var total = result.score;
-            var max = result.maxScore;
+/*A
+    Creado: Willy Condori
+    Fecha: 26/08/2026
+    Módulo: Resultado final
+    Descripción: En este archivo se muestra el puntaje final obtenido en el cuestionario.
+*/
 
-            var percent = Math.max(
+(function () {
+    'use strict';
+
+    try {
+        var resultado = window.QuizScore.saveFinalResult();
+        var puntuacionTotal = resultado.score;
+        var puntuacionMaxima = resultado.maxScore;
+        var porcentaje = 0;
+
+        if (puntuacionMaxima > 0) {
+            porcentaje = Math.max(
                 0,
-                Math.min(100, (total / max) * 100)
+                Math.min(
+                    100,
+                    (puntuacionTotal / puntuacionMaxima) * 100
+                )
             );
+        }
 
-            var scoreLabel = document.getElementById('score-current');
+        var etiquetaPuntuacion = document.getElementById(
+            'score-current'
+        );
 
-            if (scoreLabel) {
-                scoreLabel.textContent = 'Tú (' + total + ')';
-            }
+        if (etiquetaPuntuacion) {
+            etiquetaPuntuacion.textContent =
+                'Tú (' + puntuacionTotal + ')';
+        }
 
-            var fill = document.querySelector('.route-progress-fill');
+        var barraProgreso = document.querySelector(
+            '.route-progress-fill'
+        );
 
-            if (fill) {
-                fill.style.width = percent + '%';
-            }
+        if (barraProgreso) {
+            barraProgreso.style.width = porcentaje + '%';
+        }
 
-            var dot = document.querySelector('.route-progress-dot');
+        var puntoProgreso = document.querySelector(
+            '.route-progress-dot'
+        );
 
-            if (dot) {
-                dot.style.left = percent + '%';
-            }
-        })();
+        if (puntoProgreso) {
+            puntoProgreso.style.left = porcentaje + '%';
+        }
+    } catch (error) {
+        console.error(
+            'No se pudo mostrar el resultado final:',
+            error
+        );
+    }
+})();

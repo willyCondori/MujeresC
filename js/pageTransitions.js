@@ -1,8 +1,14 @@
+/*A
+    Creado: Willy Condori
+    Fecha: 26/08/2026
+    Módulo: Transiciones de páginas
+    Descripción: En este archivo se gestionan las transiciones de navegación entre las páginas del sistema.
+*/
 (function () {
     'use strict';
 
-    var STORAGE_KEY = 'pageTransitionType';
-    var DEFAULT_TRANSITION = 'left';
+    var storageKey = 'pageTransitionType';
+    var defaultTransition = 'left';
 
     function prefersReducedMotion() {
         return window.matchMedia &&
