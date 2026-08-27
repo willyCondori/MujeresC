@@ -1,17 +1,206 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planes de Crecimiento - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/plan.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: var(--color-bg, #f4f5f7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 12px;
+            box-sizing: border-box;
+        }
+
+        .main-card.plan-page {
+            width: 100% !important;
+            max-width: 440px !important;
+            margin: 0 auto !important;
+            padding: 20px 16px !important;
+            background: #ffffff !important;
+            border-radius: 24px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
+        /* Header con título y botón responsivo */
+        .plan-header {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .plan-title {
+            font-size: 18px !important;
+            font-weight: 800 !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+            flex: 1 !important;
+        }
+
+        .plan-title br {
+            display: none !important;
+        }
+
+        .btn-header {
+            padding: 8px 12px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            border-radius: 20px !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Comparativa de Perfiles */
+        .profile-compare {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+            padding: 12px 8px !important;
+            margin-bottom: 16px !important;
+            background: var(--color-bg-alt, #f8f9fa) !important;
+            border-radius: 16px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        .profile-col {
+            min-width: 0 !important;
+            width: 100 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+        }
+
+        .profile-col-label {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            margin-bottom: 6px !important;
+            white-space: nowrap !important;
+        }
+
+        /* IMÁGENES PROPORCIONALES Y GRANDES */
+        .profile-avatar-small {
+            width: 100% !important;
+            max-width: 150px !important;
+            height: 150px !important;
+            margin: 0 auto 6px auto !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            background: #fff !important;
+            flex-shrink: 0 !important;
+        }
+
+        .profile-avatar-small img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+        }
+
+        .profile-col-stat {
+            font-size: 11px !important;
+            line-height: 1.25 !important;
+            text-align: center !important;
+            word-break: break-word !important;
+            margin: 0 !important;
+        }
+
+        .profile-col-stat--second {
+            margin-top: 3px !important;
+        }
+
+        /* Tarjetas de Planes */
+        .plan-options-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        .plan-options-list .option-card {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 10px 12px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            border: 1.5px solid var(--color-border, #e5e7eb) !important;
+            border-radius: 14px !important;
+            background: #fff !important;
+        }
+
+        .plan-name {
+            font-size: 13px !important;
+            font-weight: 700 !important;
+        }
+
+        .plan-price-old {
+            font-size: 10px !important;
+        }
+
+        .plan-price-current {
+            font-size: 15px !important;
+            font-weight: 800 !important;
+        }
+
+        .plan-price-unit {
+            font-size: 9px !important;
+        }
+
+        .option-checkbox {
+            width: 18px !important;
+            height: 18px !important;
+        }
+
+        .btn-bottom {
+            width: 100% !important;
+            margin-top: 14px !important;
+            padding: 14px !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            border-radius: 30px !important;
+        }
+
+        /* Ajustes Mobile Pantalla Completa */
+        @media (max-width: 480px) {
+            .page-container {
+                padding: 0 !important;
+            }
+            .main-card.plan-page {
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                min-height: 100vh !important;
+            }
+        }
+    </style>
 </head>
+
 <body class="page-container">
 
-    <main class="main-card plan-page">
+    <main class="main-card">
         <div class="plan-header">
-            <h1 class="plan-title">Plan de <br>crecimiento</h1>
+            <h1 class="plan-title">Plan de crecimiento</h1>
             <!-- Botón que activa el modal -->
             <button id="btnAbrirModal" class="btn-primary btn-header">OBTENER MI PLAN</button>
         </div>
@@ -21,7 +210,8 @@
             <div class="profile-col">
                 <p class="profile-col-label">Ahora</p>
                 <div class="profile-avatar-small">
-                    <img src="../assets/img/avatars/rango2.jfif" alt="Avatar" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                    <img src="../assets/img/avatars/rango2.jfif" alt="Avatar"
+                        onerror="this.src='https://api.iconify.design/lucide:user.svg'">
                 </div>
                 <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Bajo</p>
                 <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Principiante</p>
@@ -29,7 +219,8 @@
             <div class="profile-col">
                 <p class="profile-col-label profile-col-label--target">Tu objetivo</p>
                 <div class="profile-avatar-small">
-                    <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Objetivo" onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                    <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Objetivo"
+                        onerror="this.src='https://api.iconify.design/lucide:user.svg'">
                 </div>
                 <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Alta</p>
                 <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Experto</p>
@@ -78,21 +269,13 @@
         <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">OBTENER MI PLAN</button>
     </main>
 
-    <!-- ========================================== -->
-    <!-- VENTANA MODAL         -->
-    <!-- ========================================== -->
+    <!-- VENTANA MODAL -->
     <div id="modalPago" class="modal-overlay">
         <div class="modal-content">
-
-            <!-- Botón cerrar (X) -->
             <button id="btnCerrarModal" class="modal-close-btn">✕</button>
-
-            <!-- Título principal -->
             <h3 class="modal-title">
                 El <span class="modal-highlight">91% se queda</span> tras los primeros 30 días
             </h3>
-
-            <!-- Totales -->
             <div class="modal-total-box">
                 <span class="modal-total-label">Total:</span>
                 <div>
@@ -100,12 +283,7 @@
                     <span class="modal-total-new">19.99 USD</span>
                 </div>
             </div>
-
-            <p class="modal-pay-text">
-                Pague de forma rápida y segura con
-            </p>
-
-            <!-- Métodos de pago (Cajas seleccionables) -->
+            <p class="modal-pay-text">Pague de forma rápida y segura con</p>
             <div class="payment-methods">
                 <div class="payment-option payment-option--selected">
                     <p class="payment-option-label">Con un clic</p>
@@ -116,30 +294,21 @@
                     <div class="payment-option-content payment-option-content--small">VISA MC DISC AMEX</div>
                 </div>
             </div>
-
-            <!-- Botón final de pago -->
-            <a href="preparacion.html" class="btn-pay-final">
-                Pagar con PayPal
-            </a>
+            <a href="preparacion.html" class="btn-pay-final">Pagar con PayPal</a>
         </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- SCRIPT MÍNIMO PARA ABRIR Y CERRAR EL MODAL -->
-    <!-- ========================================== -->
     <script>
         const modal = document.getElementById('modalPago');
         const btnAbrir1 = document.getElementById('btnAbrirModal');
         const btnAbrir2 = document.getElementById('btnAbrirModalInferior');
         const btnCerrar = document.getElementById('btnCerrarModal');
 
-        // Función para mostrar el modal
         function abrirModal(e) {
             e.preventDefault();
             modal.classList.add('is-open');
         }
 
-        // Función para ocultar el modal
         function cerrarModal() {
             modal.classList.remove('is-open');
         }
@@ -148,14 +317,13 @@
         btnAbrir2.addEventListener('click', abrirModal);
         btnCerrar.addEventListener('click', cerrarModal);
 
-        // Si hacen clic fuera de la cajita blanca, también se cierra
-        window.addEventListener('click', function(e) {
+        window.addEventListener('click', function (e) {
             if (e.target === modal) {
                 cerrarModal();
             }
         });
     </script>
     <script src="../js/pageTransitions.js" defer></script>
-
 </body>
+
 </html>

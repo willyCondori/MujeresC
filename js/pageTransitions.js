@@ -16,16 +16,16 @@
     }
 
     function getTransitionType() {
-        var type = DEFAULT_TRANSITION;
+        var type = defaultTransition;
 
         try {
-            var stored = sessionStorage.getItem(STORAGE_KEY);
+            var stored = sessionStorage.getItem(storageKey);
 
             if (stored === 'left' || stored === 'up') {
                 type = stored;
             }
 
-            sessionStorage.removeItem(STORAGE_KEY);
+            sessionStorage.removeItem(storageKey);
         } catch (error) {}
 
         return type;
@@ -96,7 +96,7 @@
 
     function navigate(anchor, type) {
         try {
-            sessionStorage.setItem(STORAGE_KEY, type);
+            sessionStorage.setItem(storageKey, type);
         } catch (error) {}
 
         window.location.href = anchor.href;
@@ -129,7 +129,7 @@
         var type = anchor.getAttribute('data-transition');
 
         if (type !== 'left' && type !== 'up') {
-            type = DEFAULT_TRANSITION;
+            type = defaultTransition;
         }
 
         event.preventDefault();
