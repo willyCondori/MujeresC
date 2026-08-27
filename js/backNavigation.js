@@ -1,4 +1,4 @@
-/*A
+/*
     Creado: Willy Condori
     Fecha: 27/08/2026
     Módulo: Navegación de cuestionarios y personalidad
@@ -8,7 +8,6 @@
 (function () {
     'use strict';
 
-    var quizStorageKey = 'quizAnswers';
     var personalityStorageKey = 'personalityAnswers';
 
     function getCurrentPage() {
@@ -16,16 +15,6 @@
         var fileName = path.substring(path.lastIndexOf('/') + 1);
 
         return fileName.toLowerCase();
-    }
-
-    function getPageNumber(prefix) {
-        var page = getCurrentPage();
-
-        var match = page.match(
-            new RegExp('^' + prefix + '(\\d+)\\.html$')
-        );
-
-        return match ? parseInt(match[1], 10) : null;
     }
 
     function loadStorage(key) {
@@ -63,44 +52,6 @@
      * ---------------------------------------------------------
      */
 
-    function savePersonalityAnswers() {
-        var page = getCurrentPage();
-
-        if (page.indexOf('personalidad') !== 0) {
-            return;
-        }
-
-        var checkboxes = document.querySelectorAll(
-            'input[type="checkbox"].option-checkbox'
-        );
-
-        if (!checkboxes.length) {
-            return;
-        }
-
-        var answers = loadStorage(
-            personalityStorageKey
-        );
-
-        var pageAnswers = [];
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                pageAnswers.push({
-                    value: checkboxes[i].value || '',
-                    text: getOptionText(checkboxes[i])
-                });
-            }
-        }
-
-        answers[page] = pageAnswers;
-
-        saveStorage(
-            personalityStorageKey,
-            answers
-        );
-    }
-
     function getOptionText(checkbox) {
         var label = checkbox.closest('label');
 
@@ -121,6 +72,48 @@
             .trim();
     }
 
+    function savePersonalityAnswers() {
+        var page = getCurrentPage();
+
+        if (page.indexOf('personalidad') !== 0) {
+            return;
+        }
+
+        var checkboxes = document.querySelectorAll(
+            '.option-checkbox'
+        );
+
+        if (!checkboxes.length) {
+            return;
+        }
+
+        var answers = loadStorage(
+            personalityStorageKey
+        );
+
+        var pageAnswers = [];
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                // Verificamos si existe el atributo 'value' explícitamente en el HTML
+                var rawValue = checkboxes[i].getAttribute('value');
+
+                pageAnswers.push({
+                    value: rawValue !== null ? rawValue : '',
+                    text: getOptionText(checkboxes[i]),
+                    index: i // Guardamos el índice como método de respaldo adicional
+                });
+            }
+        }
+
+        answers[page] = pageAnswers;
+
+        saveStorage(
+            personalityStorageKey,
+            answers
+        );
+    }
+
     function restorePersonalityAnswers() {
         var page = getCurrentPage();
 
@@ -134,17 +127,19 @@
 
         var pageAnswers = answers[page];
 
-        if (!pageAnswers) {
+        if (!pageAnswers || !pageAnswers.length) {
             return;
         }
 
         var checkboxes = document.querySelectorAll(
-            'input[type="checkbox"].option-checkbox'
+            '.option-checkbox'
         );
 
         for (var i = 0; i < checkboxes.length; i++) {
             var checkbox = checkboxes[i];
-            var value = checkbox.value || '';
+            
+            // Leemos el atributo directamente para evitar el valor 'on' por defecto
+            var rawValue = checkbox.getAttribute('value');
             var text = getOptionText(checkbox);
 
             var shouldBeChecked = false;
@@ -152,9 +147,13 @@
             for (var j = 0; j < pageAnswers.length; j++) {
                 var savedAnswer = pageAnswers[j];
 
+                // 1. Compara por atributo value si existe
+                // 2. Compara por texto si coincide
+                // 3. Compara por índice de posición si el texto falla
                 if (
-                    (value && savedAnswer.value === value) ||
-                    (!value && savedAnswer.text === text)
+                    (rawValue !== null && rawValue !== '' && savedAnswer.value === rawValue) ||
+                    (savedAnswer.text && savedAnswer.text === text) ||
+                    (savedAnswer.index === i)
                 ) {
                     shouldBeChecked = true;
                     break;
@@ -162,7 +161,6 @@
             }
 
             checkbox.checked = shouldBeChecked;
-
             updateOptionCard(checkbox);
         }
     }
@@ -183,14 +181,27 @@
 
     function setupPersonalityListeners() {
         var checkboxes = document.querySelectorAll(
-            'input[type="checkbox"].option-checkbox'
+            '.option-checkbox'
         );
 
         for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].addEventListener(
                 'change',
                 function () {
-                    updateOptionCard(this);
+                    if (this.type === 'radio' && this.name) {
+                        var group = document.querySelectorAll(
+                            'input[type="radio"][name="' +
+                            this.name +
+                            '"]'
+                        );
+
+                        for (var g = 0; g < group.length; g++) {
+                            updateOptionCard(group[g]);
+                        }
+                    } else {
+                        updateOptionCard(this);
+                    }
+
                     savePersonalityAnswers();
                 }
             );

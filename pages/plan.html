@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="background-color: #f4f5f7;">
 
 <head>
     <meta charset="UTF-8">
@@ -12,11 +12,17 @@
         body {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            background-color: var(--color-bg, #f4f5f7);
+            min-height: 50vh;
+            background-color: var(--color-bg, #f4f5f7) !important;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        /* Evita parpadeos de visibilidad durante transiciones */
+        body {
+            opacity: 1 !important;
+            visibility: visible !important;
         }
 
         .page-container {
@@ -42,12 +48,35 @@
         }
 
         /* Header con título y botón responsivo */
+        /* Contenedor del encabezado */
         .plan-header {
             display: flex !important;
-            justify-content: space-between !important;
             align-items: center !important;
-            gap: 10px !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
             margin-bottom: 16px !important;
+            width: 100% !important;
+        }
+
+        /* Quitar posicionamiento absoluto del botón de volver si venía del CSS externo */
+        .back-navigation-button {
+            position: static !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            width: 36px !important;
+            height: 36px !important;
+            margin: 0 !important;
+        }
+
+        /* Título centrado/ajustado */
+        .plan-title {
+            font-size: 16px !important;
+            font-weight: 800 !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+            flex: 1 !important;
         }
 
         .plan-title {
@@ -86,7 +115,7 @@
 
         .profile-col {
             min-width: 0 !important;
-            width: 100 !important;
+            width: 100% !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
@@ -100,11 +129,10 @@
             white-space: nowrap !important;
         }
 
-        /* IMÁGENES PROPORCIONALES Y GRANDES */
         .profile-avatar-small {
             width: 100% !important;
             max-width: 150px !important;
-            height: 150px !important;
+            height: 120px !important;
             margin: 0 auto 6px auto !important;
             border-radius: 12px !important;
             overflow: hidden !important;
@@ -149,6 +177,7 @@
             border: 1.5px solid var(--color-border, #e5e7eb) !important;
             border-radius: 14px !important;
             background: #fff !important;
+            cursor: pointer;
         }
 
         .plan-name {
@@ -172,6 +201,7 @@
         .option-checkbox {
             width: 18px !important;
             height: 18px !important;
+            cursor: pointer;
         }
 
         .btn-bottom {
@@ -183,7 +213,6 @@
             border-radius: 30px !important;
         }
 
-        /* Ajustes Mobile Pantalla Completa */
         @media (max-width: 480px) {
             .page-container {
                 padding: 0 !important;
@@ -196,8 +225,7 @@
             }
         }
 
-        /* ---------- Modal de Pago ---------- */
-
+        /* Modal */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -308,7 +336,6 @@
             transition: border-color 0.2s ease, background 0.2s ease;
         }
 
-        /* La opción sin selección visual explícita (ej. Tarjeta) se ve "plana" */
         .payment-option:not(.payment-option--selected) {
             border-color: transparent;
         }
@@ -349,7 +376,6 @@
             width: 100%;
             padding: 14px;
             background: #c9b458;
-            /* dorado/oliva aproximado de la imagen */
             color: #ffffff;
             text-align: center;
             text-decoration: none;
@@ -363,27 +389,50 @@
             background: #b39f4a;
             transform: translateY(-1px);
         }
+
+        /* Forzar que el texto mantenga su color visible al seleccionar la tarjeta */
+        .plan-options-list .option-card:has(input[type="radio"]:checked),
+        .plan-options-list .option-card.selected,
+        .plan-options-list .option-card:active {
+            background-color: #ffffff !important;
+            /* Mantiene el fondo blanco */
+            border-color: #8b5cf6 !important;
+            /* Borde morado al seleccionar */
+            color: #111827 !important;
+            /* Fuerza el color de texto oscuro */
+        }
+
+        /* Asegurar el color de los textos internos */
+        .plan-options-list .option-card:has(input[type="radio"]:checked) .plan-name,
+        .plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-current,
+        .plan-options-list .option-card:has(input[type="radio"]:checked) div {
+            color: #111827 !important;
+        }
+
+        /* Mantener visibles los precios tachados y unidades */
+        .plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-old,
+        .plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-unit {
+            color: #6b7280 !important;
+        }
     </style>
     <link rel="stylesheet" href="../css/backNavigation.css">
-
 </head>
 
 <body class="page-container">
 
-    <main class="main-card">
-        <a href="personalidad18.html" class="back-navigation-button" aria-label="Volver" title="Volver">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M19 12H5"></path>
-                <path d="M12 19l-7-7 7-7"></path>
-            </svg>
-        </a>
+    <main class="main-card plan-page">
+
         <div class="plan-header">
+            <a href="personalidad18.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M19 12H5"></path>
+                    <path d="M12 19l-7-7 7-7"></path>
+                </svg>
+            </a>
             <h1 class="plan-title">Plan de crecimiento</h1>
-            <!-- Botón que activa el modal -->
             <button id="btnAbrirModal" class="btn-primary btn-header">OBTENER MI PLAN</button>
         </div>
 
-        <!-- Comparativa de perfiles -->
         <div class="profile-compare">
             <div class="profile-col">
                 <p class="profile-col-label">Ahora</p>
@@ -407,49 +456,50 @@
             </div>
         </div>
 
-        <!-- Opciones de Planes de pago -->
         <div class="options-list plan-options-list">
             <label class="option-card">
                 <div>
                     <span class="option-text plan-name">Plan 24 semanas</span>
-                    <span class="plan-price-old">$74.99</span>
+                    <span class="plan-price-old">$74.99</span> $37.99
                 </div>
                 <div class="plan-price-box">
                     <span class="plan-price-current">$0.45</span>
                     <span class="plan-price-unit">por día</span>
                 </div>
-                <input type="checkbox" class="option-checkbox">
+                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="74.99 USD"
+                    data-price-new="37.80 USD">
             </label>
 
             <label class="option-card">
                 <div>
                     <span class="option-text plan-name">Plan 12 semanas</span>
-                    <span class="plan-price-old plan-price-old--plain">$39.99</span>
+                    <span class="plan-price-old plan-price-old--plain">$39.99</span> $19.99
                 </div>
                 <div class="plan-price-box">
                     <span class="plan-price-current">$0.48</span>
                     <span class="plan-price-unit">por día</span>
                 </div>
-                <input type="checkbox" class="option-checkbox">
+                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="39.99 USD"
+                    data-price-new="19.99 USD" checked>
             </label>
 
             <label class="option-card">
                 <div>
                     <span class="option-text plan-name">Plan 4 semanas</span>
-                    <span class="plan-price-old plan-price-old--plain">$19.99</span>
+                    <span class="plan-price-old plan-price-old--plain">$19.99</span> $9.99
                 </div>
                 <div class="plan-price-box">
                     <span class="plan-price-current">$0.71</span>
                     <span class="plan-price-unit">por día</span>
                 </div>
-                <input type="checkbox" class="option-checkbox">
+                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="19.99 USD"
+                    data-price-new="9.99 USD">
             </label>
         </div>
 
         <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">OBTENER MI PLAN</button>
     </main>
 
-    <!-- VENTANA MODAL -->
     <div id="modalPago" class="modal-overlay">
         <div class="modal-content">
             <button id="btnCerrarModal" class="modal-close-btn">✕</button>
@@ -459,13 +509,13 @@
             <div class="modal-total-box">
                 <span class="modal-total-label">Total:</span>
                 <div>
-                    <span class="modal-total-old">39.99 USD</span>
-                    <span class="modal-total-new">19.99 USD</span>
+                    <span class="modal-total-old" id="modalPriceOld">39.99 USD</span>
+                    <span class="modal-total-new" id="modalPriceNew">19.99 USD</span>
                 </div>
             </div>
             <p class="modal-pay-text">Pague de forma rápida y segura con</p>
             <div class="payment-methods">
-                <div class="payment-option" data-method="paypal">
+                <div class="payment-option payment-option--selected" data-method="paypal">
                     <p class="payment-option-label">Con un clic</p>
                     <div class="payment-option-content">Pay &nbsp; P<sub>aypal</sub></div>
                 </div>
@@ -479,47 +529,57 @@
     </div>
 
     <script>
-        const modal = document.getElementById('modalPago');
-        const btnAbrir1 = document.getElementById('btnAbrirModal');
-        const btnAbrir2 = document.getElementById('btnAbrirModalInferior');
-        const btnCerrar = document.getElementById('btnCerrarModal');
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('modalPago');
+            const btnAbrir1 = document.getElementById('btnAbrirModal');
+            const btnAbrir2 = document.getElementById('btnAbrirModalInferior');
+            const btnCerrar = document.getElementById('btnCerrarModal');
 
-        function abrirModal(e) {
-            e.preventDefault();
-            modal.classList.add('is-open');
-        }
+            const modalPriceOld = document.getElementById('modalPriceOld');
+            const modalPriceNew = document.getElementById('modalPriceNew');
 
-        function cerrarModal() {
-            modal.classList.remove('is-open');
-        }
-
-        btnAbrir1.addEventListener('click', abrirModal);
-        btnAbrir2.addEventListener('click', abrirModal);
-        btnCerrar.addEventListener('click', cerrarModal);
-
-        window.addEventListener('click', function (e) {
-            if (e.target === modal) {
-                cerrarModal();
+            function actualizarPreciosModal() {
+                const planSeleccionado = document.querySelector('input[name="plan_selection"]:checked');
+                if (planSeleccionado) {
+                    modalPriceOld.textContent = planSeleccionado.dataset.priceOld;
+                    modalPriceNew.textContent = planSeleccionado.dataset.priceNew;
+                }
             }
-        });
-        // Selección de método de pago
-        const paymentOptions = document.querySelectorAll('.payment-option');
-        let metodoSeleccionado = 'paypal'; // valor inicial, coincide con el que viene marcado en el HTML
 
-        paymentOptions.forEach((option, index) => {
-            option.addEventListener('click', () => {
-                // Quita la clase de todas
-                paymentOptions.forEach(opt => opt.classList.remove('payment-option--selected'));
-                // Marca la clickeada
-                option.classList.add('payment-option--selected');
-                // Guarda cuál quedó seleccionada (ajusta según tus data-attributes reales)
-                metodoSeleccionado = option.dataset.method || (index === 0 ? 'paypal' : 'card');
+            function abrirModal(e) {
+                e.preventDefault();
+                actualizarPreciosModal();
+                modal.classList.add('is-open');
+            }
+
+            function cerrarModal() {
+                modal.classList.remove('is-open');
+            }
+
+            btnAbrir1?.addEventListener('click', abrirModal);
+            btnAbrir2?.addEventListener('click', abrirModal);
+            btnCerrar?.addEventListener('click', cerrarModal);
+
+            window.addEventListener('click', function (e) {
+                if (e.target === modal) {
+                    cerrarModal();
+                }
             });
-        });
 
-        document.querySelector('.btn-pay-final').addEventListener('click', function (e) {
-            if (metodoSeleccionado === 'card') {
-            }
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const btnPayFinal = document.querySelector('.btn-pay-final');
+
+            paymentOptions.forEach((option, index) => {
+                option.addEventListener('click', () => {
+                    paymentOptions.forEach(opt => opt.classList.remove('payment-option--selected'));
+                    option.classList.add('payment-option--selected');
+                    const metodoSeleccionado = option.dataset.method || (index === 0 ? 'paypal' : 'card');
+
+                    if (btnPayFinal) {
+                        btnPayFinal.textContent = metodoSeleccionado === 'card' ? 'Pagar con Tarjeta' : 'Pagar con PayPal';
+                    }
+                });
+            });
         });
     </script>
     <script src="../js/pageTransitions.js" defer></script>

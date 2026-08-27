@@ -359,6 +359,22 @@ textarea {
     flex-grow: 1;
 }
 
+.option-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 64px;
+    /* O 52px si usas la versión compacta */
+    background-color: var(--color-bg-white);
+    color: var(--color-text-body);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-option);
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
 .option-card,
 .option-card-custom {
     display: flex;
@@ -371,6 +387,11 @@ textarea {
     padding: 16px 20px;
     cursor: pointer;
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.option-card:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-bg-soft);
 }
 
 .option-card:hover,
@@ -406,39 +427,59 @@ textarea {
 
 .option-checkbox {
     appearance: none;
+    -webkit-appearance: none;
     width: 24px;
     height: 24px;
     flex-shrink: 0;
     background-color: var(--color-border-soft);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    outline: none;
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
     cursor: pointer;
-    position: relative;
-    transition: all 0.2s;
+    outline: none;
+
+    /* Centrado perfecto mediante Flexbox */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .option-checkbox:checked {
-    background-color: var(--color-text-body);
-    border-color: var(--color-text-body);
+    background-color: var(--color-bg-white);
+    border-color: var(--color-bg-white);
 }
 
 .option-checkbox:checked::after {
     content: "";
-    position: absolute;
-    width: 6px;
-    height: 11px;
-    left: 50%;
-    top: 50%;
-    border: solid #ffffff;
+    width: 5px;
+    height: 10px;
+    border: solid var(--color-primary);
+    /* Color morado de tu marca */
     border-width: 0 2.5px 2.5px 0;
-    transform: translate(-50%, -58%) rotate(45deg);
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+    /* Ajuste óptico fino para centrado perfecto */
 }
 
 .option-card:has(.option-checkbox:checked) {
+    background-color: var(--color-primary);
     border-color: var(--color-primary);
-    background-color: var(--color-primary-bg-soft);
-    box-shadow: var(--shadow-option-selected);
+    color: var(--color-bg-white);
+    box-shadow: var(--shadow-btn);
+}
+.option-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-body);
+    line-height: 1.4;
+    text-align: left; /* Alineado a la izquierda para dejar espacio al checkbox a la derecha */
+    flex-grow: 1;
+    margin-right: 12px;
+    transition: color 0.2s ease;
+}
+.option-card:has(.option-checkbox:checked) .option-text {
+    color: var(--color-bg-white);
+    font-weight: 700;
 }
 
 .option-radio {
@@ -958,7 +999,6 @@ textarea {
 }
 
 .chart-wrapper::after {
-    content: "Habilidades sociales     •     Confianza     •     Respeto";
     display: block;
     margin: 14px auto 0;
     padding: 9px 12px;
