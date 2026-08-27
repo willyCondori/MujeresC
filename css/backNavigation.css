@@ -1,0 +1,112 @@
+/*
+    Creado: Willy Condori
+    Fecha: 27/08/2026
+    Módulo: Navegación de cuestionarios y personalidad
+    Descripción: Estilos del botón de navegación hacia atrás.
+*/
+
+/* =========================================================
+   BOTÓN ATRÁS
+   ========================================================= */
+
+.back-navigation-button {
+    position: absolute;
+
+    top: 18px;
+    left: 18px;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid var(--color-border-strong);
+    border-radius: 50%;
+
+    background-color: var(--color-bg-white);
+    color: var(--color-text-body);
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    z-index: 20;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Ícono */
+
+.back-navigation-button svg {
+    width: 21px;
+    height: 21px;
+
+    fill: none;
+
+    stroke: currentColor;
+    stroke-width: 2;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    pointer-events: none;
+}
+
+/* Hover */
+
+.back-navigation-button:hover {
+    background-color: var(--color-primary-bg-soft);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+
+    box-shadow: var(--shadow-btn);
+}
+
+/* Presionado */
+
+.back-navigation-button:active {
+    transform: scale(0.94);
+}
+
+/* Accesibilidad */
+
+.back-navigation-button:focus-visible {
+    outline: 3px solid var(--color-primary-bg-soft);
+    outline-offset: 2px;
+}
+
+/* =========================================================
+   ASEGURAR POSICIONAMIENTO DEL BOTÓN
+   ========================================================= */
+
+.page-container .main-card {
+    position: relative;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .back-navigation-button {
+        top: 14px;
+        left: 14px;
+
+        width: 38px;
+        height: 38px;
+    }
+
+    .back-navigation-button svg {
+        width: 19px;
+        height: 19px;
+    }
+
+}

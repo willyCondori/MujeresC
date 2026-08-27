@@ -433,10 +433,6 @@ textarea {
     transform: translate(-50%, -58%) rotate(45deg);
 }
 
-.option-checkbox:active {
-    transform: scale(0.92);
-}
-
 .option-card:has(.option-checkbox:checked) {
     border-color: var(--color-primary);
     background-color: var(--color-primary-bg-soft);

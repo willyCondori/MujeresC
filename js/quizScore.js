@@ -43,7 +43,7 @@
         }
     }
 
-    function saveAnswer(pName, pValue ) {
+    function saveAnswer(pName, pValue) {
         try {
             var respuestas = loadAnswers();
 
@@ -62,48 +62,56 @@
     }
 
     function captureQuestionAnswers() {
+
+        var respuestasGuardadas = loadAnswers();
+
         for (
             var i = 0;
             i < questionNames.length;
             i++
         ) {
+
             var nombrePregunta = questionNames[i];
 
             var radios = document.querySelectorAll(
-                'input[type="radio"][name="' + nombrePregunta + '"]'
+                'input[type="radio"][name="' +
+                nombrePregunta +
+                '"]'
             );
 
             if (!radios.length) {
                 continue;
             }
 
-            var radioSeleccionado = document.querySelector(
-                'input[type="radio"][name="' + nombrePregunta + '"]:checked'
-            );
+            var respuestaGuardada =
+                respuestasGuardadas[nombrePregunta];
 
-            if (radioSeleccionado) {
-                saveAnswer(
-                    nombrePregunta,
-                    radioSeleccionado.value
-                );
+            if (
+                respuestaGuardada !== undefined &&
+                respuestaGuardada !== null
+            ) {
+
+                for (var j = 0; j < radios.length; j++) {
+                    radios[j].checked = String(radios[j].value) === String(respuestaGuardada);
+                }
             }
 
-            for (
-                var j = 0;
-                j < radios.length;
-                j++
-            ) {
-                radios[j].addEventListener(
+            for (var k = 0; k < radios.length; k++) {
+                radios[k].addEventListener(
                     'change',
                     function () {
+
                         if (this.checked) {
                             saveAnswer(
                                 this.name,
                                 this.value
                             );
+
                         }
+
                     }
                 );
+
             }
         }
     }
