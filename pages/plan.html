@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/plan.css">
     <style>
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
@@ -187,11 +188,180 @@
             .page-container {
                 padding: 0 !important;
             }
+
             .main-card.plan-page {
                 border-radius: 0 !important;
                 box-shadow: none !important;
                 min-height: 100vh !important;
             }
+        }
+
+        /* ---------- Modal de Pago ---------- */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 1000;
+        }
+
+        .modal-overlay.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            width: auto;
+            height: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1;
+            color: var(--color-text-muted, #6b7280);
+            cursor: pointer;
+        }
+
+        .modal-close-btn:hover {
+            color: var(--color-text-dark, #111827);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.35;
+            color: var(--color-text-dark, #111827);
+            text-align: left;
+            margin: 24px 8px 20px 0;
+        }
+
+        .modal-highlight {
+            color: var(--color-primary, #8b5cf6);
+        }
+
+        .modal-total-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            padding: 0;
+            margin-bottom: 18px;
+        }
+
+        .modal-total-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-text-muted, #6b7280);
+        }
+
+        .modal-total-old {
+            font-size: 12px;
+            color: var(--color-text-faint, #9ca3af);
+            text-decoration: line-through;
+            margin-right: 8px;
+        }
+
+        .modal-total-new {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--color-text-dark, #111827);
+        }
+
+        .modal-pay-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text-muted, #6b7280);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .payment-methods {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .payment-option {
+            flex: 1;
+            border: 1.5px solid var(--color-border, #e5e7eb);
+            border-radius: 14px;
+            padding: 12px 14px;
+            cursor: pointer;
+            text-align: center;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        /* La opción sin selección visual explícita (ej. Tarjeta) se ve "plana" */
+        .payment-option:not(.payment-option--selected) {
+            border-color: transparent;
+        }
+
+        .payment-option:hover {
+            border-color: var(--color-primary, #8b5cf6);
+        }
+
+        .payment-option--selected {
+            border-color: var(--color-primary, #8b5cf6);
+            background: var(--color-primary-bg-soft, #f5f3ff);
+        }
+
+        .payment-option-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--color-text-muted, #6b7280);
+            margin-bottom: 6px;
+        }
+
+        .payment-option-content {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--color-text-dark, #111827);
+        }
+
+        .payment-option-content--small {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--color-text-muted-2, #6b7280);
+        }
+
+        .btn-pay-final {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px;
+            background: #c9b458;
+            /* dorado/oliva aproximado de la imagen */
+            color: #ffffff;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 30px;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-pay-final:hover {
+            background: #b39f4a;
+            transform: translateY(-1px);
         }
     </style>
 </head>
@@ -214,7 +384,8 @@
                         onerror="this.src='https://api.iconify.design/lucide:user.svg'">
                 </div>
                 <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Bajo</p>
-                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Principiante</p>
+                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong>
+                    Principiante</p>
             </div>
             <div class="profile-col">
                 <p class="profile-col-label profile-col-label--target">Tu objetivo</p>
@@ -223,7 +394,8 @@
                         onerror="this.src='https://api.iconify.design/lucide:user.svg'">
                 </div>
                 <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Alta</p>
-                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Experto</p>
+                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Experto
+                </p>
             </div>
         </div>
 
@@ -285,11 +457,11 @@
             </div>
             <p class="modal-pay-text">Pague de forma rápida y segura con</p>
             <div class="payment-methods">
-                <div class="payment-option payment-option--selected">
+                <div class="payment-option" data-method="paypal">
                     <p class="payment-option-label">Con un clic</p>
                     <div class="payment-option-content">Pay &nbsp; P<sub>aypal</sub></div>
                 </div>
-                <div class="payment-option">
+                <div class="payment-option" data-method="card">
                     <p class="payment-option-label">Tarjeta de crédito</p>
                     <div class="payment-option-content payment-option-content--small">VISA MC DISC AMEX</div>
                 </div>
@@ -321,6 +493,30 @@
             if (e.target === modal) {
                 cerrarModal();
             }
+        });
+        // Selección de método de pago
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        let metodoSeleccionado = 'paypal'; // valor inicial, coincide con el que viene marcado en el HTML
+
+        paymentOptions.forEach((option, index) => {
+            option.addEventListener('click', () => {
+                // Quita la clase de todas
+                paymentOptions.forEach(opt => opt.classList.remove('payment-option--selected'));
+                // Marca la clickeada
+                option.classList.add('payment-option--selected');
+                // Guarda cuál quedó seleccionada (ajusta según tus data-attributes reales)
+                metodoSeleccionado = option.dataset.method || (index === 0 ? 'paypal' : 'card');
+            });
+        });
+
+        // Al pagar, usa metodoSeleccionado para decidir el flujo
+        document.querySelector('.btn-pay-final').addEventListener('click', function (e) {
+            if (metodoSeleccionado === 'card') {
+                // si tarjeta requiere otro flujo (formulario, pasarela distinta), redirígelo aquí
+                // e.preventDefault();
+                // window.location.href = 'pago-tarjeta.html';
+            }
+            // si es paypal, deja que siga el href normal a preparacion.html
         });
     </script>
     <script src="../js/pageTransitions.js" defer></script>
