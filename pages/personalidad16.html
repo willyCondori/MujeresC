@@ -7,6 +7,137 @@
     <title>Creando tu plan - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
+    <style>
+        /* Definición de la paleta rosa / púrpura (#MujeresConPoder) */
+        :root {
+            --pink-primary: #8C52FF;       /* Tono violeta/rosa principal del diseño */
+            --pink-primary-hover: #793DF2;
+            --pink-light: #F4EFFF;         /* Fondo suave de carga activa */
+            --pink-accent: #B07CFF;        /* Color secundario o bordes */
+            --pink-success-bg: #FDF2F8;    /* Fondo suave cuando está completado */
+            --pink-success-border: rgb(152, 10, 165);/* Borde suave completado */
+            --pink-check: #6622f0;         /* Check o visto en color rosa/magenta */
+            --text-dark: #2D2D2D;
+            --bg-gray: #F9FAFB;
+            --border-light: #E5E7EB;
+        }
+
+        /* Estilos del contenedor de estados */
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 28px 0;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-radius: 14px;
+            background-color: var(--bg-gray);
+            border: 1px solid var(--border-light);
+            opacity: 0.35;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        /* Estado: Procesando / Activo */
+        .status-item.active {
+            opacity: 1;
+            background-color: var(--pink-light);
+            border-color: var(--pink-accent);
+            box-shadow: 0 4px 14px rgba(140, 82, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Estado: Completado */
+        .status-item.completed {
+            opacity: 1;
+            background-color: var(--pink-success-bg);
+            border-color: var(--pink-success-border);
+            box-shadow: none;
+            transform: translateY(0);
+        }
+
+        .status-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        /* Indicador de estado (Spinner / Check) */
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Spinner en color rosa */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2.5px solid rgba(140, 82, 255, 0.2);
+            border-top-color: var(--pink-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .check {
+            color: var(--pink-check);
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .status-item.completed .spinner { 
+            display: none; 
+        }
+
+        .status-item.completed .check { 
+            display: inline; 
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Estilo para la palabra resaltada */
+        .highlight {
+            color: var(--pink-primary);
+        }
+
+        /* Botón primario en tonos rosa */
+        .btn-primary {
+            display: inline-block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            background-color: var(--pink-primary);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 12px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(140, 82, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--pink-primary-hover);
+        }
+
+        /* Botón desactivado durante la carga */
+        .btn-primary.disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+    </style>
 </head>
 
 <body class="page-container">
@@ -20,24 +151,71 @@
         </a>
         <div class="form-header">
             <h1>Completar formulario <br><span class="highlight">#MujeresConPoder</span></h1>
-            <h2>Estamos creanto tu <span class="highlight">plan de crecimiento personal</span></h2>
+            <h2>Estamos creando tu <span class="highlight">plan de crecimiento personal</span></h2>
         </div>
 
-        <div class="options-list">
-            <label class="option-card"><span class="option-text">Analizando respuestas</span><input type="radio" name="personalidad16"
-                    class="option-checkbox" checked></label>
-            <label class="option-card"><span class="option-text">Adaptandolo a los factores desencadenantes</span><input
-                    type="radio" name="personalidad16" class="option-checkbox"></label>
-            <label class="option-card"><span class="option-text">Fijando los objetivos</span><input type="radio" name="personalidad16"
-                    class="option-checkbox"></label>
-            <label class="option-card"><span class="option-text">Personalizando tu plan</span><input type="radio" name="personalidad16"
-                    class="option-checkbox"></label>
+        <div class="status-list" id="analysis-container">
+            <div class="status-item">
+                <span class="status-text">Analizando respuestas</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <span class="check">✓</span>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Adaptándolo a los factores desencadenantes</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <span class="check">✓</span>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Fijando los objetivos</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <span class="check">✓</span>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Personalizando tu plan</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <span class="check">✓</span>
+                </div>
+            </div>
         </div>
 
-        <a href="formulario.html" class="btn-primary">CONTINUAR</a>
+        <a href="formulario.html" id="continue-btn" class="btn-primary disabled">CONTINUAR</a>
     </main>
+
     <script src="../js/backNavigation.js" defer></script>
     <script src="../js/pageTransitions.js" defer></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const items = document.querySelectorAll(".status-item");
+            const continueBtn = document.getElementById("continue-btn");
+            const stepDuration = 1200; // Milisegundos que toma cada paso
+
+            items.forEach((item, index) => {
+                // Muestra la tarjeta en estado de carga (animación activa)
+                setTimeout(() => {
+                    item.classList.add("active");
+                }, index * stepDuration);
+
+                // Marca la tarjeta como completada (muestra el check rosa)
+                setTimeout(() => {
+                    item.classList.remove("active");
+                    item.classList.add("completed");
+
+                    // Activa el botón de continuar cuando finaliza el último paso
+                    if (index === items.length - 1) {
+                        continueBtn.classList.remove("disabled");
+                    }
+                }, (index + 1) * stepDuration);
+            });
+        });
+    </script>
 
 </body>
 

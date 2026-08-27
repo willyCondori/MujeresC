@@ -4,97 +4,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Motivo de Desarrollo - #MujeresConPoder</title>
-
+    <title>Creando tu plan - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/opcionMultiple.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
+    <style>
+        /* Paleta de color según la imagen */
+        :root {
+            --purple-main: #8c52ff;
+            --purple-text: #a855f7;
+            --purple-light: #f3e8ff;
+            --purple-border: #d8b4fe;
+            --gray-bg: #f9fafb;
+            --gray-border: #e5e7eb;
+        }
+
+        .highlight {
+            color: var(--purple-text);
+        }
+
+        /* Lista de análisis */
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 28px 0;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-radius: 16px;
+            background-color: var(--gray-bg);
+            border: 1px solid var(--gray-border);
+            opacity: 0.4;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Estado activo (Procesando) */
+        .status-item.active {
+            opacity: 1;
+            background-color: var(--purple-main);
+            border-color: var(--purple-main);
+            box-shadow: 0 10px 20px rgba(140, 82, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .status-item.active .status-text {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .status-item.active .spinner {
+            border-color: rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+        }
+
+        /* Estado completado */
+        .status-item.completed {
+            opacity: 1;
+            background-color: #ffffff;
+            border-color: var(--purple-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .status-item.completed .status-text {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        .status-text {
+            font-size: 1rem;
+            color: #4b5563;
+        }
+
+        /* Indicadores visuales */
+        .status-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(140, 82, 255, 0.2);
+            border-top-color: var(--purple-main);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .check {
+            width: 22px;
+            height: 22px;
+            background-color: #22c55e;
+            color: #ffffff;
+            border-radius: 6px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .status-item.completed .spinner {
+            display: none;
+        }
+
+        .status-item.completed .check {
+            display: flex;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Deshabilitar botón mientras analiza */
+        .btn-primary.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: grayscale(40%);
+        }
+    </style>
 </head>
 
 <body class="page-container">
 
     <main class="main-card">
-
-        <!-- Botón volver -->
-        <a href="personalidad12.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+        <a href="personalidad15.html" class="back-navigation-button" aria-label="Volver" title="Volver">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M19 12H5"></path>
                 <path d="M12 19l-7-7 7-7"></path>
             </svg>
         </a>
-
-        <!-- Encabezado -->
         <div class="form-header">
-            <h1>
-                Completar formulario
-                <br>
-                <span class="highlight">#MujeresConPoder</span>
-            </h1>
-
-            <h2>
-                ¿Tienes algún motivo concreto por el que te gustaría
-                desarrollar tus habilidades de comunicación?
-            </h2>
+            <h1>Completar formulario <br><span class="highlight">#MujeresConPoder</span></h1>
+            <h2>Estamos creando tu <span class="highlight">plan de crecimiento personal</span></h2>
         </div>
 
-        <div class="options-list">
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Avanzar profesionalmente
-                </span>
-            </label>
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Crear mi propia empresa
-                </span>
-            </label>
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Ampliar mis propias oportunidades
-                </span>
-            </label>
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Bienestar mental y emocional
-                </span>
-            </label>
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Crear nuevas amistades
-                </span>
-            </label>
-
-            <label class="option-card">
-                <input type="checkbox" class="option-checkbox">
-                <span class="option-text">
-                    Otros objetivos personales
-                </span>
-            </label>
-
+        <div class="status-list" id="analysis-container">
+            <div class="status-item">
+                <span class="status-text">Analizando respuestas</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <div class="check">✓</div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Adaptándolo a los factores desencadenantes</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <div class="check">✓</div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Fijando los objetivos</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <div class="check">✓</div>
+                </div>
+            </div>
+            <div class="status-item">
+                <span class="status-text">Personalizando tu plan</span>
+                <div class="status-icon">
+                    <div class="spinner"></div>
+                    <div class="check">✓</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Botón continuar -->
-        <div class="form-footer">
-            <a href="personalidad14.html" class="btn-primary">
-                CONTINUAR
-            </a>
-        </div>
-
+        <a href="formulario.html" id="continue-btn" class="btn-primary disabled">CONTINUAR</a>
     </main>
 
     <script src="../js/backNavigation.js" defer></script>
     <script src="../js/pageTransitions.js" defer></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const items = document.querySelectorAll(".status-item");
+            const continueBtn = document.getElementById("continue-btn");
+            const stepDuration = 1200;
+
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add("active");
+                }, index * stepDuration);
+
+                setTimeout(() => {
+                    item.classList.remove("active");
+                    item.classList.add("completed");
+
+                    if (index === items.length - 1) {
+                        continueBtn.classList.remove("disabled");
+                    }
+                }, (index + 1) * stepDuration);
+            });
+        });
+    </script>
 
 </body>
 
