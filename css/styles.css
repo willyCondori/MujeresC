@@ -6,7 +6,7 @@
     --color-primary-bg-soft: #f5f3ff;
 
     /* Texto */
-    --color-text-black: #000000;  
+    --color-text-black: #000000;
     --color-text-dark: #111827;
     --color-text-body: #1f2937;
     --color-text-muted: #4b5563;
@@ -18,7 +18,7 @@
     --color-bg-white: #ffffff;
     --color-bg-alt: #f9fafb;
     --color-border: #e5e7eb;
-    --color-border-strong: #d1d5db; 
+    --color-border-strong: #d1d5db;
     --color-border-soft: #f3f4f6;
 
     /* Estados */
@@ -33,16 +33,16 @@
     /* Radios */
     --radius-xl: 32px;
     --radius-lg: 24px;
-    --radius-xl-alt: 40px;  
+    --radius-xl-alt: 40px;
     --radius-md: 16px;
-    --radius-option: 20px; 
+    --radius-option: 20px;
     --radius-sm: 12px;
-    --radius-full: 9999px; 
+    --radius-full: 9999px;
 
     /* Sombras */
-    --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+    --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     --shadow-card-soft: 0 4px 12px rgba(0, 0, 0, 0.02);
-    --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); 
+    --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-btn-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -90,13 +90,17 @@ textarea {
 
 .main-card,
 .welcome-container {
-    min-height: min(850px, calc(100vh - 40px));
-    min-height: min(850px, calc(100dvh - 40px)); 
+    /* Define un alto fijo con tope máximo de 700px (ajusta este valor a tu gusto) */
+    height: clamp(500px, 85vh, 700px);
+    max-height: 700px;
+    /* Alto máximo absoluto para pantallas muy grandes */
     margin: 20px auto;
 }
 
 .main-card {
     overflow: hidden;
+    /* Asegura que el contenido se distribuya bien dentro del alto máximo */
+    justify-content: space-between;
 }
 
 .main-card:not(.text-center):not(:has(.chart-wrapper)):not(:has(.form-footer)):not(:has(.options-list)) {
@@ -109,8 +113,8 @@ textarea {
 }
 
 .form-container {
-    min-height: calc(100vh - 40px);
-    min-height: calc(100dvh - 40px);
+    max-height: 700px;
+    min-height: auto;
 }
 
 .page-container {
@@ -120,21 +124,20 @@ textarea {
     background-color: var(--color-bg-page);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
+    /* Cambiado a center para centrar verticalmente la caja */
     padding: 20px;
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 6px;
 }
 
 .form-header h1 {
     font-size: clamp(22px, 5vw, 28px);
     font-weight: 700;
-    line-height: 1.25; 
+    line-height: 1.25;
     color: var(--color-text-black);
-    margin-bottom: 12px;
 }
 
 .form-header h2 {
@@ -142,7 +145,6 @@ textarea {
     font-weight: 700;
     line-height: 1.25;
     color: var(--color-text-dark);
-    margin-bottom: 8px;
 }
 
 .helper-text {
@@ -1065,18 +1067,39 @@ textarea {
 }
 
 @keyframes chartAppear {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes chartTextAppear {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes buttonAppear {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -1129,7 +1152,8 @@ textarea {
     margin: 0 auto;
     font-size: 30px;
     font-weight: 700;
-    line-height: 1.267; /* 38px / 30px, exacto de Figma */
+    line-height: 1.267;
+    /* 38px / 30px, exacto de Figma */
     color: var(--color-text-dark);
 }
 
@@ -1143,7 +1167,8 @@ textarea {
     color: var(--color-text-muted);
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.625; /* 26px / 16px, exacto de Figma */
+    line-height: 1.625;
+    /* 26px / 16px, exacto de Figma */
     text-align: center;
 }
 
@@ -1239,7 +1264,7 @@ textarea {
     white-space: nowrap;
 }
 
-.main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+.main-card:has(.chart-wrapper)>div[style*="text-align: center"] {
     position: relative;
     z-index: 1;
     margin: 2px 0 0 !important;
@@ -1250,14 +1275,14 @@ textarea {
     text-align: center;
 }
 
-.main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:first-child {
+.main-card:has(.chart-wrapper)>div[style*="text-align: center"] p:first-child {
     margin-bottom: 7px !important;
     font-size: 11px !important;
     font-weight: 500;
     color: var(--color-primary) !important;
 }
 
-.main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:last-child {
+.main-card:has(.chart-wrapper)>div[style*="text-align: center"] p:last-child {
     margin: 0 !important;
     font-size: 13px !important;
     font-weight: 600 !important;
@@ -1265,7 +1290,7 @@ textarea {
     color: #374151 !important;
 }
 
-.main-card:has(.chart-wrapper) > .btn-primary {
+.main-card:has(.chart-wrapper)>.btn-primary {
     position: relative;
     z-index: 1;
     margin-top: 20px !important;
@@ -1273,12 +1298,12 @@ textarea {
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.main-card:has(.chart-wrapper) > .btn-primary:hover {
+.main-card:has(.chart-wrapper)>.btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-btn-hover);
 }
 
-.main-card:has(.chart-wrapper) > .btn-primary:active {
+.main-card:has(.chart-wrapper)>.btn-primary:active {
     transform: translateY(0);
 }
 
@@ -1331,11 +1356,11 @@ textarea {
         height: 230px;
     }
 
-    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+    .main-card:has(.chart-wrapper)>div[style*="text-align: center"] {
         padding: 17px 25px;
     }
 
-    .main-card:has(.chart-wrapper) > .btn-primary {
+    .main-card:has(.chart-wrapper)>.btn-primary {
         max-width: 100%;
         margin-left: auto;
         margin-right: auto;
@@ -1532,16 +1557,16 @@ textarea {
         padding-top: 7px !important;
     }
 
-    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+    .main-card:has(.chart-wrapper)>div[style*="text-align: center"] {
         padding: 13px 15px;
         border-radius: 14px;
     }
 
-    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] p:last-child {
+    .main-card:has(.chart-wrapper)>div[style*="text-align: center"] p:last-child {
         font-size: 12px !important;
     }
 
-    .main-card:has(.chart-wrapper) > .btn-primary {
+    .main-card:has(.chart-wrapper)>.btn-primary {
         margin-top: 18px !important;
     }
 }
@@ -1631,11 +1656,11 @@ textarea {
         font-size: 8px;
     }
 
-    .main-card:has(.chart-wrapper) > div[style*="text-align: center"] {
+    .main-card:has(.chart-wrapper)>div[style*="text-align: center"] {
         padding: 12px;
     }
 
-    .main-card:has(.chart-wrapper) > .btn-primary {
+    .main-card:has(.chart-wrapper)>.btn-primary {
         margin-top: 16px !important;
     }
 }
@@ -1688,16 +1713,11 @@ textarea {
     stroke: #eab308;
 }
 
-/* Textos y Encabezados */
-.form-header {
-    margin-bottom: 30px;
-}
 
 .header-title {
     font-size: 24px;
     font-weight: 700;
     color: #111827;
-    margin-bottom: 12px;
     line-height: 1.3;
 }
 
@@ -1773,6 +1793,7 @@ body.page-container.page-enter-up {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
     body.page-container,
     body.page-container.page-enter-left,
     body.page-container.page-enter-up {

@@ -1,0 +1,157 @@
+.option-card,
+.option-card-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 64px;
+    background-color: var(--color-bg-white);
+    color: var(--color-text-body);
+    border: 2px solid var(--color-border-strong);
+    border-radius: var(--radius-option);
+    padding: 16px 20px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.option-card:hover,
+.option-card-custom:hover {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-bg-soft);
+}
+
+.option-card:has(.option-checkbox:checked),
+.option-card-custom.selected {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-bg-white);
+    box-shadow: var(--shadow-btn);
+}
+
+.option-card:has(.option-checkbox:checked) .option-text {
+    color: var(--color-bg-white);
+    font-weight: 700;
+}
+
+.option-card:active {
+    transform: scale(0.985);
+}
+
+.option-text {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    color: var(--color-text-body);
+    transition: color 0.2s ease;
+}
+
+.option-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+}
+/* =========================================================
+   AJUSTE DE ALTURA DINÁMICA Y SCROLL EN PC
+   ========================================================= */
+
+/* Permitir que la tarjeta crezca según el contenido o adapte su altura */
+.main-card {
+    height: auto !important;
+    min-height: min(780px, calc(100vh - 40px)) !important;
+    max-height: calc(100vh - 40px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto; /* Muestra scroll interno si la pantalla de la laptop es muy pequeña */
+}
+
+/* Reducir márgenes y gaps cuando hay muchas opciones */
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Separación más compacta entre botones */
+    margin: 15px 0;
+}
+
+/* Reducir ligeramente la altura mínima de las tarjetas de opción */
+.option-card,
+.option-card-custom {
+    min-height: 52px;
+    padding: 10px 16px;
+}
+
+/* Botón de volver posicionado de forma absoluta dentro de main-card */
+.main-card {
+    position: relative;
+    padding-top: 50px; /* Deja espacio superior para la flecha de regresar */
+}
+
+.back-navigation-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+/* =========================================================
+   AJUSTE RESPONSIVE PARA MUCHAS OPCIONES
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .main-card {
+        min-height: 100dvh;
+        height: 100dvh;
+        overflow: hidden;
+    }
+
+    .form-header {
+        margin-bottom: 8px;
+    }
+
+    .form-header h1 {
+        font-size: 18px;
+        line-height: 1.2;
+        margin-bottom: 6px;
+    }
+
+    .form-header h2 {
+        font-size: 14px;
+        line-height: 1.25;
+        margin-bottom: 8px;
+    }
+
+    .options-list {
+        gap: 7px;
+    }
+
+    .option-card,
+    .option-card-custom {
+        min-height: 48px;
+        height: auto;
+        padding: 8px 12px;
+        border-width: 2px;
+    }
+
+    .option-text {
+        font-size: 14px;
+        line-height: 1.25;
+    }
+
+    .form-footer {
+        margin-top: 10px;
+    }
+
+    .btn-primary {
+        min-height: 42px;
+        padding: 9px 16px;
+    }
+}

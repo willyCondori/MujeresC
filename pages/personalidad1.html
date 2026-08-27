@@ -7,70 +7,8 @@
     <title>¿En qué te gustaría mejorar? - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        .option-card,
-        .option-card-custom {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            min-height: 64px;
-            background-color: var(--color-bg-white);
-            color: var(--color-text-body);
-            border: 2px solid var(--color-border-strong);
-            border-radius: var(--radius-option);
-            padding: 16px 20px;
-            cursor: pointer;
-            transition:
-                background-color 0.2s ease,
-                border-color 0.2s ease,
-                color 0.2s ease,
-                box-shadow 0.2s ease,
-                transform 0.15s ease;
-        }
 
-        .option-card:hover,
-        .option-card-custom:hover {
-            border-color: var(--color-primary);
-            background-color: var(--color-primary-bg-soft);
-        }
-
-        .option-card:has(.option-checkbox:checked),
-        .option-card-custom.selected {
-            background-color: var(--color-primary);
-            border-color: var(--color-primary);
-            color: var(--color-bg-white);
-            box-shadow: var(--shadow-btn);
-        }
-
-        .option-card:has(.option-checkbox:checked) .option-text {
-            color: var(--color-bg-white);
-            font-weight: 700;
-        }
-
-        .option-card:active {
-            transform: scale(0.985);
-        }
-
-        .option-text {
-            width: 100%;
-            max-width: 100%;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.5;
-            text-align: center;
-            color: var(--color-text-body);
-            transition: color 0.2s ease;
-        }
-
-        .option-checkbox {
-            position: absolute;
-            opacity: 0;
-            width: 1px;
-            height: 1px;
-            pointer-events: none;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/opcionMultiple.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
 </head>
 
@@ -78,13 +16,17 @@
 
     <main class="main-card">
         <!-- Encabezado -->
+        <a href="edad.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+            </svg>
+        </a>
         <div class="form-header">
             <h1>Completar formulario <br><span class="highlight">#MujeresConPoder</span></h1>
             <h2>¿En qué te gustaría mejorar?</h2>
             <p class="helper-text">Lo que elijas no limitará tus experiencias</p>
         </div>
-
-        <div class="divider"></div>
 
         <!-- Opciones de Selección -->
         <div class="options-list">

@@ -199,117 +199,6 @@
 
     /*
      * ---------------------------------------------------------
-     * BOTÓN ATRÁS
-     * ---------------------------------------------------------
-     */
-
-    function createBackButton() {
-        var page = getCurrentPage();
-
-        var quizNumber = getPageNumber('cuestionario');
-        var personalityNumber = getPageNumber('personalidad');
-
-        var previousPage = null;
-
-        /*
-         * Cuestionarios
-         *
-         * cuestionario1 -> preparacion
-         * cuestionario2 -> cuestionario1
-         * ...
-         * cuestionario12 -> cuestionario11
-         */
-        if (quizNumber !== null) {
-            if (quizNumber === 1) {
-                previousPage = 'preparacion.html';
-            } else {
-                previousPage =
-                    'cuestionario' +
-                    (quizNumber - 1) +
-                    '.html';
-            }
-        }
-
-        /*
-         * Personalidad
-         *
-         * personalidad1 -> cuestionario12
-         * personalidad2 -> personalidad1
-         * ...
-         * personalidad18 -> personalidad17
-         */
-        if (personalityNumber !== null) {
-            if (personalityNumber === 1) {
-                previousPage = 'edad.html';
-            } else {
-                previousPage =
-                    'personalidad' +
-                    (personalityNumber - 1) +
-                    '.html';
-            }
-        }
-
-        if (!previousPage) {
-            return;
-        }
-
-        var main = document.querySelector('main');
-
-        if (!main) {
-            return;
-        }
-
-        var existingButton = document.querySelector(
-            '.back-navigation-button'
-        );
-
-        if (existingButton) {
-            return;
-        }
-
-        var button = document.createElement('a');
-
-        button.href = previousPage;
-        button.className = 'back-navigation-button';
-        button.setAttribute(
-            'aria-label',
-            'Volver a la página anterior'
-        );
-        button.setAttribute(
-            'title',
-            'Volver'
-        );
-
-        button.innerHTML = `
-            <svg
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-                focusable="false"
-            >
-                <path
-                    d="M19 12H5"
-                ></path>
-                <path
-                    d="M12 19l-7-7 7-7"
-                ></path>
-            </svg>
-        `;
-
-        main.insertBefore(
-            button,
-            main.firstChild
-        );
-
-        button.addEventListener(
-            'click',
-            function () {
-                savePersonalityAnswers();
-            }
-        );
-    }
-
-    /*
-     * ---------------------------------------------------------
      * INICIALIZACIÓN
      * ---------------------------------------------------------
      */
@@ -317,7 +206,6 @@
     function initialize() {
         restorePersonalityAnswers();
         setupPersonalityListeners();
-        createBackButton();
     }
 
     if (document.readyState === 'loading') {
