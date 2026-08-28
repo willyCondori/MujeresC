@@ -7,38 +7,6 @@
     <title>Tu plan está listo - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
-
-    <style>
-        /* Ajustes inmediatos para reducir el tamaño del gráfico y su contenedor */
-        .main-card:has(.chart-wrapper) .line-chart,
-        .line-chart {
-            height: 200px !important;
-            min-height: 200 !important;
-        }
-
-        .main-card:has(.chart-wrapper) .chart-wrapper,
-        .chart-wrapper {
-            padding: 10px 10px 6px !important;
-            margin: 4px 0 8px !important;
-        }
-
-        .main-card:has(.chart-wrapper) {
-            height: auto !important;
-            max-height: none !important;
-            padding-top: 20px !important;
-            padding-bottom: 20px !important;
-        }
-
-        .chart-wrapper::after {
-            margin-top: 6px !important;
-            padding: 4px 8px !important;
-        }
-
-        /* Ocultar pseudoelementos voluminosos si es necesario ajustar más espacio */
-        .main-card:has(.chart-wrapper)::before {
-            display: none !important;
-        }
-    </style>
 </head>
 
 <body class="page-container">
@@ -57,7 +25,7 @@
         </div>
 
         <!-- Contenedor del Gráfico Vectorial -->
-        <div class="chart-wrapper">
+        <div class="chart-wrapper chart-wrapper--compact">
             <svg class="line-chart" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet">
                 <!-- Curva de evolución -->
                 <path d="M 30 140 C 90 140, 120 80, 180 80 C 240 80, 260 65, 290 45" fill="none" stroke="#f97316" stroke-width="4" />

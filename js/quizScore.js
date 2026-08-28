@@ -91,8 +91,27 @@
                 respuestaGuardada !== null
             ) {
 
+                // Ya existe una respuesta guardada (la usuaria volvió atrás
+                // o ya había pasado por esta pregunta): restauramos su
+                // selección tal cual la dejó.
                 for (var j = 0; j < radios.length; j++) {
                     radios[j].checked = String(radios[j].value) === String(respuestaGuardada);
+                }
+            } else {
+
+                // No hay respuesta guardada todavía. Puede que el HTML
+                // traiga una opción marcada por defecto (checked). Si es
+                // así, la persistimos de inmediato para que cuente en el
+                // puntaje aunque la usuaria nunca toque el radio y solo
+                // presione "Siguiente".
+                for (var m = 0; m < radios.length; m++) {
+                    if (radios[m].checked) {
+                        saveAnswer(
+                            nombrePregunta,
+                            radios[m].value
+                        );
+                        break;
+                    }
                 }
             }
 
@@ -200,4 +219,10 @@
     };
 
     captureQuestionAnswers();
+
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) {
+            captureQuestionAnswers();
+        }
+    });
 })();

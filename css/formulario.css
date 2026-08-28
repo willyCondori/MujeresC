@@ -75,3 +75,407 @@ select.form-input:valid:not([value=""]) {
         padding: 14px 16px;
     }
 }
+
+/* ==========================================
+VALIDACIÓN DEL FORMULARIO
+========================================== */
+
+.form-field {
+    width: 100%;
+    position: relative;
+}
+
+/* Los mensajes están ocultos inicialmente */
+
+.field-error {
+    display: none;
+    margin-top: 5px;
+    padding-left: 4px;
+    font-size: 12px;
+    line-height: 1.3;
+    color: #d9534f;
+}
+
+/* Mostrar SOLO el mensaje del campo con error */
+
+.form-field.has-error .field-error {
+    display: block;
+}
+
+/* Borde rojo solamente en el campo con error */
+
+.form-field.has-error .form-input {
+    border-color: #d9534f;
+}
+
+/* Select de países */
+
+.country-select {
+    cursor: pointer;
+}
+
+/* ==========================================
+   SELECTOR DE PAÍS
+   ========================================== */
+
+.form-row {
+    position: relative;
+    z-index: 10;
+}
+
+.country-select-wrapper {
+    position: relative;
+    width: 100%;
+    z-index: 100;
+}
+
+/* Botón que muestra el país seleccionado */
+
+.country-select-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    text-align: left;
+    background-image: none;
+
+    color: var(--color-text-faint);
+
+    cursor: pointer;
+
+    position: relative;
+    z-index: 101;
+}
+
+.country-select-trigger.has-value {
+    color: var(--color-text-body);
+}
+
+/* País seleccionado */
+
+.country-select-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Flecha */
+
+.country-select-chevron {
+    flex-shrink: 0;
+    color: #9ca3af;
+
+    transition: transform 0.2s ease;
+}
+
+.country-select-trigger[aria-expanded="true"] .country-select-chevron {
+    transform: rotate(180deg);
+}
+
+
+/* ==========================================
+   MENÚ DESPLEGABLE
+   ========================================== */
+
+.country-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+    max-height: 260px;
+    overflow: hidden;
+}
+
+.country-dropdown[hidden] {
+    display: none !important;
+}
+
+
+/* ==========================================
+   BUSCADOR
+   ========================================== */
+
+.country-search-wrap {
+    padding: 10px;
+
+    background: var(--color-bg-white);
+
+    border-bottom: 1px solid var(--color-border);
+
+    position: relative;
+    z-index: 2;
+}
+
+.country-search {
+    display: block;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+
+    background: var(--color-bg-white);
+
+    font-family: inherit;
+    font-size: 14px;
+
+    color: var(--color-text-body);
+
+    outline: none;
+}
+
+.country-search::placeholder {
+    color: var(--color-text-faint);
+}
+
+.country-search:focus {
+    border-color: var(--color-primary);
+
+    box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+
+/* ==========================================
+   LISTA DE PAÍSES
+   ========================================== */
+
+.country-list {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    width: 100%;
+
+    height: 180px !important;
+    max-height: 180px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+
+    box-sizing: border-box;
+    background: var(--color-bg-white);
+}
+
+
+.country-list::-webkit-scrollbar {
+    width: 7px;
+}
+
+.country-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.country-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.country-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+.country-option {
+    display: flex !important;
+
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 9px 10px;
+
+    margin: 0 !important;
+
+    border-radius: 8px;
+
+    list-style: none !important;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: var(--color-text-body);
+
+    background: transparent;
+
+    transition:
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.country-option:hover {
+    background-color: rgba(139, 92, 246, 0.08);
+}
+
+.country-option.is-active {
+    background-color: rgba(139, 92, 246, 0.08);
+}
+
+.country-option.is-selected {
+    background-color: rgba(139, 92, 246, 0.12);
+
+    font-weight: 700;
+}
+
+
+/* Banderas */
+
+.country-option .fi,
+.country-select-trigger .fi {
+    display: inline-block;
+
+    width: 20px;
+
+    flex-shrink: 0;
+
+    border-radius: 2px;
+}
+
+.country-option .fi {
+    font-size: 18px;
+}
+
+.country-select-trigger .fi {
+    font-size: 18px;
+}
+
+.country-empty {
+    display: block;
+
+    padding: 14px 12px;
+
+    margin: 0;
+
+    text-align: center;
+
+    list-style: none !important;
+
+    font-size: 13px;
+
+    color: var(--color-text-faint);
+}
+
+.form-field:has(.country-select-wrapper) {
+    position: relative;
+    z-index: 100;
+}
+
+.country-select-wrapper {
+    position: relative;
+    z-index: 100;
+}
+
+
+/*
+   Evita que el dropdown sea recortado
+   por el contenedor del formulario.
+*/
+
+.form-fields,
+.form-row,
+.form-field {
+    overflow: visible;
+}
+
+/* ==========================================
+   PREFIJO TELEFÓNICO SEGÚN PAÍS
+   ========================================== */
+
+.phone-input-wrap {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-white);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.phone-input-wrap:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+.phone-code {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-faint);
+    background-color: rgba(0, 0, 0, 0.02);
+    border-right: 1px solid var(--color-border);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.phone-code.has-value {
+    color: var(--color-text-body);
+}
+
+.phone-code .fi {
+    border-radius: 2px;
+    font-size: 16px;
+}
+
+.phone-input-wrap .phone-input {
+    border: none;
+    border-radius: 0;
+    box-shadow: none !important;
+}
+
+/* Ajustar el borde de error para que caiga en el wrapper */
+.form-field.has-error .phone-input-wrap {
+    border-color: #d9534f;
+}
+
+/* Banderas dentro de las opciones del país (reemplaza .flag por .fi) */
+.country-option .fi,
+.country-select-trigger .fi {
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.country-select-trigger {
+    gap: 10px;
+}
+
+.country-select-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}

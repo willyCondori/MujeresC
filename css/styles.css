@@ -405,14 +405,6 @@ textarea {
     box-shadow: var(--shadow-option-selected);
 }
 
-.option-text {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-text-body);
-    max-width: calc(100% - 45px);
-    line-height: 1.5;
-}
-
 .option-text-normal {
     font-size: 13px;
     font-weight: 600;
@@ -503,62 +495,6 @@ textarea {
     padding-top: 20px;
     margin-top: auto;
 }
-
-.profile-summary-box {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    background: var(--color-bg-white);
-    border: 1.5px solid var(--color-border);
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 12px;
-    box-shadow: var(--shadow-card-soft);
-}
-
-.profile-text-data {
-    font-size: 20px;
-    color: var(--color-text-body);
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.profile-avatar {
-    flex-shrink: 0;
-    width: 200px;
-    height: 200px;
-    background: #f8fafc;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border: 1px solid #f1f5f9;
-}
-
-.profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transform: scale(2.2);
-    transform-origin: center center;
-}
-
-.profile-info-box {
-    background: var(--color-bg-white);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: 16px;
-    font-size: 18px;
-    color: var(--color-text-muted);
-    line-height: 1.5;
-    margin-bottom: 15px;
-    box-shadow: var(--shadow-card-soft);
-}
-
 
 .progress-bar-container {
     display: flex;
@@ -1076,7 +1012,7 @@ textarea {
 }
 
 .chart-footer-text {
-    margin: 18px auto 16px;
+    margin: 10px auto 12px;
     max-width: 450px;
     text-align: center;
     color: var(--color-text-muted);
@@ -1219,8 +1155,13 @@ textarea {
 .main-card:has(.chart-wrapper) {
     position: relative;
     overflow: hidden;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
+/* El círculo decorativo de fondo queda oculto en las dos páginas que
+   usan .chart-wrapper (personalidad10.html y personalidad18.html). */
 .main-card:has(.chart-wrapper)::before {
     content: "";
     position: absolute;
@@ -1232,6 +1173,7 @@ textarea {
     background: rgba(139, 92, 246, 0.07);
     border-radius: 50%;
     pointer-events: none;
+    display: none;
 }
 
 .main-card:has(.chart-wrapper) .form-header {
@@ -1262,19 +1204,34 @@ textarea {
     position: relative;
     z-index: 1;
     width: 100%;
-    margin: 5px 0 18px !important;
-    padding: 18px 14px 14px;
+    margin: 4px 0 8px;
+    padding: 10px 10px 6px;
     background: linear-gradient(145deg, #ffffff 0%, #faf5ff 100%);
     border: 1px solid #ede9fe;
     border-radius: var(--radius-lg);
     box-shadow: 0 12px 30px rgba(139, 92, 246, 0.08), 0 3px 8px rgba(0, 0, 0, 0.025);
 }
 
+.main-card:has(.chart-wrapper) .chart-wrapper::after {
+    margin-top: 6px;
+    padding: 4px 8px;
+}
+
 .main-card:has(.chart-wrapper) .line-chart {
     width: 100%;
-    height: clamp(180px, 32vw, 240px);
+    height: 300px;
+    min-height: 300px;
     display: block;
     overflow: visible;
+}
+
+/* Variante compacta del gráfico en sí: personalidad18.html lo usa más
+   pequeño que personalidad10.html. Se activa agregando la clase
+   "chart-wrapper--compact" solo en esa página. */
+.main-card:has(.chart-wrapper--compact) .line-chart,
+.chart-wrapper--compact .line-chart {
+    height: 200px;
+    min-height: 200px;
 }
 
 .main-card:has(.chart-wrapper) .line-chart path {

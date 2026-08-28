@@ -10,6 +10,116 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
     <link rel="stylesheet" href="../css/resumenPerfil.css">
+
+    <style>
+        /* === DISTRIBUCIÓN VERTICAL Y RESPONSIVA === */
+        
+        .main-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 85vh; /* Ocupa la mayor parte de la pantalla verticalmente */
+            box-sizing: border-box;
+            padding: 1.5rem;
+        }
+
+        /* Agrupador interno para que el contenido mantenga estructura fluida */
+        .profile-content-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            flex: 1;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        /* Ajuste de tarjetas para abarcar bien el espacio */
+        .profile-summary-box,
+        .profile-info-box {
+            width: 100%;
+            box-sizing: border-box;
+            background: #ffffff;
+            border: 1px solid rgba(147, 51, 234, 0.15);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .profile-summary-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .profile-summary-box:hover,
+        .profile-info-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.1);
+        }
+
+        /* Estilizado del avatar */
+        .profile-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar img {
+            width: 85px;
+            height: 85px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #f3e8ff;
+            background-color: #faf5ff;
+            transform: scale(5);
+        }
+
+        /* Tipografía y espaciado */
+        .label-purple {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #3c07b6;
+            margin-bottom: 0.2rem;
+            display: inline-block;
+        }
+
+        .profile-text-data p {
+            margin-bottom: 0.75rem;
+        }
+
+        .profile-text-data p:last-child {
+            margin-bottom: 0;
+        }
+
+        .profile-text-data strong {
+            font-size: 1.1rem;
+            color: #111827;
+        }
+
+        .info-description {
+            line-height: 1.6;
+            color: #4b5563;
+            font-size: 0.95rem;
+            margin-top: 0.4rem;
+        }
+
+        /* Footer y Botón */
+        .form-footer {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .btn-primary.profile-button {
+            width: 100%;
+            display: block;
+            text-align: center;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 
 <body class="page-container">
@@ -19,13 +129,13 @@
         <!-- Botón volver -->
         <a href="personalidad13.html" class="back-navigation-button" aria-label="Volver" title="Volver">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M19 12H5"></path>
-                <path d="M12 19l-7-7 7-7"></path>
+                <path d="M19 12H5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </a>
 
         <!-- Encabezado -->
-        <div class="form-header profile-header">
+        <header class="form-header profile-header">
             <h1>
                 Completar formulario
                 <br>
@@ -33,55 +143,58 @@
             </h1>
 
             <h2>Resumen de tu perfil</h2>
+        </header>
+
+        <!-- Bloque contenedor central de tarjetas -->
+        <div class="profile-content-body">
+
+            <!-- Tarjeta superior: Datos y Avatar -->
+            <section class="profile-summary-box">
+                <div class="profile-text-data">
+                    <p>
+                        <span class="label-purple">MOTIVACIÓN:</span><br>
+                        <strong>Alta</strong>
+                    </p>
+
+                    <p>
+                        <span class="label-purple">POSIBILIDAD:</span><br>
+                        <strong>Alta</strong>
+                    </p>
+
+                    <p>
+                        <span class="label-purple">PERSONALIDAD:</span><br>
+                        <strong>Extrovertida</strong>
+                    </p>
+                </div>
+
+                <div class="profile-avatar">
+                    <img src="../assets/img/avatars/rango1.jfif" 
+                         alt="Avatar Perfil"
+                         loading="lazy"
+                         onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:user.svg';">
+                </div>
+            </section>
+
+            <!-- Tarjeta inferior: Información -->
+            <section class="profile-info-box">
+                <span class="label-purple label-info">INFORMACIÓN:</span>
+
+                <p class="info-description">
+                    Una mujer extrovertida y ambiciosa, orientada a crear su
+                    propia empresa, que busca superar el exceso de pensamiento
+                    y la procrastinación para comprometerse con más de 20
+                    minutos diarios en su desarrollo profesional.
+                </p>
+            </section>
+
         </div>
 
-        <!-- Tarjeta superior: Datos y Avatar -->
-        <div class="profile-summary-box">
-
-            <div class="profile-text-data">
-                <p>
-                    <span class="label-purple">Motivación:</span><br>
-                    <strong>Alto</strong>
-                </p>
-
-                <p>
-                    <span class="label-purple">Posibilidad:</span><br>
-                    <strong>Alto</strong>
-                </p>
-
-                <p>
-                    <span class="label-purple">Personalidad:</span><br>
-                    <strong>Extrovertida</strong>
-                </p>
-            </div>
-
-            <div class="profile-avatar">
-                <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Perfil"
-                    onerror="this.src='https://api.iconify.design/lucide:user.svg'">
-            </div>
-
-        </div>
-
-        <!-- Tarjeta inferior: Información -->
-        <div class="profile-info-box">
-
-            <p class="label-purple label-info">Información:</p>
-
-            <p class="info-description">
-                Una mujer extrovertida y ambiciosa, orientada a crear su
-                propia empresa, que busca superar el exceso de pensamiento
-                y la procrastinación para comprometerse con más de 20
-                minutos diarios en su desarrollo profesional.
-            </p>
-
-        </div>
-
-        <!-- Botón continuar -->
-        <div class="form-footer">
-            <a href="personalidad15.html" class="btn-primary profile-button">
+        <!-- Botón continuar pegado al final -->
+        <footer class="form-footer">
+            <a href="personalidad15.html" class="btn-primary profile-button" data-transition="up">
                 CONTINUAR
             </a>
-        </div>
+        </footer>
 
     </main>
 

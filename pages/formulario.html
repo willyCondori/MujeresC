@@ -5,58 +5,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Completar formulario - #MujeresConPoder</title>
+
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/formulario.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
+
+    <!-- CSS de intl-tel-input -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
+
+    <style>
+        /* ==========================================
+           ESTILOS Y FIXES DEL FORMULARIO
+           ========================================== */
+        .main-card {
+            height: auto !important;
+            min-height: auto;
+            max-height: none !important;
+            overflow: visible !important;
+            padding-bottom: 24px;
+        }
+
+        body.page-container,
+        .page-container {
+            height: auto !important;
+            min-height: 100vh;
+            overflow-y: auto !important;
+        }
+
+        .form-fields {
+            flex-grow: 0 !important;
+        }
+
+        .page-container,
+        .main-card,
+        .form-fields,
+        .form-field {
+            overflow: visible !important;
+        }
+
+        /* Ajustes para intl-tel-input */
+        .iti {
+            width: 100%;
+        }
+
+        .iti__country-list {
+            z-index: 9999 !important;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Mensajes de error */
+        .form-field.has-error input,
+        .form-field.has-error select,
+        .form-field.has-error .iti {
+            border-color: #e53e3e !important;
+            background-color: #fff5f5;
+        }
+
+        .form-field .field-error {
+            color: #e53e3e;
+            font-size: 12px;
+            margin-top: 4px;
+            display: block;
+            font-weight: 500;
+        }
+    </style>
+
+    <!-- JS de intl-tel-input -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 </head>
 
 <body class="page-container">
 
     <main class="main-card">
+
         <a href="personalidad15.html" class="back-navigation-button" aria-label="Volver" title="Volver">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M19 12H5"></path>
                 <path d="M12 19l-7-7 7-7"></path>
             </svg>
         </a>
+
         <div class="form-header">
             <h1>Completar <br>formulario</h1>
             <p class="form-subtitle highlight">#MujeresConPoder</p>
         </div>
 
         <p class="helper-text text-center">
-            Hoy comienza tu transformación. Para ofrecerte un diagnóstico personalizado, necesitamos conocer tu perfil.
+            Hoy comienza tu transformación. Para ofrecerte un diagnóstico personalizado,
+            necesitamos conocer tu perfil.
         </p>
 
-        <form class="form-fields" id="formPerfil">
-            <input type="text" class="form-input" name="nombre" placeholder="Nombre completo" required>
-            <input type="email" class="form-input" name="correo" placeholder="Correo electrónico" required>
-            <input type="tel" class="form-input" name="whatsapp" placeholder="WhatsApp" required>
+        <form class="form-fields" id="formPerfil" novalidate>
 
-            <div class="form-row">
-                <input type="text" class="form-input" name="ciudad" placeholder="Ciudad" required>
-                <input type="text" class="form-input" name="pais" placeholder="País" required>
+            <!-- Nombre -->
+            <div class="form-field">
+                <input type="text" class="form-input" name="nombre" placeholder="Nombre completo" autocomplete="name"
+                    required>
             </div>
 
-            <select class="form-input" name="ocupacion" required>
-                <option value="" selected disabled hidden>Selecciona tu ocupación...</option>
-                <option value="empleada">Empleada</option>
-                <option value="independiente">Trabajadora independiente</option>
-                <option value="emprendedora">Emprendedora</option>
-                <option value="estudiante">Estudiante</option>
-                <option value="ama-de-casa">Ama de casa</option>
-                <option value="otro">Otro</option>
-            </select>
+            <!-- Correo -->
+            <div class="form-field">
+                <input type="email" class="form-input" name="correo" placeholder="Correo electrónico"
+                    autocomplete="email" required>
+            </div>
+
+
+            <!-- WhatsApp (Integrado con Selector de País) -->
+            <div class="form-field">
+                <input type="tel" class="form-input" name="whatsapp" id="whatsapp" placeholder="Número de WhatsApp"
+                    inputmode="numeric" required>
+            </div>
+
+            <!-- Ciudad -->
+            <div class="form-field">
+                <input type="text" class="form-input" name="ciudad" placeholder="Ciudad" autocomplete="address-level2"
+                    required>
+            </div>
+            <!-- Campo oculto para almacenar el código de país (ISO2) -->
+            <input type="hidden" name="pais" id="pais" required>
+
+            <!-- Ocupación -->
+            <div class="form-field">
+                <select class="form-input" name="ocupacion" required>
+                    <option value="" selected disabled hidden>Selecciona tu ocupación...</option>
+                    <option value="empleada">Empleada</option>
+                    <option value="independiente">Trabajadora independiente</option>
+                    <option value="emprendedora">Emprendedora</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="ama-de-casa">Ama de casa</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
         </form>
 
         <div class="form-footer">
-            <a href="personalidad17.html" class="btn-primary btn-submit">CONTINUAR</a>
+            <button type="submit" form="formPerfil" class="btn-primary btn-submit">CONTINUAR</button>
         </div>
 
     </main>
 
+    <script src="../js/formulario.js" defer></script>
     <script src="../js/pageTransitions.js" defer></script>
-
 </body>
 
 </html>

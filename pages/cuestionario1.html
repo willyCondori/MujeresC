@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dimensión 1 - Autoestima - #MujeresConPoder</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/backNavigation.css">
 </head>
 
@@ -18,56 +19,50 @@
                 <path d="M12 19l-7-7 7-7"></path>
             </svg>
         </a>
-        <!-- Barra de progreso superior de 3 secciones (Primera barra activa) -->
+
         <div class="progress-bar-container">
             <div class="progress-step active"></div>
             <div class="progress-step"></div>
             <div class="progress-step"></div>
         </div>
 
-        <!-- Etiqueta de la dimensión -->
         <div class="dimension-badge-wrapper">
             <span class="dimension-badge">
                 Dimensión 1 - Autoestima
             </span>
         </div>
 
-        <!-- Título de la pregunta -->
-        <div class="form-header" style="margin-bottom: 20px;">
-            <h2 class="form-header-title">
-                ¿Confías en tus capacidades para alcanzar metas importantes?
-            </h2>
+        <div class="form-header">
+            <h2>¿Confías en tus capacidades para alcanzar metas importantes?</h2>
         </div>
 
-        <!-- Opciones de respuesta -->
         <div class="options-list">
-            <label class="option-card-custom">
-                <span class="option-text-normal">1 = Nunca</span>
-                <input type="radio" name="pregunta_autoestima" class="option-radio" value="1">
+            <label class="option-card">
+                <span class="option-text">1 = Nunca</span>
+                <input type="radio" name="pregunta_autoestima" class="option-checkbox" value="1">
             </label>
 
-            <label class="option-card-custom">
-                <span class="option-text-normal">2 = A veces</span>
-                <input type="radio" name="pregunta_autoestima" class="option-radio" value="2">
+            <label class="option-card">
+                <span class="option-text">2 = A veces</span>
+                <input type="radio" name="pregunta_autoestima" class="option-checkbox" value="2">
             </label>
 
-            <!-- Opción seleccionada por defecto con borde y fondo activo -->
-            <label class="option-card-custom">
-                <span class="option-text-normal">3 = Frecuentemente</span>
-                <input type="radio" name="pregunta_autoestima" class="option-radio" value="3" checked>
+            <label class="option-card">
+                <span class="option-text">3 = Frecuentemente</span>
+                <input type="radio" name="pregunta_autoestima" class="option-checkbox" value="3" checked>
             </label>
 
-            <label class="option-card-custom">
-                <span class="option-text-normal">4 = Siempre</span>
-                <input type="radio" name="pregunta_autoestima" class="option-radio" value="4">
+            <label class="option-card">
+                <span class="option-text">4 = Siempre</span>
+                <input type="radio" name="pregunta_autoestima" class="option-checkbox" value="4">
             </label>
         </div>
 
-        <!-- Botón de siguiente -->
-        <a href="cuestionario2.html" class="btn-action-primary">
-            Siguiente
-        </a>
+        <div class="form-footer">
+            <a href="cuestionario2.html" class="btn-primary">SIGUIENTE</a>
+        </div>
     </main>
+
     <script src="../js/backNavigation.js" defer></script>
     <script src="../js/quizScore.js" defer></script>
     <script src="../js/pageTransitions.js" defer></script>
