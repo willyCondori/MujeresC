@@ -99,11 +99,6 @@
                 }
             } else {
 
-                // No hay respuesta guardada todavía. Puede que el HTML
-                // traiga una opción marcada por defecto (checked). Si es
-                // así, la persistimos de inmediato para que cuente en el
-                // puntaje aunque la usuaria nunca toque el radio y solo
-                // presione "Siguiente".
                 for (var m = 0; m < radios.length; m++) {
                     if (radios[m].checked) {
                         saveAnswer(
