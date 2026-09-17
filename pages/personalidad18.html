@@ -24,39 +24,49 @@
             <p class="header-description">
                 Estás a un paso de decidir potenciar tus habilidades, autoconfianza y respeto por ti misma.
             </p>
-            <h2>Tu plan de crecimiento está listo.</h2>
+            <h2>Tu plan de empoderamiento está listo.</h2>
         </div>
 
         <!-- Contenedor del Gráfico Vectorial -->
         <div class="chart-wrapper chart-wrapper--compact">
-            <svg class="line-chart" viewBox="0 0 320 180" preserveAspectRatio="xMidYMid meet">
-                <!-- Curva de evolución -->
-                <path d="M 30 140 C 90 140, 120 80, 180 80 C 240 80, 260 65, 290 45" fill="none" stroke="#f97316"
-                    stroke-width="4" />
+            <svg class="line-chart" viewBox="0 0 400 210" style="width: 100%; height: auto; overflow: visible;">
 
-                <!-- Punto inicial (Ahora) -->
-                <circle cx="30" cy="140" r="6" fill="#fff" stroke="#f1f5f9" stroke-width="3" />
-                <g transform="translate(15, 95)">
-                    <rect width="50" height="22" rx="6" fill="#1e293b" />
-                    <text x="25" y="15" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">Ahora</text>
+                <!-- Curva de evolución (Inicia en X=45 y termina en X=355) -->
+                <path d="M 45 130 
+                 C 105 130, 125 85, 150 80 
+                 C 185 75, 215 70, 250 65 
+                 C 290 58, 320 38, 355 25" fill="none" stroke="#f97316" stroke-width="4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+
+                <!-- PUNTO INICIAL - Semana 1 (X = 45) -->
+                <circle cx="45" cy="130" r="6" fill="#fff" stroke="#f1f5f9" stroke-width="3" />
+
+                <!-- Etiqueta "Ahora" (Centrada en X = 45) -->
+                <g transform="translate(45, 85)">
+                    <rect x="-27" y="0" width="54" height="22" rx="6" fill="#1e293b" />
+                    <text x="0" y="15" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">Ahora</text>
                 </g>
 
-                <!-- Punto final (Después de 4 semanas) -->
-                <circle cx="290" cy="45" r="6" fill="#fff" stroke="#f1f5f9" stroke-width="3" />
-                <g transform="translate(170, 10)">
-                    <rect width="130" height="24" rx="6" fill="#1e293b" />
-                    <text x="65" y="16" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">Después de 4
+                <!-- PUNTO FINAL - Semana 4 (X = 355) -->
+                <circle cx="355" cy="25" r="6" fill="#fff" stroke="#f1f5f9" stroke-width="3" />
+
+                <!-- Etiqueta "Después de 4 semanas" (Alineada sobre X = 355) -->
+                <g transform="translate(355, -5)">
+                    <rect x="-125" y="0" width="130" height="24" rx="6" fill="#1e293b" />
+                    <text x="-60" y="16" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">Después de 4
                         semanas</text>
                 </g>
-            </svg>
 
-            <!-- Etiquetas del Eje X -->
-            <div class="chart-axis-x">
-                <span>Semana 1</span>
-                <span>Semana 2</span>
-                <span>Semana 3</span>
-                <span>Semana 4</span>
-            </div>
+                <!-- EJE X - Textos alineados exactamente en las mismas coordenadas X -->
+                <text x="45" y="175" font-size="12" fill="#94a3b8" font-weight="600" text-anchor="middle">Semana
+                    1</text>
+                <text x="148" y="175" font-size="12" fill="#94a3b8" font-weight="600" text-anchor="middle">Semana
+                    2</text>
+                <text x="252" y="175" font-size="12" fill="#94a3b8" font-weight="600" text-anchor="middle">Semana
+                    3</text>
+                <text x="355" y="175" font-size="12" fill="#94a3b8" font-weight="600" text-anchor="middle">Semana
+                    4</text>
+            </svg>
 
             <!-- Subetiqueta interna -->
             <div style="text-align: center; margin-top: 8px;">

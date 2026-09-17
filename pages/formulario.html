@@ -69,6 +69,12 @@
             display: block;
             font-weight: 500;
         }
+
+        /* Select de departamento deshabilitado mientras carga o si no aplica */
+        select.form-input:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 
     <!-- JS de intl-tel-input -->
@@ -111,27 +117,46 @@
             </div>
 
 
-            <!-- WhatsApp (Integrado con Selector de País) -->
+            <!-- WhatsApp -->
             <div class="form-field">
                 <input type="tel" class="form-input" name="whatsapp" id="whatsapp" placeholder="Número de WhatsApp"
                     inputmode="numeric" required>
             </div>
 
+            <!-- Departamento / Estado / Provincia -->
+            <div class="form-field">
+                <select class="form-input" name="departamento" id="departamento" required disabled>
+                    <option value="" selected disabled hidden>
+                        Selecciona tu departamento / estado...
+                    </option>
+                </select>
+            </div>
+
             <!-- Ciudad -->
             <div class="form-field">
-                <input type="text" class="form-input" name="ciudad" placeholder="Ciudad" autocomplete="address-level2"
-                    required>
+                <select class="form-input" name="ciudad" id="ciudad" required disabled>
+                    <option value="" selected disabled hidden>
+                        Selecciona tu ciudad...
+                    </option>
+                </select>
             </div>
-            <!-- Campo oculto para almacenar el código de país (ISO2) -->
+
+            <!-- País -->
             <input type="hidden" name="pais" id="pais" required>
 
             <!-- Ocupación -->
             <div class="form-field">
                 <select class="form-input" name="ocupacion" required>
-                    <option value="" selected disabled hidden>Selecciona tu ocupación...</option>
+                    <option value="" selected disabled hidden>
+                        Selecciona tu ocupación...
+                    </option>
                     <option value="empleada">Empleada</option>
-                    <option value="profesional-dependiente">Profesional dependiente</option>
-                    <option value="independiente">Trabajadora independiente</option>
+                    <option value="profesional-dependiente">
+                        Profesional dependiente
+                    </option>
+                    <option value="independiente">
+                        Trabajadora independiente
+                    </option>
                     <option value="empresaria">Empresaria</option>
                     <option value="emprendedora">Emprendedora</option>
                     <option value="comerciante">Comerciante</option>

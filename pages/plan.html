@@ -1,180 +1,923 @@
 <!DOCTYPE html>
+
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Planes de Crecimiento - #MujeresConPoder</title>
+
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/plan.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
+    <style>
+        /* === SELECCIÓN DE PAÍS === */
+
+        .country-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .country-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.8rem 0.9rem;
+            box-sizing: border-box;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+        }
+
+        .country-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .country-option--selected {
+            border-color: #8b5cf6;
+
+            background: #faf7ff;
+        }
+
+        .country-option-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+
+        }
+
+        .country-option-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .country-option-text strong {
+            font-size: 0.95rem;
+            color: #222;
+        }
+
+        .country-option-text small {
+            font-size: 0.78rem;
+            color: #777;
+        }
+
+        .country-option:hover {
+            border-color: #8b5cf6;
+        }
+    </style>
 </head>
 
 <body class="page-container">
 
     <main class="main-card plan-page">
 
+        <!-- ==================== HEADER ==================== -->
         <div class="plan-header">
+
             <a href="personalidad18.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+
                     <path d="M19 12H5"></path>
                     <path d="M12 19l-7-7 7-7"></path>
+
                 </svg>
+
             </a>
-            <h1 class="plan-title">Plan de crecimiento</h1>
-            <button id="btnAbrirModal" class="btn-primary btn-header">OBTENER MI PLAN</button>
+
+            <h1 class="plan-title">
+                Plan de crecimiento
+            </h1>
+
+            <button id="btnAbrirModal" class="btn-primary btn-header">
+                OBTENER MI PLAN
+            </button>
+
         </div>
 
+
+        <!-- ==================== COMPARACIÓN DE PERFIL ==================== -->
         <div class="profile-compare">
+
             <div class="profile-col">
-                <p class="profile-col-label">Ahora</p>
+
+                <p class="profile-col-label">
+                    Ahora
+                </p>
+
                 <div class="profile-avatar-small">
+
                     <img src="../assets/img/avatars/rango2.jfif" alt="Avatar"
                         onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+
                 </div>
-                <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Bajo</p>
-                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong>
-                    Principiante</p>
+
+                <p class="profile-col-stat">
+                    <strong>Nivel de confianza:</strong>
+                    Bajo
+                </p>
+
+                <p class="profile-col-stat profile-col-stat--second">
+                    <strong>Capacidad de comunicación:</strong>
+                    Principiante
+                </p>
+
             </div>
+
+
             <div class="profile-col">
-                <p class="profile-col-label profile-col-label--target">Tu objetivo</p>
+
+                <p class="profile-col-label profile-col-label--target">
+                    Tu objetivo
+                </p>
+
                 <div class="profile-avatar-small">
+
                     <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Objetivo"
                         onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+
                 </div>
-                <p class="profile-col-stat"><strong>Nivel de confianza:</strong> Alta</p>
-                <p class="profile-col-stat profile-col-stat--second"><strong>Capacidad de comunicación:</strong> Experto
+
+                <p class="profile-col-stat">
+                    <strong>Nivel de confianza:</strong>
+                    Alta
                 </p>
+
+                <p class="profile-col-stat profile-col-stat--second">
+                    <strong>Capacidad de comunicación:</strong>
+                    Experto
+                </p>
+
             </div>
+
         </div>
 
+
+        <!-- ==================== PLANES ==================== -->
         <div class="options-list plan-options-list">
+
+            <!-- PLAN 24 SEMANAS -->
             <label class="option-card">
+
                 <div>
-                    <span class="option-text plan-name">Plan 24 semanas</span>
-                    <span class="plan-price-old">$74.99</span> $37.99
+
+                    <span class="option-text plan-name">
+                        Plan 24 semanas
+                    </span>
+
+                    <span class="plan-price-old">
+                        $74.99
+                    </span>
+
+                    $37.99
+
                 </div>
+
                 <div class="plan-price-box">
-                    <span class="plan-price-current">$0.45</span>
-                    <span class="plan-price-unit">por día</span>
+
+                    <span class="plan-price-current">
+                        $0.45
+                    </span>
+
+                    <span class="plan-price-unit">
+                        por día
+                    </span>
+
                 </div>
+
                 <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="74.99 USD"
-                    data-price-new="37.80 USD">
+                    data-price-new="37.99 USD">
+
             </label>
 
+
+            <!-- PLAN 12 SEMANAS -->
             <label class="option-card">
+
                 <div>
-                    <span class="option-text plan-name">Plan 12 semanas</span>
-                    <span class="plan-price-old plan-price-old--plain">$39.99</span> $19.99
+
+                    <span class="option-text plan-name">
+                        Plan 12 semanas
+                    </span>
+
+                    <span class="plan-price-old plan-price-old--plain">
+                        $39.99
+                    </span>
+
+                    $19.99
+
                 </div>
+
                 <div class="plan-price-box">
-                    <span class="plan-price-current">$0.48</span>
-                    <span class="plan-price-unit">por día</span>
+
+                    <span class="plan-price-current">
+                        $0.48
+                    </span>
+
+                    <span class="plan-price-unit">
+                        por día
+                    </span>
+
                 </div>
+
                 <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="39.99 USD"
                     data-price-new="19.99 USD" checked>
+
             </label>
 
+
+            <!-- PLAN 4 SEMANAS -->
             <label class="option-card">
+
                 <div>
-                    <span class="option-text plan-name">Plan 4 semanas</span>
-                    <span class="plan-price-old plan-price-old--plain">$19.99</span> $9.99
+
+                    <span class="option-text plan-name">
+                        Plan 4 semanas
+                    </span>
+
+                    <span class="plan-price-old plan-price-old--plain">
+                        $19.99
+                    </span>
+
+                    $9.99
+
                 </div>
+
                 <div class="plan-price-box">
-                    <span class="plan-price-current">$0.71</span>
-                    <span class="plan-price-unit">por día</span>
+
+                    <span class="plan-price-current">
+                        $0.71
+                    </span>
+
+                    <span class="plan-price-unit">
+                        por día
+                    </span>
+
                 </div>
+
                 <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="19.99 USD"
                     data-price-new="9.99 USD">
+
             </label>
+
         </div>
 
-        <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">OBTENER MI PLAN</button>
+
+        <!-- ==================== BOTÓN INFERIOR ==================== -->
+        <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">
+
+            OBTENER MI PLAN
+
+        </button>
+
     </main>
 
+
+    <!-- ========================================================= -->
+    <!-- ==================== MODAL DE PAGO ====================== -->
+    <!-- ========================================================= -->
+
     <div id="modalPago" class="modal-overlay">
+
         <div class="modal-content">
-            <button id="btnCerrarModal" class="modal-close-btn">✕</button>
+
+            <!-- CERRAR -->
+            <button id="btnCerrarModal" class="modal-close-btn" aria-label="Cerrar">
+
+                ✕
+
+            </button>
+
+
+            <!-- TÍTULO -->
             <h3 class="modal-title">
-                El <span class="modal-highlight">91% se queda</span> tras los primeros 30 días
+
+                El
+                <span class="modal-highlight">
+                    91% se queda
+                </span>
+                tras los primeros 30 días
+
             </h3>
+
+
+            <!-- ==================== TOTAL ==================== -->
             <div class="modal-total-box">
-                <span class="modal-total-label">Total:</span>
+
+                <span class="modal-total-label">
+                    Total:
+                </span>
+
                 <div>
-                    <span class="modal-total-old" id="modalPriceOld">39.99 USD</span>
-                    <span class="modal-total-new" id="modalPriceNew">19.99 USD</span>
+
+                    <span id="modalPriceOld" class="modal-total-old">
+
+                        39.99 USD
+
+                    </span>
+
+                    <span id="modalPriceNew" class="modal-total-new">
+
+                        19.99 USD
+
+                    </span>
+
                 </div>
+
             </div>
-            <p class="modal-pay-text">Pague de forma rápida y segura con</p>
-            <div class="payment-methods">
-                <div class="payment-option payment-option--selected" data-method="paypal">
-                    <p class="payment-option-label">Con un clic</p>
-                    <div class="payment-option-content">Pay &nbsp; P<sub>aypal</sub></div>
-                </div>
-                <div class="payment-option" data-method="card">
-                    <p class="payment-option-label">Tarjeta de crédito</p>
-                    <div class="payment-option-content payment-option-content--small">VISA MC DISC AMEX</div>
-                </div>
+
+
+            <!-- ================================================= -->
+            <!-- ==================== PAÍS ======================= -->
+            <!-- ================================================= -->
+
+            <p class="modal-pay-text">
+                Seleccione su país para continuar
+            </p>
+
+
+            <div class="country-selection">
+
+                <!-- ==================== BOLIVIA ==================== -->
+                <label class="country-option country-option--selected">
+
+                    <input type="radio" name="payment_country" value="bolivia" checked>
+
+                    <span class="country-option-icon">
+                        🇧🇴
+                    </span>
+
+                    <span class="country-option-text">
+
+                        <strong>
+                            Bolivia
+                        </strong>
+
+                        <small>
+                            Pago desde Bolivia
+                        </small>
+
+                    </span>
+
+                </label>
+
+
+                <!-- ==================== OTRO PAÍS ==================== -->
+                <label class="country-option">
+
+                    <input type="radio" name="payment_country" value="otro">
+
+                    <span class="country-option-icon">
+                        🌎
+                    </span>
+
+                    <span class="country-option-text">
+
+                        <strong>
+                            Otro país
+                        </strong>
+
+                        <small>
+                            Pago internacional
+                        </small>
+
+                    </span>
+
+                </label>
+
             </div>
-            <a href="preparacion.html" class="btn-pay-final">Pagar con PayPal</a>
+
+
+            <!-- ================================================= -->
+            <!-- ============== PAGO PARA BOLIVIA ================ -->
+            <!-- ================================================= -->
+
+            <div id="paymentBolivia" class="payment-country-content">
+
+                <p class="modal-pay-text">
+                    Pague de forma rápida y segura
+                </p>
+
+
+                <div class="payment-methods">
+
+                    <!-- PAGO QR -->
+                    <div class="payment-option payment-option--selected" data-method="qr">
+
+                        <p class="payment-option-label">
+                            Pago local
+                        </p>
+
+                        <div class="payment-option-content payment-option-content--qr">
+
+                            <span class="payment-icon">
+                                ▣
+                            </span>
+
+                            <span>
+                                Pago con QR
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <!-- TRANSFERENCIA BANCARIA -->
+                    <div class="payment-option" data-method="transferencia">
+
+                        <p class="payment-option-label">
+                            Pago bancario
+                        </p>
+
+                        <div class="payment-option-content payment-option-content--small">
+
+                            <span class="payment-icon">
+                                🏦
+                            </span>
+
+                            <span>
+                                Transferencia bancaria
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- ============ PAGO PARA OTROS PAÍSES ============= -->
+            <!-- ================================================= -->
+
+            <div id="paymentOtro" class="payment-country-content" style="display: none;">
+
+                <p class="modal-pay-text">
+                    Pague de forma rápida y segura con
+                </p>
+
+
+                <div class="payment-methods">
+
+                    <!-- PAYPAL -->
+                    <div class="payment-option payment-option--selected" data-method="paypal">
+
+                        <p class="payment-option-label">
+                            Con un clic
+                        </p>
+
+                        <div class="payment-option-content">
+                            Pay &nbsp; P<sub>aypal</sub>
+                        </div>
+
+                    </div>
+
+
+                    <!-- TARJETA -->
+                    <div class="payment-option" data-method="card">
+
+                        <p class="payment-option-label">
+                            Tarjeta de crédito
+                        </p>
+
+                        <div class="payment-option-content payment-option-content--small">
+                            VISA MC DISC AMEX
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- ================= BOTÓN FINAL =================== -->
+            <!-- ================================================= -->
+
+            <a href="preparacion.html" id="btnPayFinal" class="btn-pay-final">
+
+                Continuar con pago QR
+
+            </a>
+
         </div>
+
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('modalPago');
-            const btnAbrir1 = document.getElementById('btnAbrirModal');
-            const btnAbrir2 = document.getElementById('btnAbrirModalInferior');
-            const btnCerrar = document.getElementById('btnCerrarModal');
 
-            const modalPriceOld = document.getElementById('modalPriceOld');
-            const modalPriceNew = document.getElementById('modalPriceNew');
+    <!-- ========================================================= -->
+    <!-- ==================== JAVASCRIPT ========================= -->
+    <!-- ========================================================= -->
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* =====================================================
+               ELEMENTOS PRINCIPALES
+            ===================================================== */
+
+            const modal =
+                document.getElementById('modalPago');
+
+            const btnAbrir1 =
+                document.getElementById('btnAbrirModal');
+
+            const btnAbrir2 =
+                document.getElementById('btnAbrirModalInferior');
+
+            const btnCerrar =
+                document.getElementById('btnCerrarModal');
+
+            const modalPriceOld =
+                document.getElementById('modalPriceOld');
+
+            const modalPriceNew =
+                document.getElementById('modalPriceNew');
+
+            const btnPayFinal =
+                document.getElementById('btnPayFinal');
+
+
+            /* =====================================================
+               CONTENEDORES DE PAGO
+            ===================================================== */
+
+            const paymentBolivia =
+                document.getElementById('paymentBolivia');
+            const paymentOptionsBolivia =
+                paymentBolivia.querySelectorAll(
+                    '.payment-option'
+                );
+            const paymentOtro =
+                document.getElementById('paymentOtro');
+
+
+            /* =====================================================
+               ACTUALIZAR PRECIOS
+            ===================================================== */
 
             function actualizarPreciosModal() {
-                const planSeleccionado = document.querySelector('input[name="plan_selection"]:checked');
-                if (planSeleccionado) {
-                    modalPriceOld.textContent = planSeleccionado.dataset.priceOld;
-                    modalPriceNew.textContent = planSeleccionado.dataset.priceNew;
+
+                const planSeleccionado =
+                    document.querySelector(
+                        'input[name="plan_selection"]:checked'
+                    );
+
+                if (!planSeleccionado) {
+                    return;
                 }
+
+                modalPriceOld.textContent =
+                    planSeleccionado.dataset.priceOld;
+
+                modalPriceNew.textContent =
+                    planSeleccionado.dataset.priceNew;
+
             }
+
+
+            /* =====================================================
+               ABRIR MODAL
+            ===================================================== */
 
             function abrirModal(e) {
+
                 e.preventDefault();
+
                 actualizarPreciosModal();
+
                 modal.classList.add('is-open');
+
             }
+
+
+            /* =====================================================
+               CERRAR MODAL
+            ===================================================== */
 
             function cerrarModal() {
+
                 modal.classList.remove('is-open');
+
             }
 
-            btnAbrir1?.addEventListener('click', abrirModal);
-            btnAbrir2?.addEventListener('click', abrirModal);
-            btnCerrar?.addEventListener('click', cerrarModal);
 
-            window.addEventListener('click', function (e) {
-                if (e.target === modal) {
-                    cerrarModal();
-                }
-            });
+            btnAbrir1?.addEventListener(
+                'click',
+                abrirModal
+            );
 
-            const paymentOptions = document.querySelectorAll('.payment-option');
-            const btnPayFinal = document.querySelector('.btn-pay-final');
+            btnAbrir2?.addEventListener(
+                'click',
+                abrirModal
+            );
 
-            paymentOptions.forEach((option, index) => {
-                option.addEventListener('click', () => {
-                    paymentOptions.forEach(opt => opt.classList.remove('payment-option--selected'));
-                    option.classList.add('payment-option--selected');
-                    const metodoSeleccionado = option.dataset.method || (index === 0 ? 'paypal' : 'card');
+            btnCerrar?.addEventListener(
+                'click',
+                cerrarModal
+            );
 
-                    if (btnPayFinal) {
-                        btnPayFinal.textContent = metodoSeleccionado === 'card' ? 'Pagar con Tarjeta' : 'Pagar con PayPal';
+
+            /* =====================================================
+               CERRAR AL HACER CLICK FUERA
+            ===================================================== */
+
+            window.addEventListener(
+                'click',
+                function (e) {
+
+                    if (e.target === modal) {
+
+                        cerrarModal();
+
                     }
-                });
-            });
+
+                }
+            );
+
+
+            /* =====================================================
+               MÉTODOS DE PAGO DE OTROS PAÍSES
+            ===================================================== */
+
+            const paymentOptionsOtro =
+                paymentOtro.querySelectorAll(
+                    '.payment-option'
+                );
+
+
+            paymentOptionsOtro.forEach(
+                option => {
+
+                    option.addEventListener(
+                        'click',
+                        () => {
+
+                            paymentOptionsOtro.forEach(
+                                opt => {
+
+                                    opt.classList.remove(
+                                        'payment-option--selected'
+                                    );
+
+                                }
+                            );
+
+
+                            option.classList.add(
+                                'payment-option--selected'
+                            );
+
+
+                            const metodo =
+                                option.dataset.method;
+
+
+                            if (metodo === 'card') {
+
+                                btnPayFinal.textContent =
+                                    'Pagar con Tarjeta';
+
+                            } else {
+
+                                btnPayFinal.textContent =
+                                    'Pagar con PayPal';
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =====================================================
+               MÉTODO QR - BOLIVIA
+            ===================================================== */
+
+            paymentOptionsBolivia.forEach(
+                option => {
+
+                    option.addEventListener(
+                        'click',
+                        () => {
+
+                            /* Quitar selección anterior */
+                            paymentOptionsBolivia.forEach(
+                                opt => {
+
+                                    opt.classList.remove(
+                                        'payment-option--selected'
+                                    );
+
+                                }
+                            );
+
+
+                            /* Seleccionar opción actual */
+                            option.classList.add(
+                                'payment-option--selected'
+                            );
+
+
+                            const metodo =
+                                option.dataset.method;
+
+
+                            /* Cambiar botón */
+                            if (metodo === 'transferencia') {
+
+                                btnPayFinal.textContent =
+                                    'Continuar con transferencia';
+
+                            } else {
+
+                                btnPayFinal.textContent =
+                                    'Continuar con pago QR';
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =====================================================
+               SELECCIÓN DE PAÍS
+            ===================================================== */
+
+            const countryOptions =
+                document.querySelectorAll(
+                    'input[name="payment_country"]'
+                );
+
+            const countryCards =
+                document.querySelectorAll(
+                    '.country-option'
+                );
+
+
+            countryOptions.forEach(
+                option => {
+
+                    option.addEventListener(
+                        'change',
+                        () => {
+
+                            /* -------------------------------------
+                               ACTUALIZAR ESTILO DEL PAÍS
+                            ------------------------------------- */
+
+                            countryCards.forEach(
+                                card => {
+
+                                    card.classList.remove(
+                                        'country-option--selected'
+                                    );
+
+                                }
+                            );
+
+
+                            option.closest(
+                                '.country-option'
+                            )?.classList.add(
+                                'country-option--selected'
+                            );
+
+
+                            /* =====================================
+                               BOLIVIA
+                            ===================================== */
+
+                            if (option.value === 'bolivia') {
+
+                                paymentBolivia.style.display =
+                                    'block';
+
+                                paymentOtro.style.display =
+                                    'none';
+
+
+                                btnPayFinal.textContent =
+                                    'Continuar con pago QR';
+
+                            }
+
+
+                            /* =====================================
+                               OTRO PAÍS
+                            ===================================== */
+
+                            else {
+
+                                paymentBolivia.style.display =
+                                    'none';
+
+                                paymentOtro.style.display =
+                                    'block';
+
+
+                                /*
+                                 * Cada vez que se cambia a
+                                 * otro país, PayPal vuelve
+                                 * a ser la opción inicial.
+                                 */
+
+                                paymentOptionsOtro.forEach(
+                                    opt => {
+
+                                        opt.classList.remove(
+                                            'payment-option--selected'
+                                        );
+
+                                    }
+                                );
+
+
+                                const paypal =
+                                    paymentOtro.querySelector(
+                                        '[data-method="paypal"]'
+                                    );
+
+
+                                paypal?.classList.add(
+                                    'payment-option--selected'
+                                );
+
+
+                                btnPayFinal.textContent =
+                                    'Pagar con PayPal';
+
+                            }
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =====================================================
+               GUARDAR PLAN SELECCIONADO
+            ===================================================== */
+
+            const planes =
+                document.querySelectorAll(
+                    'input[name="plan_selection"]'
+                );
+
+
+            planes.forEach(
+                plan => {
+
+                    plan.addEventListener(
+                        'change',
+                        () => {
+
+                            /*
+                             * Actualizamos el precio
+                             * inmediatamente.
+                             */
+
+                            actualizarPreciosModal();
+
+                        }
+                    );
+
+                }
+            );
+
         });
+
     </script>
+
+
+    <!-- TRANSICIONES -->
     <script src="../js/pageTransitions.js" defer></script>
+
 </body>
 
 </html>
