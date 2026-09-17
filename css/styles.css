@@ -90,16 +90,16 @@ textarea {
 
 .main-card,
 .welcome-container {
-    /* Define un alto fijo con tope máximo de 700px (ajusta este valor a tu gusto) */
-    height: clamp(500px, 85vh, 700px);
-    max-height: 700px;
-    /* Alto máximo absoluto para pantallas muy grandes */
+    /* Alto mínimo de referencia, pero sin tope: si el contenido crece
+       (gráficas, avatar, texto largo), la tarjeta se expande en vez de
+       recortarlo. */
+    min-height: clamp(500px, 85vh, 700px);
     margin: 20px auto;
 }
 
 .main-card {
-    overflow: hidden;
-    /* Asegura que el contenido se distribuya bien dentro del alto máximo */
+    overflow: visible;
+    /* Asegura que el contenido se distribuya bien dentro del alto mínimo */
     justify-content: space-between;
 }
 
@@ -1155,7 +1155,7 @@ textarea {
 
 .main-card:has(.chart-wrapper) {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     height: auto;
     padding-top: 20px;
     padding-bottom: 20px;
