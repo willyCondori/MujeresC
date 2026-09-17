@@ -1798,3 +1798,11 @@ body.page-container.page-enter-up {
         animation: none;
     }
 }
+/* ---------------- RESPONSIVE - FORMULARIOS ---------------- */
+@media (max-width: 600px) {
+
+    .form-header {
+        margin-top: 70px;
+    }
+
+}

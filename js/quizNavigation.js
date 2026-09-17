@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkboxes = optionsList.querySelectorAll('input[type="checkbox"]');
     const inputs = radios.length ? radios : checkboxes;
 
-    console.log(`[quizNavigation] Encontrados ${radios.length} radios y ${checkboxes.length} checkboxes.`);
-
-    // Selección única: avanzar automáticamente
+    // Selección única: avanzar automáticamente (incluso si se reselecciona la misma opción)
     if (radios.length) {
-        optionsList.addEventListener('change', (e) => {
-            if (e.target.matches('input[type="radio"]') && e.target.checked) {
-                console.log('[quizNavigation] Radio seleccionado, avanzando...');
+        optionsList.addEventListener('click', (e) => {
+            const radio = e.target.closest('input[type="radio"]');
+            if (radio && radio.checked) {
                 btnSiguiente.dispatchEvent(new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true,
@@ -32,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSiguiente.addEventListener('click', (e) => {
         const haySeleccion = Array.from(inputs).some(input => input.checked);
         if (!haySeleccion) {
-            console.log('[quizNavigation] Bloqueado: sin selección.');
             e.preventDefault();
             e.stopPropagation();
         }
