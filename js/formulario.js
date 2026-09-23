@@ -4,370 +4,330 @@
  * Modulo:  Navegación de cuestionarios y personalidad
  * Descripcion:
  * Persistencia robusta del formulario con soporte para
- * intl-tel-input, selección dinámica de país,
- * departamento/estado/provincia y ciudad mediante
- * la API pública CountriesNow.
+ * intl-tel-input y Select2 (combos con buscador) para país,
+ * departamento/estado/provincia, ciudad y ocupación.
+ * Los datos de ubicación vienen de la API pública CountriesNow.
+ * El país del select y la bandera del teléfono se sincronizan.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
-    // FORMULARIO
+    // FORMULARIO Y DEPENDENCIAS
     // ==========================================
 
     const form = document.getElementById('formPerfil');
-
     if (!form) return;
 
+    const $ = window.jQuery;
+
+    if (!$ || !$.fn || !$.fn.select2) {
+        console.error('jQuery / Select2 no están cargados. Revisa el <head> del HTML.');
+        return;
+    }
+
     const STORAGE_KEY = 'perfilUsuarioBorrador';
+    const API_URL = 'https://countriesnow.space/api/v0.1/countries';
 
     // ==========================================
     // CAMPOS
     // ==========================================
 
-    const whatsappInput =
-        document.getElementById('whatsapp');
+    const whatsappInput = document.getElementById('whatsapp');
 
-    const paisInput =
-        document.getElementById('pais');
-
-    const departamentoInput =
-        document.getElementById('departamento');
-
-    const ciudadInput =
-        document.getElementById('ciudad');
+    const $pais = $('#pais');
+    const $departamento = $('#departamento');
+    const $ciudad = $('#ciudad');
+    const $ocupacion = $('#ocupacion');
 
     let iti = null;
 
-    // ==========================================
-    // API COUNTRIESNOW
-    // ==========================================
+    // Evita guardar el borrador mientras se está restaurando
+    let restaurando = false;
 
-    const API_URL =
-        'https://countriesnow.space/api/v0.1/countries';
+    // Tokens para descartar respuestas viejas de la API
+    let tokenDepartamentos = 0;
+    let tokenCiudades = 0;
 
     // ==========================================
-    // OBTENER VALOR
+    // HELPERS GENERALES
     // ==========================================
 
     function obtenerValorCampo(nombre) {
-
-        const campo =
-            form.querySelector(
-                `[name="${nombre}"], #${nombre}`
-            );
-
-        return campo
-            ? campo.value
-            : '';
+        const campo = form.querySelector(`[name="${nombre}"]`);
+        return campo ? campo.value : '';
     }
 
-    // ==========================================
-    // OBTENER BORRADOR
-    // ==========================================
-
     function obtenerBorrador() {
-
         try {
-
-            return JSON.parse(
-                localStorage.getItem(
-                    STORAGE_KEY
-                ) || '{}'
-            );
-
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
         } catch (error) {
-
-            console.error(
-                'Error leyendo borrador:',
-                error
-            );
-
+            console.error('Error leyendo borrador:', error);
             return {};
         }
     }
 
-    // ==========================================
-    // GUARDAR BORRADOR
-    // ==========================================
-
     function guardarBorrador() {
+        if (restaurando) return;
 
         const datos = {
-
-            nombre:
-                obtenerValorCampo('nombre'),
-
-            correo:
-                obtenerValorCampo('correo'),
-
-            whatsapp:
-                whatsappInput
-                    ? whatsappInput.value
-                    : '',
-
-            pais:
-                paisInput
-                    ? paisInput.value
-                    : '',
-
-            departamento:
-                departamentoInput
-                    ? departamentoInput.value
-                    : '',
-
-            ciudad:
-                ciudadInput
-                    ? ciudadInput.value
-                    : '',
-
-            ocupacion:
-                obtenerValorCampo('ocupacion')
+            nombre: obtenerValorCampo('nombre'),
+            correo: obtenerValorCampo('correo'),
+            whatsapp: whatsappInput ? whatsappInput.value : '',
+            pais: $pais.val() || '',
+            departamento: $departamento.val() || '',
+            ciudad: $ciudad.val() || '',
+            ocupacion: $ocupacion.val() || ''
         };
 
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(datos)
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(datos));
+        } catch (error) {
+            console.error('No se pudo guardar el borrador:', error);
+        }
+    }
+
+    // ==========================================
+    // SELECT2: HELPERS
+    // ==========================================
+
+    function crearTag(params) {
+        const texto = $.trim(params.term);
+        if (!texto) return null;
+        return { id: texto, text: texto, newTag: true };
+    }
+
+    /*
+     * Inicializa (o re-inicializa) Select2 sobre un select.
+     * Requiere que el select tenga una primera <option></option> vacía.
+     */
+    function iniciarSelect2($select, placeholder, opciones = {}) {
+        if ($select.hasClass('select2-hidden-accessible')) {
+            $select.select2('destroy');
+        }
+
+        $select.select2(Object.assign({
+            width: '100%',
+            language: 'es',
+            placeholder: placeholder,
+            minimumResultsForSearch: 0   // el buscador se muestra siempre
+        }, opciones));
+    }
+
+    /*
+     * Rellena un select y lo re-inicializa con su placeholder.
+     * items: [{ value, text }]
+     */
+    function poblarSelect($select, { placeholder, items = [], deshabilitado = false, manual = false }) {
+        $select.empty().append(new Option('', '', true, true));
+
+        items.forEach((item) => {
+            $select.append(new Option(item.text, item.value));
+        });
+
+        if (manual) {
+            $select.attr('data-manual', 'true');
+        } else {
+            $select.removeAttr('data-manual');
+        }
+
+        $select.prop('disabled', deshabilitado);
+        $select.val('');
+
+        iniciarSelect2(
+            $select,
+            placeholder,
+            manual ? { tags: true, createTag: crearTag } : {}
         );
     }
 
-    // ==========================================
-    // REINICIAR DEPARTAMENTO
-    // ==========================================
+    /*
+     * Asigna un valor al select (solo refresca la UI, no dispara handlers).
+     * Si permitirNuevo es true y el valor no existe, lo agrega.
+     */
+    function asignarValor($select, valor, permitirNuevo = false) {
+        if (!valor) return false;
 
-    function reiniciarDepartamento() {
+        const existe = $select.find('option').toArray().some((o) => o.value === valor);
 
-        if (!departamentoInput) return;
+        if (!existe) {
+            if (!permitirNuevo) return false;
+            $select.append(new Option(valor, valor));
+        }
 
-        departamentoInput.disabled = true;
-
-        departamentoInput.innerHTML = `
-            <option value="" selected disabled hidden>
-                Cargando departamentos / estados...
-            </option>
-        `;
+        $select.val(valor).trigger('change.select2');
+        return true;
     }
 
+    // Fix: con jQuery >= 3.6 Select2 4.0.13 no enfoca el buscador al abrir
+    $(document).on('select2:open', () => {
+        const buscador = document.querySelector(
+            '.select2-container--open .select2-search__field'
+        );
+        if (buscador) buscador.focus();
+    });
+
     // ==========================================
-    // REINICIAR CIUDAD
+    // PAÍSES (desde los datos de intl-tel-input)
     // ==========================================
 
-    function reiniciarCiudad() {
+    const nombreApiPorIso = {};   // ISO2 (mayúscula) -> nombre en inglés para CountriesNow
 
-        if (!ciudadInput) return;
+    const traductorRegiones =
+        (typeof Intl !== 'undefined' && Intl.DisplayNames)
+            ? new Intl.DisplayNames(['es'], { type: 'region' })
+            : null;
 
-        ciudadInput.disabled = true;
+    function limpiarNombre(nombre) {
+        // Quita nombres locales tipo "Afghanistan (افغانستان)" si vinieran en los datos
+        return String(nombre)
+            .replace(/\s*\([^)]*[^\x00-\x7F][^)]*\)\s*$/, '')
+            .trim();
+    }
 
-        ciudadInput.innerHTML = `
-            <option value="" selected disabled hidden>
-                Selecciona primero un departamento...
-            </option>
-        `;
+    function nombreEnEspanol(iso2, respaldo) {
+        try {
+            return (traductorRegiones && traductorRegiones.of(iso2.toUpperCase())) || respaldo;
+        } catch (e) {
+            return respaldo;
+        }
+    }
+
+    const datosPaises = window.intlTelInputGlobals
+        ? window.intlTelInputGlobals.getCountryData()
+        : [];
+
+    const listaPaises = datosPaises
+        .map((pais) => {
+            const iso = pais.iso2.toUpperCase();
+            const nombreApi = limpiarNombre(pais.name);
+            nombreApiPorIso[iso] = nombreApi;
+
+            return { value: iso, text: nombreEnEspanol(iso, nombreApi) };
+        })
+        .sort((a, b) => a.text.localeCompare(b.text, 'es'));
+
+    // ==========================================
+    // ESTADO INICIAL DE LOS COMBOS
+    // ==========================================
+
+    poblarSelect($pais, {
+        placeholder: 'Selecciona tu país...',
+        items: listaPaises
+    });
+
+    poblarSelect($departamento, {
+        placeholder: 'Selecciona un país primero...',
+        deshabilitado: true
+    });
+
+    poblarSelect($ciudad, {
+        placeholder: 'Selecciona primero un departamento...',
+        deshabilitado: true
+    });
+
+    iniciarSelect2($ocupacion, 'Selecciona tu ocupación...');
+
+    // ==========================================
+    // MODO MANUAL (si la API no tiene datos o falla)
+    // ==========================================
+
+    function activarCiudadManual(ciudadGuardada = '') {
+        poblarSelect($ciudad, {
+            placeholder: 'Escribe tu ciudad...',
+            manual: true
+        });
+
+        if (ciudadGuardada) {
+            asignarValor($ciudad, ciudadGuardada, true);
+        }
+    }
+
+    function activarModoManual(guardados = {}) {
+        poblarSelect($departamento, {
+            placeholder: 'Escribe tu departamento / estado...',
+            manual: true
+        });
+
+        if (guardados.departamento) {
+            asignarValor($departamento, guardados.departamento, true);
+        }
+
+        activarCiudadManual(guardados.ciudad || '');
     }
 
     // ==========================================
     // CARGAR DEPARTAMENTOS
     // ==========================================
 
-    async function cargarDepartamentos(
-        nombrePais,
-        departamentoGuardado = ''
-    ) {
+    async function cargarDepartamentos(iso, guardados = {}) {
 
-        if (!departamentoInput) return;
+        const miToken = ++tokenDepartamentos;
+        tokenCiudades++;   // invalida cualquier carga de ciudades en curso
 
-        reiniciarDepartamento();
-        reiniciarCiudad();
-
-        if (!nombrePais) {
-
-            departamentoInput.innerHTML = `
-                <option value="" selected disabled>
-                    Selecciona un país primero...
-                </option>
-            `;
-
+        if (!iso) {
+            poblarSelect($departamento, {
+                placeholder: 'Selecciona un país primero...',
+                deshabilitado: true
+            });
+            poblarSelect($ciudad, {
+                placeholder: 'Selecciona primero un departamento...',
+                deshabilitado: true
+            });
             return;
         }
 
+        poblarSelect($departamento, {
+            placeholder: 'Cargando departamentos / estados...',
+            deshabilitado: true
+        });
+        poblarSelect($ciudad, {
+            placeholder: 'Selecciona primero un departamento...',
+            deshabilitado: true
+        });
+
+        const nombrePais = nombreApiPorIso[iso];
+
         try {
 
-            console.log(
-                'Cargando departamentos de:',
-                nombrePais
+            const response = await fetch(
+                `${API_URL}/states/q?country=${encodeURIComponent(nombrePais)}`
             );
 
-            const response =
-                await fetch(
-                    `${API_URL}/states/q?country=${encodeURIComponent(
-                        nombrePais
-                    )}`
-                );
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-            if (!response.ok) {
+            const resultado = await response.json();
 
-                throw new Error(
-                    `HTTP ${response.status}`
-                );
-            }
+            if (miToken !== tokenDepartamentos) return;   // respuesta vieja
 
-            const resultado =
-                await response.json();
+            const estados = resultado && resultado.data && resultado.data.states;
 
-            console.log(
-                'Respuesta departamentos:',
-                resultado
-            );
-
-            departamentoInput.innerHTML = `
-                <option value="" selected disabled hidden>
-                    Selecciona tu departamento / estado...
-                </option>
-            `;
-
-            /*
-             * CountriesNow devuelve:
-             *
-             * data: {
-             *   name: "Bolivia",
-             *   states: [...]
-             * }
-             */
-
-            if (
-                resultado.error ||
-                !resultado.data ||
-                !Array.isArray(
-                    resultado.data.states
-                ) ||
-                resultado.data.states.length === 0
-            ) {
-
-                /*
-                 * Si el país no tiene estados,
-                 * habilitamos el campo para escribir.
-                 */
-
-                departamentoInput.innerHTML = `
-                    <option value="">
-                        No hay departamentos registrados
-                    </option>
-                `;
-
-                /*
-                 * No dejamos bloqueado el formulario.
-                 */
-
-                departamentoInput.disabled = false;
-
-                ciudadInput.innerHTML = `
-                    <option value="" selected disabled hidden>
-                        Escribe o selecciona tu ciudad...
-                    </option>
-                `;
-
-                ciudadInput.disabled = false;
-
-                ciudadInput.dataset.manual = 'true';
-
+            if (resultado.error || !Array.isArray(estados) || estados.length === 0) {
+                activarModoManual(guardados);
                 return;
             }
 
-            // ==========================================
-            // AGREGAR DEPARTAMENTOS
-            // ==========================================
+            const items = estados
+                .filter((estado) => estado && estado.name)
+                .map((estado) => ({ value: estado.name, text: estado.name }));
 
-            resultado.data.states.forEach(
-                (estado) => {
+            poblarSelect($departamento, {
+                placeholder: 'Selecciona tu departamento / estado...',
+                items
+            });
 
-                    if (
-                        !estado ||
-                        !estado.name
-                    ) {
-                        return;
-                    }
-
-                    const option =
-                        document.createElement(
-                            'option'
-                        );
-
-                    option.value =
-                        estado.name;
-
-                    option.textContent =
-                        estado.name;
-
-                    departamentoInput.appendChild(
-                        option
-                    );
-                }
-            );
-
-            // ==========================================
-            // HABILITAR DEPARTAMENTO
-            // ==========================================
-
-            departamentoInput.disabled = false;
-
-            // ==========================================
-            // RESTAURAR DEPARTAMENTO
-            // ==========================================
-
-            if (departamentoGuardado) {
-
-                const existe =
-                    Array.from(
-                        departamentoInput.options
-                    ).some(
-                        (option) =>
-                            option.value ===
-                            departamentoGuardado
-                    );
-
-                if (existe) {
-
-                    departamentoInput.value =
-                        departamentoGuardado;
-
-                    await cargarCiudades(
-                        nombrePais,
-                        departamentoGuardado,
-                        obtenerValorCampo(
-                            'ciudad'
-                        )
-                    );
-                }
+            // Restaurar departamento (y su ciudad) guardados
+            if (guardados.departamento && asignarValor($departamento, guardados.departamento)) {
+                await cargarCiudades(iso, guardados.departamento, guardados.ciudad || '');
             }
 
         } catch (error) {
 
-            console.error(
-                'Error cargando departamentos:',
-                error
-            );
+            console.error('Error cargando departamentos:', error);
 
-            /*
-             * No bloqueamos el formulario.
-             */
+            if (miToken !== tokenDepartamentos) return;
 
-            departamentoInput.innerHTML = `
-                <option value="">
-                    No se pudieron cargar los departamentos
-                </option>
-            `;
-
-            departamentoInput.disabled = false;
-
-            ciudadInput.innerHTML = `
-                <option value="" selected disabled hidden>
-                    No se pudieron cargar las ciudades
-                </option>
-            `;
-
-            ciudadInput.disabled = false;
-
-            ciudadInput.dataset.manual = 'true';
+            activarModoManual(guardados);
         }
     }
 
@@ -375,409 +335,228 @@ document.addEventListener('DOMContentLoaded', () => {
     // CARGAR CIUDADES
     // ==========================================
 
-    async function cargarCiudades(
-        nombrePais,
-        departamento,
-        ciudadGuardada = ''
-    ) {
+    async function cargarCiudades(iso, departamento, ciudadGuardada = '') {
 
-        if (!ciudadInput) return;
+        const miToken = ++tokenCiudades;
 
-        if (
-            !nombrePais ||
-            !departamento
-        ) {
-
-            reiniciarCiudad();
-
+        if (!iso || !departamento) {
+            poblarSelect($ciudad, {
+                placeholder: 'Selecciona primero un departamento...',
+                deshabilitado: true
+            });
             return;
         }
 
-        ciudadInput.disabled = true;
-
-        ciudadInput.innerHTML = `
-            <option value="" selected disabled>
-                Cargando ciudades...
-            </option>
-        `;
-
-        ciudadInput.removeAttribute(
-            'data-manual'
-        );
+        poblarSelect($ciudad, {
+            placeholder: 'Cargando ciudades...',
+            deshabilitado: true
+        });
 
         try {
 
-            console.log(
-                'Cargando ciudades:',
-                nombrePais,
-                departamento
-            );
+            const response = await fetch(`${API_URL}/state/cities`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    country: nombreApiPorIso[iso],
+                    state: departamento
+                })
+            });
 
-            const response =
-                await fetch(
-                    `${API_URL}/state/cities`,
-                    {
-                        method: 'POST',
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-                        headers: {
-                            'Content-Type':
-                                'application/json'
-                        },
+            const resultado = await response.json();
 
-                        body: JSON.stringify({
+            if (miToken !== tokenCiudades) return;   // respuesta vieja
 
-                            country:
-                                nombrePais,
-
-                            state:
-                                departamento
-                        })
-                    }
-                );
-
-            if (!response.ok) {
-
-                throw new Error(
-                    `HTTP ${response.status}`
-                );
-            }
-
-            const resultado =
-                await response.json();
-
-            console.log(
-                'Respuesta ciudades:',
-                resultado
-            );
-
-            ciudadInput.innerHTML = `
-                <option value="" selected disabled hidden>
-                    Selecciona tu ciudad...
-                </option>
-            `;
-
-            if (
-                resultado.error ||
-                !Array.isArray(
-                    resultado.data
-                ) ||
-                resultado.data.length === 0
-            ) {
-
-                /*
-                 * No existen ciudades registradas.
-                 */
-
-                ciudadInput.innerHTML = `
-                    <option value="" selected disabled>
-                        No hay ciudades disponibles
-                    </option>
-                `;
-
-                /*
-                 * Permitimos continuar sin
-                 * dejar el select bloqueado.
-                 */
-
-                ciudadInput.disabled = false;
-
+            if (resultado.error || !Array.isArray(resultado.data) || resultado.data.length === 0) {
+                activarCiudadManual(ciudadGuardada);
                 return;
             }
 
-            // ==========================================
-            // AGREGAR CIUDADES
-            // ==========================================
+            const items = [...new Set(resultado.data.filter(Boolean))]
+                .map((ciudad) => ({ value: ciudad, text: ciudad }));
 
-            resultado.data.forEach(
-                (ciudad) => {
-
-                    if (!ciudad) return;
-
-                    const option =
-                        document.createElement(
-                            'option'
-                        );
-
-                    option.value =
-                        ciudad;
-
-                    option.textContent =
-                        ciudad;
-
-                    ciudadInput.appendChild(
-                        option
-                    );
-                }
-            );
-
-            // ==========================================
-            // HABILITAR CIUDAD
-            // ==========================================
-
-            ciudadInput.disabled = false;
-
-            // ==========================================
-            // RESTAURAR CIUDAD
-            // ==========================================
+            poblarSelect($ciudad, {
+                placeholder: 'Selecciona tu ciudad...',
+                items
+            });
 
             if (ciudadGuardada) {
-
-                const existe =
-                    Array.from(
-                        ciudadInput.options
-                    ).some(
-                        (option) =>
-                            option.value ===
-                            ciudadGuardada
-                    );
-
-                if (existe) {
-
-                    ciudadInput.value =
-                        ciudadGuardada;
-                }
+                asignarValor($ciudad, ciudadGuardada);
             }
 
         } catch (error) {
 
-            console.error(
-                'Error cargando ciudades:',
-                error
-            );
+            console.error('Error cargando ciudades:', error);
 
-            /*
-             * Si CountriesNow falla,
-             * no bloqueamos al usuario.
-             */
+            if (miToken !== tokenCiudades) return;
 
-            ciudadInput.innerHTML = `
-                <option value="">
-                    No se pudieron cargar las ciudades
-                </option>
-            `;
-
-            ciudadInput.disabled = false;
-
-            ciudadInput.dataset.manual = 'true';
+            activarCiudadManual(ciudadGuardada);
         }
     }
 
     // ==========================================
-    // CAMBIO DE DEPARTAMENTO
+    // MENSAJES DE ERROR
     // ==========================================
 
-    if (departamentoInput) {
+    const mensajesError = {
+        nombre: 'Este campo es obligatorio.',
+        correo: 'Ingresa un correo electrónico válido.',
+        whatsapp: 'Ingresa un número de WhatsApp válido.',
+        pais: 'Selecciona tu país.',
+        departamento: 'Selecciona tu departamento / estado.',
+        ciudad: 'Selecciona tu ciudad.',
+        ocupacion: 'Selecciona una ocupación.'
+    };
 
-        departamentoInput.addEventListener(
-            'change',
-            async () => {
+    function mostrarError(campo) {
+        const contenedor = campo.closest('.form-field');
+        if (!contenedor) return;
 
-                const pais =
-                    paisInput
-                        ? paisInput.value
-                        : '';
+        contenedor.classList.add('has-error');
 
-                const departamento =
-                    departamentoInput.value;
+        if (contenedor.querySelector('.field-error')) return;
 
-                if (
-                    !pais ||
-                    !departamento
-                ) {
-                    return;
-                }
+        const span = document.createElement('span');
+        span.className = 'field-error';
+        span.textContent =
+            mensajesError[campo.name] ||
+            mensajesError[campo.id] ||
+            'Este campo es obligatorio.';
 
-                await cargarCiudades(
-                    obtenerNombrePaisSeleccionado(),
-                    departamento
-                );
+        contenedor.appendChild(span);
+    }
 
-                guardarBorrador();
-            }
-        );
+    function quitarError(campo) {
+        if (!campo || !campo.closest) return;
+
+        const contenedor = campo.closest('.form-field');
+        if (!contenedor) return;
+
+        contenedor.classList.remove('has-error');
+
+        const error = contenedor.querySelector('.field-error');
+        if (error) error.remove();
     }
 
     // ==========================================
-    // OBTENER NOMBRE DEL PAÍS SELECCIONADO
+    // EVENTOS DE LOS COMBOS (jQuery, por Select2)
     // ==========================================
 
-    function obtenerNombrePaisSeleccionado() {
+    // País (select) -> sincroniza teléfono y carga departamentos
+    $pais.on('change', function () {
 
-        if (!iti) return '';
+        quitarError(this);
 
-        const countryData =
-            iti.getSelectedCountryData();
-
-        /*
-         * intl-tel-input proporciona el nombre
-         * del país junto con ISO2.
-         */
+        const iso = this.value;
 
         if (
-            countryData &&
-            countryData.name
+            iti && iso &&
+            iti.getSelectedCountryData().iso2 !== iso.toLowerCase()
         ) {
-
-            return countryData.name;
+            iti.setCountry(iso.toLowerCase());
         }
 
-        return '';
-    }
+        cargarDepartamentos(iso);
+        guardarBorrador();
+    });
+
+    // Departamento -> carga ciudades
+    $departamento.on('change', function () {
+
+        quitarError(this);
+
+        const iso = $pais.val();
+        const departamento = this.value;
+        const esManual = $departamento.attr('data-manual') === 'true';
+
+        // En modo manual la ciudad también es manual: no se consulta la API
+        if (!esManual && iso && departamento) {
+            cargarCiudades(iso, departamento);
+        }
+
+        guardarBorrador();
+    });
+
+    // Ciudad y ocupación
+    $ciudad.add($ocupacion).on('change', function () {
+        quitarError(this);
+        guardarBorrador();
+    });
 
     // ==========================================
-    // CAMBIO DE PAÍS
+    // INTL-TEL-INPUT
     // ==========================================
 
-    async function actualizarPais() {
+    // Si el select de país está vacío, toma el país de la bandera del teléfono
+    function sincronizarPaisDesdeTelefono(forzar = false) {
 
-        if (!iti) return;
+        if (!iti || restaurando) return;
 
-        const countryData =
-            iti.getSelectedCountryData();
+        const data = iti.getSelectedCountryData();
+        if (!data || !data.iso2) return;
 
-        if (
-            !countryData ||
-            !countryData.iso2
-        ) {
-            return;
-        }
+        const iso = data.iso2.toUpperCase();
+        const actual = $pais.val();
 
-        const codigoPais =
-            countryData.iso2.toUpperCase();
+        if (actual === iso) return;
+        if (actual && !forzar) return;
 
-        /*
-         * Nombre que usaremos con CountriesNow.
-         */
+        $pais.val(iso).trigger('change.select2');
+        quitarError($pais[0]);
 
-        const nombrePais =
-            countryData.name || '';
-
-        console.log(
-            'País seleccionado:',
-            nombrePais,
-            codigoPais
-        );
-
-        // ==========================================
-        // GUARDAR ISO2
-        // ==========================================
-
-        if (paisInput) {
-
-            paisInput.value =
-                codigoPais;
-        }
-
-        // ==========================================
-        // REINICIAR UBICACIÓN
-        // ==========================================
-
-        reiniciarDepartamento();
-        reiniciarCiudad();
-
-        // ==========================================
-        // CARGAR DEPARTAMENTOS
-        // ==========================================
-
-        if (nombrePais) {
-
-            await cargarDepartamentos(
-                nombrePais
-            );
-        }
-
-        // ==========================================
-        // GUARDAR
-        // ==========================================
-
+        cargarDepartamentos(iso);
         guardarBorrador();
     }
 
-    // ==========================================
-    // INICIALIZAR INTL-TEL-INPUT
-    // ==========================================
+    if (whatsappInput && window.intlTelInput) {
 
-    if (
-        whatsappInput &&
-        window.intlTelInput
-    ) {
+        // Fix: intl-tel-input usa setSelectionRange, que falla si el input es type="number"
+        whatsappInput.type = 'tel';
 
-        const datos =
-            obtenerBorrador();
+        const setSelectionRangeOriginal = whatsappInput.setSelectionRange.bind(whatsappInput);
 
-        iti =
-            window.intlTelInput(
-                whatsappInput,
-                {
+        whatsappInput.setSelectionRange = function (...args) {
+            try {
+                return setSelectionRangeOriginal(...args);
+            } catch (error) {
+                if (error.name !== 'InvalidStateError') throw error;
+                // Ignorado: el input no soporta selección de cursor
+            }
+        };
 
-                    initialCountry:
-                        datos.pais
-                            ? datos.pais.toLowerCase()
-                            : 'auto',
+        const datos = obtenerBorrador();
 
-                    geoIpLookup:
-                        function (success) {
+        iti = window.intlTelInput(whatsappInput, {
+            initialCountry: datos.pais ? datos.pais.toLowerCase() : 'auto',
 
-                            fetch(
-                                'https://ipapi.co/json/'
-                            )
-                                .then(
-                                    (response) =>
-                                        response.json()
-                                )
-                                .then(
-                                    (data) => {
+            geoIpLookup: function (success) {
+                fetch('https://ipapi.co/json/')
+                    .then((response) => response.json())
+                    .then((data) => {
+                        success(data && data.country_code ? data.country_code : 'BO');
+                    })
+                    .catch(() => success('BO'));
+            },
 
-                                        if (
-                                            data &&
-                                            data.country_code
-                                        ) {
+            preferredCountries: ['bo', 'ar', 'cl', 'co', 'mx', 'pe', 'es', 'us'],
 
-                                            success(
-                                                data.country_code
-                                            );
+            utilsScript:
+                'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
+        });
 
-                                        } else {
+        // Cambio de bandera -> actualiza el select de país
+        whatsappInput.addEventListener('countrychange', () => {
+            sincronizarPaisDesdeTelefono(true);
+        });
 
-                                            success(
-                                                'BO'
-                                            );
-                                        }
-                                    }
-                                )
-                                .catch(
-                                    () => {
-                                        success(
-                                            'BO'
-                                        );
-                                    }
-                                );
-                        },
+        // Cuando termina la detección automática, completa el país si sigue vacío
+        if (iti.promise && typeof iti.promise.then === 'function') {
+            iti.promise.then(() => sincronizarPaisDesdeTelefono(false)).catch(() => { });
+        }
 
-                    preferredCountries: [
-                        'bo',
-                        'ar',
-                        'cl',
-                        'co',
-                        'mx',
-                        'pe',
-                        'es',
-                        'us'
-                    ],
-
-                    utilsScript:
-                        'https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/utils.js'
-                }
-            );
-
-        // ==========================================
-        // CAMBIO DE PAÍS
-        // ==========================================
-
-        whatsappInput.addEventListener(
-            'countrychange',
-            actualizarPais
-        );
+        setTimeout(() => sincronizarPaisDesdeTelefono(false), 0);
     }
 
     // ==========================================
@@ -786,216 +565,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function restaurarBorrador() {
 
-        const datos =
-            obtenerBorrador();
+        const datos = obtenerBorrador();
 
-        if (!datos) return;
+        if (!datos || Object.keys(datos).length === 0) return;
+
+        restaurando = true;
 
         try {
 
-            // ==========================================
-            // CAMPOS NORMALES
-            // ==========================================
+            // Campos normales
+            ['nombre', 'correo'].forEach((nombre) => {
+                const campo = form.querySelector(`[name="${nombre}"]`);
+                if (campo && datos[nombre]) campo.value = datos[nombre];
+            });
 
-            [
-                'nombre',
-                'correo',
-                'ocupacion'
-            ].forEach(
-                (nombre) => {
-
-                    const campo =
-                        form.querySelector(
-                            `[name="${nombre}"]`
-                        );
-
-                    if (
-                        campo &&
-                        datos[nombre]
-                    ) {
-
-                        campo.value =
-                            datos[nombre];
-                    }
-                }
-            );
-
-            // ==========================================
-            // WHATSAPP
-            // ==========================================
-
-            if (
-                datos.whatsapp &&
-                iti
-            ) {
-
-                iti.setNumber(
-                    datos.whatsapp
-                );
+            // Ocupación (Select2)
+            if (datos.ocupacion) {
+                asignarValor($ocupacion, datos.ocupacion);
             }
 
-            // ==========================================
-            // PAÍS
-            // ==========================================
+            // WhatsApp
+            if (datos.whatsapp && iti) {
+                iti.setNumber(datos.whatsapp);
+            }
 
-            if (
-                datos.pais &&
-                iti
-            ) {
+            // País, departamento y ciudad
+            if (datos.pais) {
 
-                iti.setCountry(
-                    datos.pais.toLowerCase()
-                );
+                const iso = datos.pais.toUpperCase();
 
-                if (paisInput) {
-
-                    paisInput.value =
-                        datos.pais.toUpperCase();
+                if (iti && iti.getSelectedCountryData().iso2 !== iso.toLowerCase()) {
+                    iti.setCountry(iso.toLowerCase());
                 }
 
-                /*
-                 * Obtener el nombre real del país
-                 * desde intl-tel-input.
-                 */
+                $pais.val(iso).trigger('change.select2');
 
-                const nombrePais =
-                    obtenerNombrePaisSeleccionado();
-
-                if (nombrePais) {
-
-                    await cargarDepartamentos(
-                        nombrePais,
-                        datos.departamento || ''
-                    );
-                }
+                await cargarDepartamentos(iso, {
+                    departamento: datos.departamento || '',
+                    ciudad: datos.ciudad || ''
+                });
             }
 
         } catch (error) {
 
-            console.error(
-                'Error restaurando formulario:',
-                error
-            );
+            console.error('Error restaurando formulario:', error);
+
+        } finally {
+
+            restaurando = false;
         }
     }
-
-    // ==========================================
-    // INICIAR RESTAURACIÓN
-    // ==========================================
 
     restaurarBorrador();
 
     // ==========================================
-    // GUARDAR AUTOMÁTICAMENTE
+    // GUARDAR AUTOMÁTICAMENTE (inputs normales)
     // ==========================================
 
-    form.addEventListener(
-        'input',
-        guardarBorrador
-    );
-
-    form.addEventListener(
-        'change',
-        guardarBorrador
-    );
-
-    // ==========================================
-    // MENSAJES DE ERROR
-    // ==========================================
-
-    const mensajesError = {
-
-        nombre:
-            'Este campo es obligatorio.',
-
-        correo:
-            'Ingresa un correo electrónico válido.',
-
-        whatsapp:
-            'Ingresa un número de WhatsApp válido.',
-
-        pais:
-            'Selecciona tu país.',
-
-        departamento:
-            'Selecciona tu departamento / estado.',
-
-        ciudad:
-            'Selecciona tu ciudad.',
-
-        ocupacion:
-            'Selecciona una ocupación.'
-    };
-
-    // ==========================================
-    // MOSTRAR ERROR
-    // ==========================================
-
-    function mostrarError(campo) {
-
-        const contenedor =
-            campo.closest('.form-field');
-
-        if (!contenedor) return;
-
-        contenedor.classList.add(
-            'has-error'
-        );
-
-        if (
-            contenedor.querySelector(
-                '.field-error'
-            )
-        ) {
-            return;
-        }
-
-        const span =
-            document.createElement(
-                'span'
-            );
-
-        span.className =
-            'field-error';
-
-        span.textContent =
-            mensajesError[
-                campo.name
-            ] ||
-            mensajesError[
-                campo.id
-            ] ||
-            'Este campo es obligatorio.';
-
-        contenedor.appendChild(
-            span
-        );
-    }
-
-    // ==========================================
-    // QUITAR ERROR
-    // ==========================================
-
-    function quitarError(campo) {
-
-        const contenedor =
-            campo.closest('.form-field');
-
-        if (!contenedor) return;
-
-        contenedor.classList.remove(
-            'has-error'
-        );
-
-        const error =
-            contenedor.querySelector(
-                '.field-error'
-            );
-
-        if (error) {
-            error.remove();
-        }
-    }
+    form.addEventListener('input', (e) => {
+        quitarError(e.target);
+        guardarBorrador();
+    });
 
     // ==========================================
     // VALIDAR
@@ -1003,229 +633,110 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validarCampo(campo) {
 
+        if (!campo.hasAttribute('required')) return true;
+
+        // Departamento y ciudad no pueden estar deshabilitados
         if (
-            !campo.hasAttribute(
-                'required'
-            )
+            (campo.id === 'departamento' || campo.id === 'ciudad') &&
+            campo.disabled
         ) {
-            return true;
-        }
-
-        /*
-         * Departamento y ciudad deben estar
-         * habilitados y tener un valor.
-         */
-
-        if (
-            campo.id === 'departamento' ||
-            campo.id === 'ciudad'
-        ) {
-
-            if (
-                campo.disabled ||
-                !campo.value.trim()
-            ) {
-
-                mostrarError(campo);
-
-                return false;
-            }
-        }
-
-        // ==========================================
-        // WHATSAPP
-        // ==========================================
-
-        if (
-            (
-                campo.id === 'whatsapp' ||
-                campo.name === 'whatsapp'
-            ) &&
-            iti
-        ) {
-
-            if (
-                !iti.isValidNumber()
-            ) {
-
-                mostrarError(campo);
-
-                return false;
-            }
-        }
-
-        // ==========================================
-        // VACÍO
-        // ==========================================
-
-        if (
-            !campo.value.trim()
-        ) {
-
             mostrarError(campo);
-
             return false;
         }
 
-        // ==========================================
-        // VALIDACIÓN HTML
-        // ==========================================
-
-        if (
-            !campo.checkValidity()
-        ) {
-
+        // WhatsApp
+        if (campo.id === 'whatsapp' && iti && !iti.isValidNumber()) {
             mostrarError(campo);
+            return false;
+        }
 
+        // Vacío o inválido según HTML
+        if (!campo.value.trim() || !campo.checkValidity()) {
+            mostrarError(campo);
             return false;
         }
 
         quitarError(campo);
-
         return true;
     }
 
-    // ==========================================
-    // PAGESHOW
-    // ==========================================
+    function enfocarCampo(campo) {
 
-    window.addEventListener(
-        'pageshow',
-        async () => {
+        // Los select con Select2 están ocultos: se lleva la vista a su contenedor
+        if ($(campo).hasClass('select2-hidden-accessible')) {
 
-            await restaurarBorrador();
+            const contenedor = $(campo).next('.select2-container')[0];
 
-            form.querySelectorAll(
-                'input, select'
-            ).forEach(
-                (campo) => {
-                    quitarError(campo);
-                }
-            );
+            if (contenedor) {
+                contenedor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            return;
         }
-    );
+
+        campo.focus();
+    }
+
+    // ==========================================
+    // PAGESHOW (al volver con el botón "atrás")
+    // ==========================================
+
+    window.addEventListener('pageshow', async (event) => {
+
+        if (event.persisted) {
+            await restaurarBorrador();
+        }
+
+        form.querySelectorAll('input, select').forEach(quitarError);
+    });
 
     // ==========================================
     // ENVÍO
     // ==========================================
 
-    form.addEventListener(
-        'submit',
-        (e) => {
+    form.addEventListener('submit', (e) => {
 
-            e.preventDefault();
+        e.preventDefault();
 
-            const campos =
-                form.querySelectorAll(
-                    'input, select'
-                );
+        let formularioValido = true;
+        let primerError = null;
 
-            let formularioValido =
-                true;
+        form.querySelectorAll('input, select').forEach((campo) => {
 
-            let primerError = null;
+            if (!campo.hasAttribute('required')) return;
 
-            campos.forEach(
-                (campo) => {
+            if (!validarCampo(campo)) {
 
-                    if (
-                        !campo.hasAttribute(
-                            'required'
-                        )
-                    ) {
-                        return;
-                    }
+                formularioValido = false;
 
-                    const valido =
-                        validarCampo(campo);
-
-                    if (!valido) {
-
-                        formularioValido =
-                            false;
-
-                        if (
-                            !primerError
-                        ) {
-
-                            primerError =
-                                campo;
-                        }
-                    }
-                }
-            );
-
-            if (!formularioValido) {
-
-                primerError?.focus();
-
-                return;
+                if (!primerError) primerError = campo;
             }
+        });
 
-            // ==========================================
-            // DATOS FINALES
-            // ==========================================
-
-            const datosFormulario = {
-
-                nombre:
-                    obtenerValorCampo(
-                        'nombre'
-                    ),
-
-                correo:
-                    obtenerValorCampo(
-                        'correo'
-                    ),
-
-                whatsapp:
-                    iti
-                        ? iti.getNumber()
-                        : obtenerValorCampo(
-                            'whatsapp'
-                        ),
-
-                pais:
-                    paisInput
-                        ? paisInput.value
-                        : '',
-
-                departamento:
-                    departamentoInput
-                        ? departamentoInput.value
-                        : '',
-
-                ciudad:
-                    ciudadInput
-                        ? ciudadInput.value
-                        : '',
-
-                ocupacion:
-                    obtenerValorCampo(
-                        'ocupacion'
-                    )
-            };
-
-            // ==========================================
-            // GUARDAR
-            // ==========================================
-
-            localStorage.setItem(
-                'perfilUsuario',
-                JSON.stringify(
-                    datosFormulario
-                )
-            );
-
-            guardarBorrador();
-
-            // ==========================================
-            // CONTINUAR
-            // ==========================================
-
-            window.location.href =
-                'personalidad17.html';
+        if (!formularioValido) {
+            if (primerError) enfocarCampo(primerError);
+            return;
         }
-    );
+
+        // ==========================================
+        // DATOS FINALES
+        // ==========================================
+
+        const datosFormulario = {
+            nombre: obtenerValorCampo('nombre'),
+            correo: obtenerValorCampo('correo'),
+            whatsapp: iti ? iti.getNumber() : obtenerValorCampo('whatsapp'),
+            pais: $pais.val() || '',
+            departamento: $departamento.val() || '',
+            ciudad: $ciudad.val() || '',
+            ocupacion: $ocupacion.val() || ''
+        };
+
+        localStorage.setItem('perfilUsuario', JSON.stringify(datosFormulario));
+
+        guardarBorrador();
+
+        window.location.href = 'personalidad17.html';
+    });
 
 });

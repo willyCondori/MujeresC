@@ -13,6 +13,9 @@
     <!-- CSS de intl-tel-input -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css">
 
+    <!-- CSS de Select2 (ANTES de nuestro <style> para que no pise los estilos) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css">
+
     <style>
         /* ==========================================
            ESTILOS Y FIXES DEL FORMULARIO
@@ -70,14 +73,71 @@
             font-weight: 500;
         }
 
-        /* Select de departamento deshabilitado mientras carga o si no aplica */
-        select.form-input:disabled {
-            opacity: 0.6;
+        /* ==========================================
+           SELECT2 ADAPTADO AL FORMULARIO
+           ========================================== */
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 52px;
+            /* igualar a .form-input */
+            border: 1px solid #d9d9d9;
+            /* igualar a .form-input */
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            background: #fff;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            flex: 1;
+            line-height: normal;
+            padding-left: 8px;
+            padding-right: 28px;
+            color: inherit;
+            font: inherit;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #9aa0a6;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            right: 10px;
+        }
+
+        .select2-dropdown {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+        }
+
+        .select2-search--dropdown .select2-search__field {
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        /* Deshabilitado (mientras carga o si no aplica) */
+        .select2-container--default.select2-container--disabled .select2-selection--single {
+            opacity: .6;
             cursor: not-allowed;
+        }
+
+        /* Estado de error */
+        .form-field.has-error .select2-container--default .select2-selection--single {
+            border-color: #e53e3e !important;
+            background-color: #fff5f5;
         }
     </style>
 
-    <!-- JS de intl-tel-input -->
+    <!-- JS: jQuery -> Select2 -> intl-tel-input (sin defer, se cargan antes de formulario.js) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/es.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/js/intlTelInput.min.js"></script>
 </head>
 
@@ -116,47 +176,40 @@
                     autocomplete="email" required>
             </div>
 
-
             <!-- WhatsApp -->
             <div class="form-field">
-                <input type="tel" class="form-input" name="whatsapp" id="whatsapp" placeholder="Número de WhatsApp"
+                <input type="number" class="form-input" name="whatsapp" id="whatsapp" placeholder="Número de WhatsApp"
                     inputmode="numeric" required>
+            </div>
+
+            <!-- País (se llena desde formulario.js y se sincroniza con la bandera del teléfono) -->
+            <div class="form-field">
+                <select class="form-input" name="pais" id="pais" required>
+                    <option></option>
+                </select>
             </div>
 
             <!-- Departamento / Estado / Provincia -->
             <div class="form-field">
                 <select class="form-input" name="departamento" id="departamento" required disabled>
-                    <option value="" selected disabled hidden>
-                        Selecciona tu departamento / estado...
-                    </option>
+                    <option></option>
                 </select>
             </div>
 
             <!-- Ciudad -->
             <div class="form-field">
                 <select class="form-input" name="ciudad" id="ciudad" required disabled>
-                    <option value="" selected disabled hidden>
-                        Selecciona tu ciudad...
-                    </option>
+                    <option></option>
                 </select>
             </div>
 
-            <!-- País -->
-            <input type="hidden" name="pais" id="pais" required>
-
             <!-- Ocupación -->
             <div class="form-field">
-                <select class="form-input" name="ocupacion" required>
-                    <option value="" selected disabled hidden>
-                        Selecciona tu ocupación...
-                    </option>
+                <select class="form-input" name="ocupacion" id="ocupacion" required>
+                    <option></option>
                     <option value="empleada">Empleada</option>
-                    <option value="profesional-dependiente">
-                        Profesional dependiente
-                    </option>
-                    <option value="independiente">
-                        Trabajadora independiente
-                    </option>
+                    <option value="profesional-dependiente">Profesional dependiente</option>
+                    <option value="independiente">Trabajadora independiente</option>
                     <option value="empresaria">Empresaria</option>
                     <option value="emprendedora">Emprendedora</option>
                     <option value="comerciante">Comerciante</option>
@@ -174,6 +227,7 @@
 
     </main>
 
+    <!-- select2Init.js ya NO se usa: su lógica quedó integrada en formulario.js -->
     <script src="../js/formulario.js" defer></script>
     <script src="../js/pageTransitions.js" defer></script>
 </body>
