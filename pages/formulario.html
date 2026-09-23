@@ -18,8 +18,8 @@
 
     <style>
         /* ==========================================
-           ESTILOS Y FIXES DEL FORMULARIO
-           ========================================== */
+   ESTILOS Y FIXES DEL FORMULARIO
+   ========================================== */
         .main-card {
             height: auto !important;
             min-height: auto;
@@ -74,17 +74,15 @@
         }
 
         /* ==========================================
-           SELECT2 ADAPTADO AL FORMULARIO
-           ========================================== */
+   SELECT2 ADAPTADO AL FORMULARIO
+   ========================================== */
         .select2-container {
             width: 100% !important;
         }
 
         .select2-container--default .select2-selection--single {
             height: 52px;
-            /* igualar a .form-input */
             border: 1px solid #d9d9d9;
-            /* igualar a .form-input */
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -131,6 +129,114 @@
         .form-field.has-error .select2-container--default .select2-selection--single {
             border-color: #e53e3e !important;
             background-color: #fff5f5;
+        }
+
+        /* ==========================================
+   AJUSTES RESPONSIVE MÓVIL (Ancho total + Sin Scroll)
+   ========================================== */
+        @media (max-width: 520px) {
+
+            html,
+            body {
+                width: 100% !important;
+                overflow-x: hidden;
+            }
+
+            body.page-container,
+            .page-container {
+                padding: 8px !important;
+                margin: 0 !important;
+                width: 100% !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                align-items: stretch !important;
+                /* Estira la tarjeta a todo el ancho disponible */
+                box-sizing: border-box !important;
+            }
+
+            .main-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                /* Ocupa todo el ancho de la pantalla */
+                padding: 12px 14px !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Elementos internos a ancho total */
+            .form-header,
+            .helper-text,
+            .form-fields,
+            .form-field,
+            .form-footer,
+            .btn-submit,
+            .iti,
+            .select2-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Reducción de espacios verticales para evitar scroll */
+            .back-navigation-button {
+                margin-bottom: 2px !important;
+            }
+
+            .form-header {
+                margin-bottom: 4px !important;
+            }
+
+            .form-header h1 {
+                font-size: 20px !important;
+                line-height: 1.1 !important;
+            }
+
+            .form-header h1 br {
+                display: none;
+            }
+
+            .form-subtitle {
+                margin: 2px 0 6px 0 !important;
+                font-size: 13px !important;
+            }
+
+            .helper-text {
+                font-size: 11px !important;
+                line-height: 1.25 !important;
+                margin-bottom: 8px !important;
+            }
+
+            .form-fields {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 5px !important;
+                /* Espacio compacto entre campos */
+            }
+
+            .form-input,
+            .select2-container--default .select2-selection--single {
+                height: 40px !important;
+                width: 100% !important;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 40px !important;
+            }
+
+            .form-field {
+                margin-bottom: 0 !important;
+            }
+
+            .form-footer {
+                margin-top: 8px !important;
+            }
+
+            .btn-submit {
+                padding: 10px !important;
+                font-size: 13px !important;
+            }
         }
     </style>
 

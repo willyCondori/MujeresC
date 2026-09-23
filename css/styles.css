@@ -1802,7 +1802,7 @@ body.page-container.page-enter-up {
 @media (max-width: 600px) {
 
     .form-header {
-        margin-top: 70px;
+        margin-top: 10px;
     }
 
 }

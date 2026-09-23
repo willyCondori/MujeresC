@@ -1,13 +1,3 @@
-/*
-    Creado: Willy Condori
-    Módulo: Página de planes (plan.html)
-    Descripción: Estilos de la pantalla de selección de plan y su modal
-    de pago. Antes convivían aquí valores "antiguos" (más grandes) junto
-    con un <style> embebido en plan.html que los pisaba todos con
-    !important para achicarlos. Se consolidan en un solo lugar, con los
-    valores finales (compactos) que realmente se estaban usando.
-*/
-
 .plan-page,
 .plan-page * {
     box-sizing: border-box;
@@ -409,7 +399,7 @@
         margin: 0;
         border-radius: 0;
         box-shadow: none;
-        min-height: 100vh;
+        min-height: 50vh;
     }
 
     .profile-avatar-small {
