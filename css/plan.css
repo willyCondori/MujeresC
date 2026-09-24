@@ -1,20 +1,26 @@
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+   ========================================================= */
+
 .plan-page,
 .plan-page * {
     box-sizing: border-box;
 }
 
 
+/* =========================================================
+   ENCABEZADO
+   ========================================================= */
+
 .plan-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 16px;
     width: 100%;
+    margin-bottom: 16px;
 }
 
-/* El botón "Volver" de backNavigation.css es absoluto por defecto;
-   dentro del header del plan va en línea junto al título y al botón. */
 .plan-header .back-navigation-button {
     position: static;
     display: flex;
@@ -27,12 +33,14 @@
 }
 
 .plan-title {
+    flex: 1;
+    margin: 0;
+
     font-size: 18px;
     font-weight: 800;
     line-height: 1.2;
-    color: var(--color-text-dark, #111);
-    margin: 0;
-    flex: 1;
+
+    color: var(--color-text-dark, #111827);
 }
 
 .plan-title br {
@@ -42,41 +50,52 @@
 .btn-header {
     width: auto;
     flex-shrink: 0;
+
     padding: 8px 12px;
+
     font-size: 11px;
     font-weight: 700;
     white-space: nowrap;
+
     border-radius: 20px;
 }
 
-/* ---------- Comparativa de Perfiles ---------- */
+
+/* =========================================================
+   COMPARATIVA DE PERFILES
+   ========================================================= */
 
 .profile-compare {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
+
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 12px 8px;
+
     background: var(--color-bg-alt, #f8f9fa);
     border-radius: 16px;
-    padding: 12px 8px;
-    margin-bottom: 16px;
-    width: 100%;
-    box-sizing: border-box;
 }
 
 .profile-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+
     width: 100%;
     min-width: 0;
+
+    text-align: center;
 }
 
 .profile-col-label {
+    margin: 0 0 6px;
+
     font-size: 12px;
     font-weight: 700;
     color: var(--color-text-muted, #666);
-    margin-bottom: 6px;
+
     white-space: nowrap;
 }
 
@@ -84,67 +103,94 @@
     color: var(--color-primary, #8b5cf6);
 }
 
-/* Imagen fija centrada */
 .profile-avatar-small {
     width: 100%;
     max-width: 150px;
     height: 120px;
-    margin: 0 auto 6px auto;
-    border-radius: 12px;
+
+    margin: 0 auto 6px;
+
     overflow: hidden;
-    background: #fff;
+
+    background: #ffffff;
+    border-radius: 12px;
+
     flex-shrink: 0;
 }
 
 .profile-avatar-small img {
+    display: block;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
-    display: block;
     transform: scale(2);
 }
 
 .profile-col-stat {
-    font-size: 11px;
-    color: var(--color-text-body, #444);
-    line-height: 1.25;
     width: 100%;
+    margin: 0;
+
+    font-size: 11px;
+    line-height: 1.25;
+
+    color: var(--color-text-body, #444);
+
     text-align: center;
     word-break: break-word;
-    margin: 0;
 }
 
 .profile-col-stat--second {
     margin-top: 3px;
 }
 
-/* ---------- Opciones de Planes ---------- */
+
+/* =========================================================
+   TARJETAS DE PLANES
+   ========================================================= */
 
 .plan-options-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+
     width: 100%;
 }
 
 .plan-options-list .option-card {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     width: 100%;
-    padding: 10px 12px;
+    min-width: 0;
+
+    gap: 14px;
+    padding: 13px 14px;
+
     background: #ffffff;
-    border: 1.5px solid var(--color-border, #e5e7eb);
+    border: 1.5px solid #e5e7eb;
     border-radius: 14px;
+
     cursor: pointer;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease;
+
+    box-shadow: 0 2px 5px rgba(45, 32, 70, 0.04);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-.plan-options-list .option-card>div:first-child {
+.plan-options-list .option-card > div:first-child {
     display: flex;
     flex-direction: column;
     gap: 2px;
+
     min-width: 0;
     flex: 1;
 }
@@ -152,282 +198,861 @@
 .plan-name {
     font-size: 13px;
     font-weight: 700;
-    color: var(--color-text-dark, #111);
+
+    color: #111827;
+
+    transition: color 0.2s ease;
 }
 
 .plan-price-old {
     font-size: 10px;
-    color: var(--color-text-faint, #9ca3af);
+    color: #9ca3af;
+
     text-decoration: line-through;
+
+    transition: color 0.2s ease;
+}
+
+.plan-price-new {
+    font-size: 13px;
+    font-weight: 800;
+
+    color: #111827;
+
+    transition: color 0.2s ease;
 }
 
 .plan-price-box {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+
     flex-shrink: 0;
-    margin: 0 10px;
+
+    margin: 0 4px;
 }
 
 .plan-price-current {
     font-size: 15px;
     font-weight: 800;
-    color: var(--color-text-dark, #111);
     line-height: 1;
+
+    color: #111827;
+
+    transition: color 0.2s ease;
 }
 
 .plan-price-unit {
+    margin-top: 3px;
+
     font-size: 9px;
-    color: var(--color-text-muted-2, #6b7280);
-    margin-top: 2px;
+    color: #6b7280;
+
+    transition: color 0.2s ease;
 }
 
-.option-checkbox {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
+
+/* =========================================================
+   HOVER DE PLAN
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+
+    .plan-options-list .option-card:hover {
+        transform: translateY(-2px);
+
+        background: #fcfaff;
+        border-color: #a78bfa;
+
+        box-shadow:
+            0 5px 12px rgba(139, 92, 246, 0.10);
+    }
+}
+
+
+/* =========================================================
+   PLAN SELECCIONADO
+   ========================================================= */
+
+.plan-options-list .option-card:has(.option-checkbox:checked) {
+    transform: translateY(-2px);
+
+    background: #8b5cf6;
+    border-color: #7c3aed;
+
+    box-shadow:
+        0 4px 0 rgba(91, 33, 182, 0.35),
+        0 9px 18px rgba(139, 92, 246, 0.22);
+}
+
+.plan-options-list
+.option-card:has(.option-checkbox:checked)
+.plan-name {
+    color: #ffffff;
+}
+
+.plan-options-list
+.option-card:has(.option-checkbox:checked)
+.plan-price-old {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.plan-options-list
+.option-card:has(.option-checkbox:checked)
+.plan-price-new {
+    color: #ffffff;
+}
+
+.plan-options-list
+.option-card:has(.option-checkbox:checked)
+.plan-price-current {
+    color: #ffffff;
+}
+
+.plan-options-list
+.option-card:has(.option-checkbox:checked)
+.plan-price-unit {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+
+/* =========================================================
+   RADIO PERSONALIZADO
+   ========================================================= */
+
+.plan-options-list .option-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+
+    position: relative;
+
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+
     margin: 0;
+
+    background: #ffffff;
+    border: 2px solid #c4b5fd;
+    border-radius: 50%;
+
     cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
 }
 
-/* Mantiene los textos legibles cuando la tarjeta de plan está
-   seleccionada (checkbox marcado, clase .selected o :active) */
-.plan-options-list .option-card:has(input[type="radio"]:checked),
-.plan-options-list .option-card.selected,
+.plan-options-list .option-checkbox:checked {
+    background: #8b5cf6;
+    border-color: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.plan-options-list .option-checkbox:checked::after {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 7px;
+    height: 7px;
+
+    background: #ffffff;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+
+    animation: radioAppear 0.2s ease both;
+}
+
+@keyframes radioAppear {
+
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.4);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+
+/* =========================================================
+   CLICK / FOCUS
+   ========================================================= */
+
 .plan-options-list .option-card:active {
-    background-color: #ffffff;
-    border-color: var(--color-primary, #8b5cf6);
-    color: var(--color-text-dark, #111827);
+    transform: translateY(0);
 }
 
-.plan-options-list .option-card:has(input[type="radio"]:checked) .plan-name,
-.plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-current,
-.plan-options-list .option-card:has(input[type="radio"]:checked) div {
-    color: var(--color-text-dark, #111827);
+.plan-options-list .option-checkbox:active {
+    transform: scale(0.92);
 }
 
-.plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-old,
-.plan-options-list .option-card:has(input[type="radio"]:checked) .plan-price-unit {
-    color: var(--color-text-muted-2, #6b7280);
+.plan-options-list .option-checkbox:focus-visible {
+    outline: 3px solid rgba(139, 92, 246, 0.25);
+    outline-offset: 2px;
 }
 
-/* ---------- Botón Inferior ---------- */
+
+/* =========================================================
+   BOTÓN INFERIOR
+   ========================================================= */
 
 .btn-bottom {
     width: 100%;
+
     margin-top: 14px;
     padding: 14px;
+
     font-size: 14px;
     font-weight: 700;
+
     border-radius: 30px;
 }
 
-/* ---------- Modal de Pago ---------- */
+
+/* =========================================================
+   MODAL DE PAGO
+   ========================================================= */
 
 .modal-overlay {
     display: none;
+
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+
     align-items: center;
     justify-content: center;
-    padding: 16px;
-    z-index: 1000;
+
+    padding: 20px;
+
+    background: rgba(25, 18, 40, 0.58);
+
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    overflow-y: auto;
 }
 
 .modal-overlay.is-open {
     display: flex;
 }
 
+
+/* =========================================================
+   CONTENEDOR DEL MODAL
+   ========================================================= */
+
 .modal-content {
     position: relative;
-    width: 100%;
-    max-width: 420px;
+
+    width: min(100%, 430px);
+    max-height: calc(100dvh - 40px);
+
+    overflow-y: auto;
+
+    padding: 28px 24px 24px;
+
     background: #ffffff;
-    border-radius: 20px;
-    padding: 24px 20px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.12);
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 50px rgba(31, 20, 48, 0.22),
+        0 4px 14px rgba(31, 20, 48, 0.10);
+
+    animation: modalAppear 0.25s ease both;
 }
+
+@keyframes modalAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================================================
+   BOTÓN CERRAR
+   ========================================================= */
 
 .modal-close-btn {
     position: absolute;
-    top: 14px;
-    left: 14px;
-    width: auto;
-    height: auto;
-    background: transparent;
-    border: none;
+    top: 16px;
+    right: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
     padding: 0;
-    font-size: 16px;
+
+    background: #f5f3ff;
+    border: none;
+    border-radius: 50%;
+
+    color: #6b7280;
+    font-size: 15px;
     line-height: 1;
-    color: var(--color-text-muted, #6b7280);
+
     cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition: color 0.2s ease, transform 0.15s ease;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.15s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
+
     .modal-close-btn:hover {
-        color: var(--color-text-dark, #111827);
+        background: #ede9fe;
+        color: #6d28d9;
+        transform: rotate(4deg);
     }
 }
 
 .modal-close-btn:active {
-    color: var(--color-text-dark, #111827);
     transform: scale(0.9);
 }
 
+
+/* =========================================================
+   TÍTULO DEL MODAL
+   ========================================================= */
+
 .modal-title {
-    font-size: 18px;
-    font-weight: 700;
+    margin: 4px 38px 22px 0;
+
+    font-size: 19px;
+    font-weight: 800;
     line-height: 1.35;
-    color: var(--color-text-dark, #111827);
+
+    color: #1f2937;
+
     text-align: left;
-    margin: 24px 8px 20px 0;
 }
 
 .modal-highlight {
-    color: var(--color-primary, #8b5cf6);
+    color: #8b5cf6;
 }
+
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
 
 .modal-total-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: transparent;
-    padding: 0;
-    margin-bottom: 18px;
+
+    width: 100%;
+
+    margin-bottom: 22px;
+    padding: 13px 15px;
+
+    background: #f8f5ff;
+    border: 1px solid #ede9fe;
+    border-radius: 14px;
 }
 
 .modal-total-label {
     font-size: 13px;
     font-weight: 700;
-    color: var(--color-text-muted, #6b7280);
+    color: #6b7280;
+}
+
+.modal-total-box > div {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
 }
 
 .modal-total-old {
-    font-size: 12px;
-    color: var(--color-text-faint, #9ca3af);
+    font-size: 11px;
+    color: #9ca3af;
+
     text-decoration: line-through;
-    margin-right: 8px;
 }
 
 .modal-total-new {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 800;
-    color: var(--color-text-dark, #111827);
+    color: #7c3aed;
 }
 
+
+/* =========================================================
+   TEXTOS DEL MODAL
+   ========================================================= */
+
 .modal-pay-text {
+    margin: 0 0 11px;
+
     font-size: 12px;
     font-weight: 600;
-    color: var(--color-text-muted, #6b7280);
-    text-align: center;
-    margin-bottom: 12px;
+    line-height: 1.4;
+
+    color: #6b7280;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   SELECCIÓN DE PAÍS
+   ========================================================= */
+
+.country-selection {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.country-option {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    min-width: 0;
+
+    padding: 12px;
+
+    background: #ffffff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+}
+
+.country-option input {
+    position: absolute;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.country-option--selected {
+    background: #f5f3ff;
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 3px 9px rgba(139, 92, 246, 0.10);
+}
+
+.country-option:active {
+    transform: scale(0.98);
+}
+
+.country-option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    flex-shrink: 0;
+
+    background: #f3f4f6;
+    border-radius: 9px;
+
+    font-size: 18px;
+}
+
+.country-option--selected .country-option-icon {
+    background: #ede9fe;
+}
+
+.country-option-text {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 2px;
+}
+
+.country-option-text strong {
+    font-size: 12px;
+    font-weight: 750;
+    color: #1f2937;
+}
+
+.country-option-text small {
+    font-size: 9px;
+    line-height: 1.2;
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   CONTENIDO DE PAGO
+   ========================================================= */
+
+.payment-country-content {
+    width: 100%;
 }
 
 .payment-methods {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
-    margin-bottom: 22px;
+
+    width: 100%;
+
+    margin-bottom: 20px;
 }
 
 .payment-option {
-    flex: 1;
-    border: 1.5px solid var(--color-border, #e5e7eb);
+    position: relative;
+
+    min-width: 0;
+
+    padding: 13px 12px;
+
+    background: #ffffff;
+    border: 1.5px solid #e5e7eb;
     border-radius: 14px;
-    padding: 12px 14px;
+
     cursor: pointer;
     text-align: center;
+
     -webkit-tap-highlight-color: transparent;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
 }
 
-.payment-option:not(.payment-option--selected) {
-    border-color: transparent;
+.payment-option--selected {
+    background: #f5f3ff;
+    border-color: #8b5cf6;
+
+    box-shadow:
+        0 3px 8px rgba(139, 92, 246, 0.10);
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .payment-option:hover {
-        border-color: var(--color-primary, #8b5cf6);
+
+    .payment-option:not(.payment-option--selected):hover {
+        background: #fcfaff;
+        border-color: #c4b5fd;
+
+        transform: translateY(-1px);
     }
 }
 
 .payment-option:active {
-    border-color: var(--color-primary, #8b5cf6);
     transform: scale(0.98);
 }
 
-.payment-option--selected {
-    border-color: var(--color-primary, #8b5cf6);
-    background: var(--color-primary-bg-soft, #f5f3ff);
+.payment-option-label {
+    margin: 0 0 7px;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    color: #9ca3af;
 }
 
-.payment-option-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--color-text-muted, #6b7280);
-    margin-bottom: 6px;
+.payment-option--selected .payment-option-label {
+    color: #7c3aed;
 }
 
 .payment-option-content {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--color-text-dark, #111827);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    min-height: 24px;
+
+    font-size: 13px;
+    font-weight: 750;
+
+    color: #1f2937;
 }
 
 .payment-option-content--small {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    color: var(--color-text-muted-2, #6b7280);
+    letter-spacing: 0.3px;
+
+    color: #6b7280;
 }
+
+.payment-icon {
+    font-size: 17px;
+    color: #8b5cf6;
+}
+
+
+/* =========================================================
+   BOTÓN FINAL DE PAGO
+   ========================================================= */
 
 .btn-pay-final {
     display: flex;
     align-items: center;
     justify-content: center;
+
     width: 100%;
-    padding: 14px;
-    background: #c9b458;
+    min-height: 48px;
+
+    padding: 13px 18px;
+
+    background: #8b5cf6;
     color: #ffffff;
+
+    border: none;
+    border-radius: 30px;
+
     text-align: center;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 700;
-    border-radius: 30px;
-    transition: background 0.2s ease, transform 0.2s ease;
+
+    font-size: 13px;
+    font-weight: 750;
+
+    box-shadow:
+        0 4px 0 rgba(91, 33, 182, 0.28),
+        0 7px 14px rgba(139, 92, 246, 0.16);
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.15s ease,
+        box-shadow 0.2s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
+
     .btn-pay-final:hover {
-        background: #b39f4a;
-        transform: translateY(-1px);
+        background: #7c3aed;
+
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 6px 0 rgba(91, 33, 182, 0.28),
+            0 10px 18px rgba(139, 92, 246, 0.20);
     }
 }
 
 .btn-pay-final:active {
-    background: #b39f4a;
-    transform: scale(0.97);
+    background: #7c3aed;
+
+    transform: translateY(1px);
+
+    box-shadow:
+        0 2px 5px rgba(91, 33, 182, 0.20);
 }
 
-/* ---------- Ajustes para Pantallas Pequeñas Móviles ---------- */
+
+/* =========================================================
+   RESPONSIVE - CELULAR
+   ========================================================= */
 
 @media (max-width: 520px) {
+
     .page-container {
         padding: 0;
     }
 
     .plan-page {
         margin: 0;
+
+        min-height: 50vh;
+
         border-radius: 0;
         box-shadow: none;
-        min-height: 50vh;
     }
 
     .profile-avatar-small {
         width: 80px;
         height: 80px;
+    }
+
+    /* Modal como panel inferior */
+
+    .modal-overlay {
+        align-items: flex-end;
+
+        padding: 0;
+    }
+
+    .modal-content {
+        width: 100%;
+        max-width: none;
+
+        max-height: 92dvh;
+
+        padding: 24px 18px 18px;
+
+        border-radius: 24px 24px 0 0;
+
+        box-shadow:
+            0 -8px 30px rgba(31, 20, 48, 0.16);
+
+        animation: modalMobileAppear 0.25s ease both;
+    }
+
+    @keyframes modalMobileAppear {
+
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .modal-close-btn {
+        top: 14px;
+        right: 14px;
+    }
+
+    .modal-title {
+        margin-top: 4px;
+        margin-bottom: 18px;
+
+        padding-right: 28px;
+
+        font-size: 18px;
+    }
+
+    .modal-total-box {
+        margin-bottom: 18px;
+        padding: 12px 13px;
+    }
+
+    .country-selection {
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .country-option {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .country-option-icon {
+        width: 29px;
+        height: 29px;
+
+        font-size: 16px;
+    }
+
+    .country-option-text strong {
+        font-size: 11px;
+    }
+
+    .country-option-text small {
+        font-size: 8px;
+    }
+
+    .payment-methods {
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .payment-option {
+        padding: 11px 8px;
+    }
+
+    .payment-option-content {
+        font-size: 12px;
+    }
+
+    .payment-option-content--small {
+        font-size: 9px;
+    }
+
+    .btn-pay-final {
+        min-height: 47px;
+    }
+}
+
+
+/* =========================================================
+   CELULARES MUY PEQUEÑOS
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .modal-content {
+        padding: 22px 14px 14px;
+    }
+
+    .modal-title {
+        font-size: 17px;
+    }
+
+    .country-option {
+        padding: 9px 8px;
+    }
+
+    .country-option-icon {
+        display: none;
+    }
+
+    .payment-option {
+        padding: 10px 6px;
+    }
+}
+
+
+/* =========================================================
+   REDUCIR ANIMACIONES
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .plan-options-list .option-card,
+    .plan-options-list .option-checkbox,
+    .modal-content,
+    .modal-close-btn,
+    .country-option,
+    .payment-option,
+    .btn-pay-final {
+        animation: none;
+        transition: none;
     }
 }
