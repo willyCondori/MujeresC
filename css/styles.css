@@ -84,6 +84,20 @@ button {
     touch-action: manipulation;
 }
 
+/* Anillo de foco consistente al navegar con teclado (accesibilidad),
+   con el color de marca en vez del azul por defecto del navegador. */
+.btn-primary:focus-visible,
+.btn-secondary-outline:focus-visible,
+.btn-action-primary:focus-visible,
+.btn-option:focus-visible,
+.route-btn-action:focus-visible,
+.option-card:focus-visible,
+.option-card-custom:focus-visible,
+.age-card:focus-visible {
+    outline: 3px solid var(--color-primary-bg);
+    outline-offset: 2px;
+}
+
 .main-card,
 .welcome-container,
 .form-container {
@@ -193,7 +207,7 @@ button {
     align-items: center;
     width: 100%;
     min-height: 60px;
-    background: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     color: var(--color-bg-white);
     text-align: center;
     text-decoration: none;
@@ -444,14 +458,13 @@ button {
 }
 
 @media (hover: hover) and (pointer: fine) {
-    .option-card:hover {
-        border-color: var(--color-primary);
-        background-color: var(--color-primary-bg-soft);
-    }
-
     .option-card:hover,
     .option-card-custom:hover {
         border-color: var(--color-primary);
+    }
+
+    .option-card:hover {
+        background-color: var(--color-primary-bg-soft);
     }
 }
 
@@ -516,10 +529,10 @@ button {
 }
 
 .option-card:has(.option-checkbox:checked) {
-    background-color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
     border-color: var(--color-primary);
     color: var(--color-bg-white);
-    box-shadow: var(--shadow-btn);
+    box-shadow: 0 6px 16px -4px rgba(139, 92, 246, 0.45), var(--shadow-btn);
 }
 .option-text {
     font-size: 16px;
@@ -530,6 +543,26 @@ button {
     flex-grow: 1;
     margin-right: 12px;
     transition: color 0.2s ease;
+}
+
+/* Variante de texto más grande para páginas de opción múltiple con
+   poco texto por opción (usada antes como <style> duplicado e
+   idéntico en personalidad1.html y personalidad12.html). */
+.main-card.text-lg .option-text {
+    font-size: 1.15rem !important;
+}
+
+.main-card.text-lg .form-header h1 {
+    font-size: 1.8rem !important;
+}
+
+.main-card.text-lg .form-header h2 {
+    font-size: 1.25rem !important;
+    margin-top: 15px;
+}
+
+.main-card.text-lg .btn-primary {
+    font-size: 1.1rem !important;
 }
 .option-card:has(.option-checkbox:checked) .option-text {
     color: var(--color-bg-white);
