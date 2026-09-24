@@ -76,23 +76,38 @@ textarea {
     font: inherit;
 }
 
+/* Quita el resaltado gris/azul feo que Android/iOS ponen por defecto al
+   tocar un enlace o botón, y elimina el retraso de 300ms al tocar. */
+a,
+button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
 .main-card,
 .welcome-container,
 .form-container {
     width: min(100%, 720px);
+    max-height: 100%;
     background-color: var(--color-bg-white);
     padding: clamp(28px, 5vw, 48px);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    /* Red de seguridad: scroll interno SOLO si en una pantalla muy
+       pequeña el contenido no entra ni siquiera comprimido. En la
+       mayoría de dispositivos, con .page-container de alto fijo, esto
+       nunca debería activarse. */
+    overflow-y: auto;
 }
 
 .main-card,
 .welcome-container {
     /* Alto mínimo de referencia, pero sin tope: si el contenido crece
        (gráficas, avatar, texto largo), la tarjeta se expande en vez de
-       recortarlo. */
+       recortarlo, acotada por max-height de arriba. */
     min-height: clamp(500px, 85vh, 700px);
     margin: 20px auto;
 }
@@ -113,20 +128,24 @@ textarea {
 }
 
 .form-container {
-    max-height: 700px;
+    max-height: 100%;
     min-height: auto;
 }
 
 .page-container {
     width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* Alto FIJO al viewport (no min-height) para que ninguna página
+       pueda crecer más que la pantalla y obligue a hacer scroll. */
+    height: 100vh;
+    height: 100dvh;
     background-color: var(--color-bg-page);
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     /* Cambiado a center para centrar verticalmente la caja */
-    padding: 20px;
+    padding: clamp(10px, 4vh, 20px);
+    overflow: hidden;
 }
 
 .form-header {
@@ -186,10 +205,21 @@ textarea {
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.btn-primary:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-btn-hover);
+/* :hover solo en dispositivos con puntero real (mouse/trackpad), para
+   que en móvil no se quede "pegado" el estado tras un tap */
+@media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-btn-hover);
+    }
+}
+
+/* Feedback táctil real: funciona igual en mouse y en celular */
+.btn-primary:active {
+    transform: scale(0.97);
+    opacity: 0.92;
+    box-shadow: var(--shadow-btn);
 }
 
 .btn-secondary-outline {
@@ -204,10 +234,18 @@ textarea {
     font-weight: 600;
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-card-soft);
-    transition: all 0.2s ease;
+    transition: all 0.2s ease, transform 0.15s ease;
 }
 
-.btn-secondary-outline:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-secondary-outline:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+}
+
+.btn-secondary-outline:active {
+    transform: scale(0.97);
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
@@ -224,11 +262,18 @@ textarea {
     border-radius: 14px;
     font-weight: 700;
     font-size: 14px;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.btn-action-primary:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-action-primary:hover {
+        background: var(--color-primary-dark);
+    }
+}
+
+.btn-action-primary:active {
     background: var(--color-primary-dark);
+    transform: scale(0.97);
 }
 
 .btn-margin-top {
@@ -344,11 +389,18 @@ textarea {
     font-size: 14px;
     font-weight: 600;
     text-align: center;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.btn-option:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-option:hover {
+        background-color: var(--color-primary-dark);
+    }
+}
+
+.btn-option:active {
     background-color: var(--color-primary-dark);
+    transform: scale(0.97);
 }
 
 .options-list {
@@ -387,16 +439,25 @@ textarea {
     border-radius: var(--radius-option);
     padding: 16px 20px;
     cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
-.option-card:hover {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary-bg-soft);
+@media (hover: hover) and (pointer: fine) {
+    .option-card:hover {
+        border-color: var(--color-primary);
+        background-color: var(--color-primary-bg-soft);
+    }
+
+    .option-card:hover,
+    .option-card-custom:hover {
+        border-color: var(--color-primary);
+    }
 }
 
-.option-card:hover,
-.option-card-custom:hover {
+.option-card:active,
+.option-card-custom:active {
+    transform: scale(0.98);
     border-color: var(--color-primary);
 }
 
@@ -825,6 +886,18 @@ textarea {
     padding: 6px 16px;
     border-radius: 20px;
     text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .route-btn-action:hover {
+        background: var(--color-primary-dark);
+    }
+}
+
+.route-btn-action:active {
+    background: var(--color-primary-dark);
+    transform: scale(0.94);
 }
 
 .route-icon-link {
@@ -1157,8 +1230,20 @@ textarea {
     position: relative;
     overflow: visible;
     height: auto;
+    max-height: none;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+/* Excepción: las páginas con gráfica (personalidad10/18.html) pueden
+   ser más altas que una pantalla (la gráfica necesita su espacio), así
+   que aquí SÍ permitimos que la página crezca y haga scroll normal en
+   vez de recortar la tarjeta. */
+.page-container:has(.chart-wrapper) {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
 }
 
 /* El círculo decorativo de fondo queda oculto en las dos páginas que
@@ -1799,6 +1884,7 @@ body.page-container.page-enter-left .main-card {
 
 body.page-container .main-card .form-header,
 body.page-container .main-card .options-list,
+body.page-container .main-card .age-options,
 body.page-container .main-card .form-footer {
     opacity: 0;
     animation: contentReveal 0.55s ease-out 0.30s forwards;
@@ -1824,7 +1910,8 @@ body.page-container .main-card .form-footer {
 body.page-container .main-card input,
 body.page-container .main-card textarea,
 body.page-container .main-card select,
-body.page-container .main-card .option-card {
+body.page-container .main-card .option-card,
+body.page-container .main-card .age-card {
     opacity: 0;
     transform: translate3d(0, 15px, 0);
     animation: inputReveal 0.45s ease-out forwards;
@@ -1835,27 +1922,32 @@ body.page-container .main-card .option-card {
 body.page-container .main-card input:nth-of-type(1),
 body.page-container .main-card textarea:nth-of-type(1),
 body.page-container .main-card select:nth-of-type(1),
-body.page-container .main-card .option-card:nth-child(1) {
+body.page-container .main-card .option-card:nth-child(1),
+body.page-container .main-card .age-card:nth-child(1) {
     animation-delay: 0.45s;
 }
 
 body.page-container .main-card input:nth-of-type(2),
-body.page-container .main-card .option-card:nth-child(2) {
+body.page-container .main-card .option-card:nth-child(2),
+body.page-container .main-card .age-card:nth-child(2) {
     animation-delay: 0.52s;
 }
 
 body.page-container .main-card input:nth-of-type(3),
-body.page-container .main-card .option-card:nth-child(3) {
+body.page-container .main-card .option-card:nth-child(3),
+body.page-container .main-card .age-card:nth-child(3) {
     animation-delay: 0.59s;
 }
 
 body.page-container .main-card input:nth-of-type(4),
-body.page-container .main-card .option-card:nth-child(4) {
+body.page-container .main-card .option-card:nth-child(4),
+body.page-container .main-card .age-card:nth-child(4) {
     animation-delay: 0.66s;
 }
 
 body.page-container .main-card input:nth-of-type(5),
-body.page-container .main-card .option-card:nth-child(5) {
+body.page-container .main-card .option-card:nth-child(5),
+body.page-container .main-card .age-card:nth-child(5) {
     animation-delay: 0.73s;
 }
 
@@ -1939,6 +2031,53 @@ body.page-container .main-card .btn-primary {
 
 
 /* =========================================================
+   SALIDA DE PÁGINA
+   ========================================================= */
+
+/*
+   Se reproduce brevemente ANTES de navegar a la siguiente página
+   (ver pageTransitions.js), para que el cambio se sienta como una
+   transición continua y coherente con la entrada escalonada de
+   arriba, en vez de un salto brusco. Anima la misma .main-card
+   (no el body completo) para que visualmente sea "lo mismo pero
+   al revés". Solo usa transform/opacity (GPU), así que corre igual
+   de fluido en escritorio y en celular.
+*/
+
+body.page-container.page-exit-left .main-card {
+    animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+body.page-container.page-exit-up .main-card {
+    animation: pageExitUp 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes pageExitLeft {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(-45px, 0, 0);
+    }
+}
+
+@keyframes pageExitUp {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(0, -30px, 0);
+    }
+}
+
+
+/* =========================================================
    REDUCED MOTION
    ========================================================= */
 
@@ -1947,12 +2086,16 @@ body.page-container .main-card .btn-primary {
     body.page-container .main-card,
     body.page-container .main-card .form-header,
     body.page-container .main-card .options-list,
+    body.page-container .main-card .age-options,
     body.page-container .main-card .form-footer,
     body.page-container .main-card input,
     body.page-container .main-card textarea,
     body.page-container .main-card select,
     body.page-container .main-card .option-card,
-    body.page-container .main-card .btn-primary {
+    body.page-container .main-card .age-card,
+    body.page-container .main-card .btn-primary,
+    body.page-container.page-exit-left .main-card,
+    body.page-container.page-exit-up .main-card {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;

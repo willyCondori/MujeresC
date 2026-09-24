@@ -19,10 +19,12 @@
         transform 0.15s ease;
 }
 
-.option-card:hover,
-.option-card-custom:hover {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary-bg-soft);
+@media (hover: hover) and (pointer: fine) {
+    .option-card:hover,
+    .option-card-custom:hover {
+        border-color: var(--color-primary);
+        background-color: var(--color-primary-bg-soft);
+    }
 }
 
 .option-card:has(.option-checkbox:checked),

@@ -99,7 +99,37 @@
             sessionStorage.setItem(storageKey, type);
         } catch (error) {}
 
-        window.location.href = anchor.href;
+        var targetHref = anchor.href;
+
+        // En "reduce motion" (o si algo falla) navegamos directo, sin animar.
+        if (prefersReducedMotion()) {
+            window.location.href = targetHref;
+            return;
+        }
+
+        var body = document.body;
+
+        if (!body || !body.classList.contains('page-container')) {
+            window.location.href = targetHref;
+            return;
+        }
+
+        var exitClass = type === 'up' ? 'page-exit-up' : 'page-exit-left';
+        var fallbackDelay = 260; // red de seguridad si 'animationend' no dispara
+        var hasNavigated = false;
+
+        function go() {
+            if (hasNavigated) {
+                return;
+            }
+
+            hasNavigated = true;
+            window.location.href = targetHref;
+        }
+
+        body.classList.add(exitClass);
+        body.addEventListener('animationend', go, { once: true });
+        window.setTimeout(go, fallbackDelay);
     }
 
     function handleClick(event) {
@@ -137,7 +167,15 @@
         navigate(anchor, type);
     }
 
+    function enableTouchActiveStates() {
+        // Safari en iOS solo aplica :active cuando hay un listener de
+        // touchstart en el documento. Sin esto, el feedback al presionar
+        // botones/tarjetas (transform: scale...) no se ve en iPhone.
+        document.addEventListener('touchstart', function () {}, { passive: true });
+    }
+
     applyPageAnimation();
+    enableTouchActiveStates();
 
     document.addEventListener(
         'click',

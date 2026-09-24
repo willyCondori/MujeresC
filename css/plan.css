@@ -262,10 +262,19 @@
     line-height: 1;
     color: var(--color-text-muted, #6b7280);
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease, transform 0.15s ease;
 }
 
-.modal-close-btn:hover {
+@media (hover: hover) and (pointer: fine) {
+    .modal-close-btn:hover {
+        color: var(--color-text-dark, #111827);
+    }
+}
+
+.modal-close-btn:active {
     color: var(--color-text-dark, #111827);
+    transform: scale(0.9);
 }
 
 .modal-title {
@@ -331,15 +340,23 @@
     padding: 12px 14px;
     cursor: pointer;
     text-align: center;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
 }
 
 .payment-option:not(.payment-option--selected) {
     border-color: transparent;
 }
 
-.payment-option:hover {
+@media (hover: hover) and (pointer: fine) {
+    .payment-option:hover {
+        border-color: var(--color-primary, #8b5cf6);
+    }
+}
+
+.payment-option:active {
     border-color: var(--color-primary, #8b5cf6);
+    transform: scale(0.98);
 }
 
 .payment-option--selected {
@@ -383,9 +400,16 @@
     transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.btn-pay-final:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-pay-final:hover {
+        background: #b39f4a;
+        transform: translateY(-1px);
+    }
+}
+
+.btn-pay-final:active {
     background: #b39f4a;
-    transform: translateY(-1px);
+    transform: scale(0.97);
 }
 
 /* ---------- Ajustes para Pantallas Pequeñas Móviles ---------- */
