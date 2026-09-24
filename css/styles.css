@@ -88,19 +88,26 @@ button {
 .welcome-container,
 .form-container {
     width: min(100%, 720px);
+    max-height: 100%;
     background-color: var(--color-bg-white);
     padding: clamp(28px, 5vw, 48px);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+    /* Red de seguridad: scroll interno SOLO si en una pantalla muy
+       pequeña el contenido no entra ni siquiera comprimido. En la
+       mayoría de dispositivos, con .page-container de alto fijo, esto
+       nunca debería activarse. */
+    overflow-y: auto;
 }
 
 .main-card,
 .welcome-container {
     /* Alto mínimo de referencia, pero sin tope: si el contenido crece
        (gráficas, avatar, texto largo), la tarjeta se expande en vez de
-       recortarlo. */
+       recortarlo, acotada por max-height de arriba. */
     min-height: clamp(500px, 85vh, 700px);
     margin: 20px auto;
 }
@@ -121,20 +128,24 @@ button {
 }
 
 .form-container {
-    max-height: 700px;
+    max-height: 100%;
     min-height: auto;
 }
 
 .page-container {
     width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* Alto FIJO al viewport (no min-height) para que ninguna página
+       pueda crecer más que la pantalla y obligue a hacer scroll. */
+    height: 100vh;
+    height: 100dvh;
     background-color: var(--color-bg-page);
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     /* Cambiado a center para centrar verticalmente la caja */
-    padding: 20px;
+    padding: clamp(10px, 4vh, 20px);
+    overflow: hidden;
 }
 
 .form-header {
@@ -1219,8 +1230,20 @@ button {
     position: relative;
     overflow: visible;
     height: auto;
+    max-height: none;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+/* Excepción: las páginas con gráfica (personalidad10/18.html) pueden
+   ser más altas que una pantalla (la gráfica necesita su espacio), así
+   que aquí SÍ permitimos que la página crezca y haga scroll normal en
+   vez de recortar la tarjeta. */
+.page-container:has(.chart-wrapper) {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: visible;
 }
 
 /* El círculo decorativo de fondo queda oculto en las dos páginas que
