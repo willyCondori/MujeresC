@@ -76,6 +76,14 @@ textarea {
     font: inherit;
 }
 
+/* Quita el resaltado gris/azul feo que Android/iOS ponen por defecto al
+   tocar un enlace o botón, y elimina el retraso de 300ms al tocar. */
+a,
+button {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
 .main-card,
 .welcome-container,
 .form-container {
@@ -186,10 +194,21 @@ textarea {
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.btn-primary:hover {
-    opacity: 0.95;
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-btn-hover);
+/* :hover solo en dispositivos con puntero real (mouse/trackpad), para
+   que en móvil no se quede "pegado" el estado tras un tap */
+@media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+        opacity: 0.95;
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-btn-hover);
+    }
+}
+
+/* Feedback táctil real: funciona igual en mouse y en celular */
+.btn-primary:active {
+    transform: scale(0.97);
+    opacity: 0.92;
+    box-shadow: var(--shadow-btn);
 }
 
 .btn-secondary-outline {
@@ -204,10 +223,18 @@ textarea {
     font-weight: 600;
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-card-soft);
-    transition: all 0.2s ease;
+    transition: all 0.2s ease, transform 0.15s ease;
 }
 
-.btn-secondary-outline:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-secondary-outline:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+}
+
+.btn-secondary-outline:active {
+    transform: scale(0.97);
     border-color: var(--color-primary);
     color: var(--color-primary);
 }
@@ -224,11 +251,18 @@ textarea {
     border-radius: 14px;
     font-weight: 700;
     font-size: 14px;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.btn-action-primary:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-action-primary:hover {
+        background: var(--color-primary-dark);
+    }
+}
+
+.btn-action-primary:active {
     background: var(--color-primary-dark);
+    transform: scale(0.97);
 }
 
 .btn-margin-top {
@@ -344,11 +378,18 @@ textarea {
     font-size: 14px;
     font-weight: 600;
     text-align: center;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.btn-option:hover {
+@media (hover: hover) and (pointer: fine) {
+    .btn-option:hover {
+        background-color: var(--color-primary-dark);
+    }
+}
+
+.btn-option:active {
     background-color: var(--color-primary-dark);
+    transform: scale(0.97);
 }
 
 .options-list {
@@ -387,16 +428,25 @@ textarea {
     border-radius: var(--radius-option);
     padding: 16px 20px;
     cursor: pointer;
-    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
 
-.option-card:hover {
-    border-color: var(--color-primary);
-    background-color: var(--color-primary-bg-soft);
+@media (hover: hover) and (pointer: fine) {
+    .option-card:hover {
+        border-color: var(--color-primary);
+        background-color: var(--color-primary-bg-soft);
+    }
+
+    .option-card:hover,
+    .option-card-custom:hover {
+        border-color: var(--color-primary);
+    }
 }
 
-.option-card:hover,
-.option-card-custom:hover {
+.option-card:active,
+.option-card-custom:active {
+    transform: scale(0.98);
     border-color: var(--color-primary);
 }
 
@@ -825,6 +875,18 @@ textarea {
     padding: 6px 16px;
     border-radius: 20px;
     text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .route-btn-action:hover {
+        background: var(--color-primary-dark);
+    }
+}
+
+.route-btn-action:active {
+    background: var(--color-primary-dark);
+    transform: scale(0.94);
 }
 
 .route-icon-link {
@@ -1939,6 +2001,53 @@ body.page-container .main-card .btn-primary {
 
 
 /* =========================================================
+   SALIDA DE PÁGINA
+   ========================================================= */
+
+/*
+   Se reproduce brevemente ANTES de navegar a la siguiente página
+   (ver pageTransitions.js), para que el cambio se sienta como una
+   transición continua y coherente con la entrada escalonada de
+   arriba, en vez de un salto brusco. Anima la misma .main-card
+   (no el body completo) para que visualmente sea "lo mismo pero
+   al revés". Solo usa transform/opacity (GPU), así que corre igual
+   de fluido en escritorio y en celular.
+*/
+
+body.page-container.page-exit-left .main-card {
+    animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+body.page-container.page-exit-up .main-card {
+    animation: pageExitUp 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes pageExitLeft {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(-45px, 0, 0);
+    }
+}
+
+@keyframes pageExitUp {
+    from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate3d(0, -30px, 0);
+    }
+}
+
+
+/* =========================================================
    REDUCED MOTION
    ========================================================= */
 
@@ -1952,7 +2061,9 @@ body.page-container .main-card .btn-primary {
     body.page-container .main-card textarea,
     body.page-container .main-card select,
     body.page-container .main-card .option-card,
-    body.page-container .main-card .btn-primary {
+    body.page-container .main-card .btn-primary,
+    body.page-container.page-exit-left .main-card,
+    body.page-container.page-exit-up .main-card {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
