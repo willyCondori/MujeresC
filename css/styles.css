@@ -1884,6 +1884,7 @@ body.page-container.page-enter-left .main-card {
 
 body.page-container .main-card .form-header,
 body.page-container .main-card .options-list,
+body.page-container .main-card .age-options,
 body.page-container .main-card .form-footer {
     opacity: 0;
     animation: contentReveal 0.55s ease-out 0.30s forwards;
@@ -1909,7 +1910,8 @@ body.page-container .main-card .form-footer {
 body.page-container .main-card input,
 body.page-container .main-card textarea,
 body.page-container .main-card select,
-body.page-container .main-card .option-card {
+body.page-container .main-card .option-card,
+body.page-container .main-card .age-card {
     opacity: 0;
     transform: translate3d(0, 15px, 0);
     animation: inputReveal 0.45s ease-out forwards;
@@ -1920,27 +1922,32 @@ body.page-container .main-card .option-card {
 body.page-container .main-card input:nth-of-type(1),
 body.page-container .main-card textarea:nth-of-type(1),
 body.page-container .main-card select:nth-of-type(1),
-body.page-container .main-card .option-card:nth-child(1) {
+body.page-container .main-card .option-card:nth-child(1),
+body.page-container .main-card .age-card:nth-child(1) {
     animation-delay: 0.45s;
 }
 
 body.page-container .main-card input:nth-of-type(2),
-body.page-container .main-card .option-card:nth-child(2) {
+body.page-container .main-card .option-card:nth-child(2),
+body.page-container .main-card .age-card:nth-child(2) {
     animation-delay: 0.52s;
 }
 
 body.page-container .main-card input:nth-of-type(3),
-body.page-container .main-card .option-card:nth-child(3) {
+body.page-container .main-card .option-card:nth-child(3),
+body.page-container .main-card .age-card:nth-child(3) {
     animation-delay: 0.59s;
 }
 
 body.page-container .main-card input:nth-of-type(4),
-body.page-container .main-card .option-card:nth-child(4) {
+body.page-container .main-card .option-card:nth-child(4),
+body.page-container .main-card .age-card:nth-child(4) {
     animation-delay: 0.66s;
 }
 
 body.page-container .main-card input:nth-of-type(5),
-body.page-container .main-card .option-card:nth-child(5) {
+body.page-container .main-card .option-card:nth-child(5),
+body.page-container .main-card .age-card:nth-child(5) {
     animation-delay: 0.73s;
 }
 
@@ -2079,11 +2086,13 @@ body.page-container.page-exit-up .main-card {
     body.page-container .main-card,
     body.page-container .main-card .form-header,
     body.page-container .main-card .options-list,
+    body.page-container .main-card .age-options,
     body.page-container .main-card .form-footer,
     body.page-container .main-card input,
     body.page-container .main-card textarea,
     body.page-container .main-card select,
     body.page-container .main-card .option-card,
+    body.page-container .main-card .age-card,
     body.page-container .main-card .btn-primary,
     body.page-container.page-exit-left .main-card,
     body.page-container.page-exit-up .main-card {
