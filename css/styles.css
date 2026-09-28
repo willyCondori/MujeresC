@@ -45,6 +45,16 @@
     --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-btn-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* Acentos secundarios */
+    --color-accent-teal: #0f766e;
+    --color-accent-blue: #2563eb;
+    --color-accent-orange: #ea580c;
+    --color-accent-rose: #db2777;
+
+    --color-accent-teal-soft: #ccfbf1;
+    --color-accent-blue-soft: #dbeafe;
+    --color-accent-orange-soft: #ffedd5;
+    --color-accent-rose-soft: #fce7f3;
 }
 
 * {
@@ -459,6 +469,7 @@ button {
 }
 
 @media (hover: hover) and (pointer: fine) {
+
     .option-card:hover,
     .option-card-custom:hover {
         border-color: var(--color-primary);
@@ -535,12 +546,14 @@ button {
     color: var(--color-bg-white);
     box-shadow: 0 6px 16px -4px rgba(139, 92, 246, 0.45), var(--shadow-btn);
 }
+
 .option-text {
     font-size: 16px;
     font-weight: 600;
     color: var(--color-text-body);
     line-height: 1.4;
-    text-align: left; /* Alineado a la izquierda para dejar espacio al checkbox a la derecha */
+    text-align: left;
+    /* Alineado a la izquierda para dejar espacio al checkbox a la derecha */
     flex-grow: 1;
     margin-right: 12px;
     transition: color 0.2s ease;
@@ -565,6 +578,7 @@ button {
 .main-card.text-lg .btn-primary {
     font-size: 1.1rem !important;
 }
+
 .option-card:has(.option-checkbox:checked) .option-text {
     color: var(--color-bg-white);
     font-weight: 700;
@@ -1858,6 +1872,7 @@ button {
     display: block;
     text-decoration: none;
 }
+
 /* =========================================================
    ENTRADA DE PÁGINA
    ========================================================= */
@@ -2135,6 +2150,7 @@ body.page-container.page-exit-up .main-card {
         animation: none !important;
     }
 }
+
 /* ---------------- RESPONSIVE - FORMULARIOS ---------------- */
 @media (max-width: 600px) {
 
@@ -2143,6 +2159,7 @@ body.page-container.page-exit-up .main-card {
     }
 
 }
+
 /* =========================================
    BOTÓN PRINCIPAL
 ========================================= */
@@ -2185,4 +2202,104 @@ body.page-container.page-exit-up .main-card {
         0 2px 5px rgba(108, 56, 190, 0.22);
 
     filter: brightness(0.98);
+}
+
+/* =========================================================
+   FRASES MOTIVACIONALES
+   ========================================================= */
+.question-motivation {
+    position: relative;
+    max-width: 590px;
+    margin: 20px auto 30px;
+    padding: 0 18px;
+
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.55;
+    text-align: center;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* Pequeño detalle decorativo */
+.question-motivation::before {
+    content: "✦";
+    display: inline-block;
+    margin-right: 7px;
+
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+
+    transform: translateY(-1px);
+}
+
+/* Línea decorativa muy sutil */
+.question-motivation::after {
+    display: block;
+
+    width: 42px;
+    height: 2px;
+
+    margin: 10px auto 0;
+
+    background: var(--color-primary);
+    border-radius: 999px;
+    opacity: 0.35;
+}
+
+/* Colores por dimensión */
+.main-card.dimension-1 .question-motivation::before {
+    color: var(--color-primary);
+}
+
+.main-card.dimension-1 .question-motivation::after {
+    background: var(--color-primary);
+}
+
+.main-card.dimension-2 .question-motivation::before {
+    color: var(--color-accent-teal);
+}
+
+.main-card.dimension-2 .question-motivation::after {
+    background: var(--color-accent-teal);
+}
+
+.main-card.dimension-3 .question-motivation::before {
+    color: var(--color-accent-orange);
+}
+
+.main-card.dimension-3 .question-motivation::after {
+    background: var(--color-accent-orange);
+}
+
+.main-card.dimension-4 .question-motivation::before {
+    color: var(--color-accent-rose);
+}
+
+.main-card.dimension-4 .question-motivation::after {
+    background: var(--color-accent-rose);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .question-motivation:hover {
+        color: #4b5563;
+        transform: translateY(-1px);
+    }
+}
+
+@media (max-width: 600px) {
+    .question-motivation {
+        margin: 16px auto 24px;
+        padding: 0 12px;
+        font-size: 12px;
+    }
+
+    .question-motivation::after {
+        width: 34px;
+        margin-top: 8px;
+    }
 }
