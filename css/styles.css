@@ -205,7 +205,13 @@ button {
 }
 
 .highlight {
+    /* Color de respaldo por si el navegador no soporta el degradado de
+       abajo (background-clip: text) */
     color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .text-center {
@@ -1257,6 +1263,10 @@ button {
 
 .main-card.text-center .transition-title .highlight {
     color: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .main-card.text-center .transition-text {
