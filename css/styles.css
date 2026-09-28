@@ -205,7 +205,18 @@ button {
 }
 
 .highlight {
-    color: var(--color-primary);
+    color: var(--primary);
+
+    background:
+        linear-gradient(90deg,
+            #8B5CF6 0%,
+            #A855F7 45%,
+            #EC4899 100%);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
 }
 
 .text-center {
