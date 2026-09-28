@@ -152,6 +152,7 @@ button {
        pueda crecer más que la pantalla y obligue a hacer scroll. */
     height: 100vh;
     height: 100dvh;
+    min-height: auto;
     background-color: var(--color-bg-page);
     display: flex;
     justify-content: center;
