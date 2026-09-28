@@ -617,6 +617,14 @@ button {
     margin-top: auto;
 }
 
+/* Botón "siguiente" oculto: en páginas de selección única, elegir una
+   opción dispara el clic de este botón por JS (js/quizNavigation.js)
+   para avanzar solo. Se repetía como style="display:none" inline en
+   24 páginas; ahora es una sola clase. */
+.form-footer--hidden {
+    display: none;
+}
+
 .progress-bar-container {
     display: flex;
     gap: 6px;
