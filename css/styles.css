@@ -55,6 +55,11 @@
     --color-accent-blue-soft: #dbeafe;
     --color-accent-orange-soft: #ffedd5;
     --color-accent-rose-soft: #fce7f3;
+
+    /* Degradado de marca (morado -> rosa), usado tanto en el texto
+       .highlight como en el botón principal y la opción seleccionada,
+       para que ambos se vean consistentes. */
+    --gradient-brand: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-rose) 100%);
 }
 
 * {
@@ -261,7 +266,7 @@ button {
     align-items: center;
     width: 100%;
     min-height: 60px;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: var(--gradient-brand);
     color: var(--color-bg-white);
     text-align: center;
     text-decoration: none;
@@ -587,7 +592,7 @@ button {
 }
 
 .option-card:has(.option-checkbox:checked) {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: var(--gradient-brand);
     border-color: var(--color-primary);
     color: var(--color-bg-white);
     box-shadow: 0 6px 16px -4px rgba(139, 92, 246, 0.45), var(--shadow-btn);
@@ -650,6 +655,14 @@ button {
 .form-footer {
     padding-top: 20px;
     margin-top: auto;
+}
+
+/* Botón "siguiente" oculto: en páginas de selección única, elegir una
+   opción dispara el clic de este botón por JS (js/quizNavigation.js)
+   para avanzar solo. Se repetía como style="display:none" inline en
+   24 páginas; ahora es una sola clase. */
+.form-footer--hidden {
+    display: none;
 }
 
 .progress-bar-container {
@@ -1303,6 +1316,10 @@ button {
 
 .main-card.text-center .transition-title .highlight {
     color: var(--color-primary);
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .main-card.text-center .transition-text {
