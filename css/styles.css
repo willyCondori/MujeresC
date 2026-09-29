@@ -1944,7 +1944,8 @@ body.page-container {
     overflow-x: hidden;
 }
 
-body.page-container .main-card {
+body.page-container .main-card,
+body.page-container .welcome-container {
     opacity: 0;
     transform: translate3d(0, 35px, 0);
     animation: pageEnter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -2152,11 +2153,13 @@ body.page-container .main-card .btn-primary {
    SALIDA DE PÁGINA
    ========================================================= */
 
-body.page-container.page-exit-left .main-card {
+body.page-container.page-exit-left .main-card,
+body.page-container.page-exit-left .welcome-container {
     animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) both;
 }
 
-body.page-container.page-exit-up .main-card {
+body.page-container.page-exit-up .main-card,
+body.page-container.page-exit-up .welcome-container {
     animation: pageExitUp 0.22s cubic-bezier(0.4, 0, 1, 1) both;
 }
 
@@ -2192,6 +2195,7 @@ body.page-container.page-exit-up .main-card {
 @media (prefers-reduced-motion: reduce) {
 
     body.page-container .main-card,
+    body.page-container .welcome-container,
     body.page-container .main-card .form-header,
     body.page-container .main-card .options-list,
     body.page-container .main-card .age-options,
@@ -2205,7 +2209,9 @@ body.page-container.page-exit-up .main-card {
     body.page-container .main-card .btn-secondary-outline,
     body.page-container .main-card .dimension-badge,
     body.page-container.page-exit-left .main-card,
-    body.page-container.page-exit-up .main-card {
+    body.page-container.page-exit-left .welcome-container,
+    body.page-container.page-exit-up .main-card,
+    body.page-container.page-exit-up .welcome-container {
         opacity: 1 !important;
         transform: none !important;
         animation: none !important;
