@@ -11,6 +11,21 @@
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/plan.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
+    <style>
+        .paypal-wordmark__pay {
+            color: #003087;
+        }
+
+        .paypal-wordmark__pal {
+            color: #009cde;
+        }
+
+        .profile-stat-value {
+            color: #000000;
+            font-weight: 700;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body class="page-container">
@@ -50,19 +65,19 @@
                 </div>
 
                 <p class="profile-col-stat">
-                    <strong>Nivel de confianza:</strong>
+                    <strong class="profile-stat-value">Nivel de confianza:</strong>
                     Bajo
                 </p>
 
                 <p class="profile-col-stat profile-col-stat--second">
-                    <strong>Capacidad de comunicación:</strong>
+                    <strong class="profile-stat-value">Capacidad de comunicación:</strong>
                     Principiante
                 </p>
 
             </div>
 
             <div class="profile-col">
-                <p class="profile-col-label profile-col-label--target">
+                <p class="profile-col-label profile-col-label--target highlight">
                     Tu objetivo
                 </p>
 
@@ -73,13 +88,13 @@
                 </div>
 
                 <p class="profile-col-stat">
-                    <strong>Nivel de confianza:</strong>
-                    Alta
+                    <strong class="profile-stat-value">Nivel de confianza:</strong>
+                    <span >Alta</span>
                 </p>
 
                 <p class="profile-col-stat profile-col-stat--second">
-                    <strong>Capacidad de comunicación:</strong>
-                    Experto
+                    <strong class="profile-stat-value">Capacidad de comunicación:</strong>
+                    <span >Experto</span>
                 </p>
             </div>
         </div>
@@ -334,7 +349,10 @@
                         </p>
 
                         <div class="payment-option-content">
-                            Pay &nbsp; P<sub>aypal</sub>
+                            <span class="paypal-wordmark" aria-label="PayPal">
+                                <span class="paypal-wordmark__pay">Pay</span><span
+                                    class="paypal-wordmark__pal">Pal</span>
+                            </span>
                         </div>
 
                     </div>

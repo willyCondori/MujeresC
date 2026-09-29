@@ -120,10 +120,6 @@ button {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    /* Red de seguridad: scroll interno SOLO si en una pantalla muy
-       pequeña el contenido no entra ni siquiera comprimido. En la
-       mayoría de dispositivos, con .page-container de alto fijo, esto
-       nunca debería activarse. */
     overflow-y: auto;
 }
 
@@ -158,8 +154,6 @@ button {
 
 .page-container {
     width: 100%;
-    /* Alto FIJO al viewport (no min-height) para que ninguna página
-       pueda crecer más que la pantalla y obligue a hacer scroll. */
     height: 100vh;
     height: 100dvh;
     min-height: auto;
@@ -196,6 +190,7 @@ button {
     font-weight: 500;
     color: var(--color-text-muted);
     line-height: 1.5;
+    margin-top: 10px;
 }
 
 .divider {
@@ -205,19 +200,56 @@ button {
 }
 
 .highlight {
-    color: var(--primary);
+    display: inline-block;
 
-    background:
-        linear-gradient(90deg,
-            #8B5CF6 0%,
-            #A855F7 45%,
-            #EC4899 100%);
+    background: linear-gradient(
+        90deg,
+        #8B5CF6 0%,
+        #A855F7 30%,
+        #EC4899 50%,
+        #A855F7 70%,
+        #8B5CF6 100%
+    );
+
+    background-size: 200% auto;
 
     -webkit-background-clip: text;
     background-clip: text;
-
     -webkit-text-fill-color: transparent;
+
+    animation:
+        highlightGradient 4s ease-in-out infinite,
+        highlightFloat 2.8s ease-in-out infinite;
 }
+
+@keyframes highlightGradient {
+    0% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 100% center;
+    }
+
+    100% {
+        background-position: 0% center;
+    }
+}
+
+@keyframes highlightFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/*    
+
+*/
 
 .text-center {
     text-align: center;
@@ -244,7 +276,9 @@ button {
 /* :hover solo en dispositivos con puntero real (mouse/trackpad), para
    que en móvil no se quede "pegado" el estado tras un tap */
 @media (hover: hover) and (pointer: fine) {
-    .btn-primary:hover {
+
+    .btn-primary:hover,
+    .btn-secondary-outline:hover {
         opacity: 0.95;
         transform: translateY(-1px);
         box-shadow: var(--shadow-btn-hover);
@@ -317,11 +351,12 @@ button {
 }
 
 .welcome-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    margin-top: clamp(40px, 8vh, 80px);
 }
 
 .icon-circle {
@@ -1943,11 +1978,17 @@ body.page-container.page-enter-left .main-card {
 */
 
 body.page-container .main-card .form-header,
+body.page-container .main-card .question-motivation,
 body.page-container .main-card .options-list,
 body.page-container .main-card .age-options,
 body.page-container .main-card .form-footer {
     opacity: 0;
     animation: contentReveal 0.55s ease-out 0.30s forwards;
+}
+
+body.page-container .main-card .btn-secondary-outline {
+    opacity: 0;
+    animation: contentReveal 0.65s ease-out 0.40s forwards;
 }
 
 @keyframes contentReveal {
@@ -2084,7 +2125,7 @@ body.page-container .main-card .btn-primary {
         animation-delay: 0.61s;
     }
 
-    body.page-container .main-card .btn-primary {
+    body.page-container .main-card .btn-primary .btn-secondary-outline {
         animation-delay: 0.68s;
     }
 }
@@ -2093,16 +2134,6 @@ body.page-container .main-card .btn-primary {
 /* =========================================================
    SALIDA DE PÁGINA
    ========================================================= */
-
-/*
-   Se reproduce brevemente ANTES de navegar a la siguiente página
-   (ver pageTransitions.js), para que el cambio se sienta como una
-   transición continua y coherente con la entrada escalonada de
-   arriba, en vez de un salto brusco. Anima la misma .main-card
-   (no el body completo) para que visualmente sea "lo mismo pero
-   al revés". Solo usa transform/opacity (GPU), así que corre igual
-   de fluido en escritorio y en celular.
-*/
 
 body.page-container.page-exit-left .main-card {
     animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) both;
@@ -2154,6 +2185,8 @@ body.page-container.page-exit-up .main-card {
     body.page-container .main-card .option-card,
     body.page-container .main-card .age-card,
     body.page-container .main-card .btn-primary,
+    body.page-container .main-card .btn-secondary-outline,
+    body.page-container .main-card .dimension-badge,
     body.page-container.page-exit-left .main-card,
     body.page-container.page-exit-up .main-card {
         opacity: 1 !important;
@@ -2166,7 +2199,10 @@ body.page-container.page-exit-up .main-card {
 @media (max-width: 600px) {
 
     .form-header {
-        margin-top: 10px;
+        margin-top: 20px;
+    }
+    .page-container {
+        margin-bottom: 20px;
     }
 
 }
@@ -2313,4 +2349,13 @@ body.page-container.page-exit-up .main-card {
         width: 34px;
         margin-top: 8px;
     }
+}
+
+.paypal-wordmark {
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    line-height: 1;
 }

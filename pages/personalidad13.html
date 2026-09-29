@@ -17,15 +17,19 @@
     <main class="main-card">
 
         <!-- Botón volver -->
-        <a href="personalidad11.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+        <a href="personalidad12.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+
                 <path d="M19 12H5"></path>
                 <path d="M12 19l-7-7 7-7"></path>
+
             </svg>
         </a>
 
         <!-- Encabezado -->
         <div class="form-header">
+
             <h1>
                 Completar formulario
                 <br>
@@ -33,66 +37,89 @@
             </h1>
 
             <p class="header-description">
-                Estás a un paso de decidir comopotenciar tus habilidades, autoconfianza y respeto por ti misma.
+                Estás a un paso de decidir cómo potenciar tus habilidades,
+                autoconfianza y respeto por ti misma.
             </p>
 
             <h2>
-                ¿Tienes algún motivo concreto por el que te gustaría desarrollar tus habilidades de comunicación?
+                ¿Tienes algún motivo concreto por el que te gustaría
+                desarrollar tus habilidades de comunicación?
             </h2>
+
         </div>
 
-        <!-- Opciones de selección múltiple -->
+        <!-- Selección única -->
         <div class="options-list">
 
             <label class="option-card">
+
                 <span class="option-text">
                     Avanzar profesionalmente
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="avanzar-profesionalmente" class="option-checkbox">
+
             </label>
 
             <label class="option-card">
+
                 <span class="option-text">
                     Crear mi propia empresa
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="crear-empresa" class="option-checkbox">
+
             </label>
 
             <label class="option-card">
+
                 <span class="option-text">
                     Ampliar mis propias oportunidades
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="ampliar-oportunidades" class="option-checkbox">
+
             </label>
 
             <label class="option-card">
+
                 <span class="option-text">
                     Bienestar mental y emocional
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="bienestar-mental-emocional"
+                    class="option-checkbox">
+
             </label>
 
             <label class="option-card">
+
                 <span class="option-text">
                     Crear nuevas amistades
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="crear-amistades" class="option-checkbox">
+
             </label>
 
             <label class="option-card">
+
                 <span class="option-text">
                     Otros objetivos personales
                 </span>
-                <input type="checkbox" class="option-checkbox">
+
+                <input type="radio" name="motivo-comunicacion" value="otros-objetivos" class="option-checkbox">
+
             </label>
 
         </div>
 
-        <!-- Botón continuar -->
-        <div class="form-footer">
-            <a href="transicion3.html" class="btn-primary" data-transition="up">
+        <!-- Continuar oculto: la selección avanza automáticamente -->
+        <div class="form-footer" hidden>
+            <a href="personalidad14.html" class="btn-primary" data-transition="up">
                 CONTINUAR
             </a>
+
         </div>
 
     </main>
