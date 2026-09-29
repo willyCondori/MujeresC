@@ -12,7 +12,7 @@
 
 <body class="page-container">
 
-    <main class="main-card">
+    <main class="main-card dimension-3">
         <a href="cuestionario7.html" class="back-navigation-button" aria-label="Volver" title="Volver">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M19 12H5"></path>
@@ -36,8 +36,12 @@
 
         <!-- Encabezado -->
         <div class="form-header">
-            <h2>¿Sientes que puedes influir positivamente en otras personas?</h2>
+            <h2>¿Sientes que puedes influir <span class="highlight">positivamente en otras personas?</span></h2>
         </div>
+
+        <p class="question-motivation">
+            Tu capacidad de influir puede convertirse en una fuerza positiva para quienes te rodean.
+        </p>
 
         <!-- Opciones de Selección -->
         <div class="options-list">
@@ -53,7 +57,7 @@
 
             <label class="option-card">
                 <span class="option-text">3 = Frecuentemente</span>
-                <input type="radio" name="liderazgo_2" class="option-checkbox" value="3" >
+                <input type="radio" name="liderazgo_2" class="option-checkbox" value="3">
             </label>
 
             <label class="option-card">
@@ -63,7 +67,7 @@
         </div>
 
         <!-- Botón de Continuar -->
-        <div class="form-footer" style="display: none;">
+        <div class="form-footer form-footer--hidden">
             <a href="cuestionario9.html" class="btn-primary">SIGUIENTE</a>
         </div>
     </main>

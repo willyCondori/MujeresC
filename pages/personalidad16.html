@@ -21,7 +21,7 @@
         </a>
         <div class="form-header">
             <h1>Completar formulario <br><span class="highlight">#MujeresConPoder</span></h1>
-            <h2>Creamos tu <span class="highlight">plan de crecimiento personal</span></h2>
+            <h2> <span class="highlight">Creamos tu plan de crecimiento personal</span></h2>
         </div>
 
         <div class="status-list" id="analysis-container">
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <a href="formulario.html" id="continue-btn" class="btn-primary disabled">CONTINUAR</a>
+        <a href="formulario.html" id="continue-btn" class="btn-primary">CONTINUAR</a>
     </main>
 
     <script src="../js/backNavigation.js" defer></script>
@@ -65,23 +65,29 @@
         document.addEventListener("DOMContentLoaded", () => {
             const items = document.querySelectorAll(".status-item");
             const continueBtn = document.getElementById("continue-btn");
-            const stepDuration = 1200; // Milisegundos que toma cada paso
+            const stepDuration = 1200;
 
             items.forEach((item, index) => {
-                // Muestra la tarjeta en estado de carga (animación activa)
+
+                // Activar paso
                 setTimeout(() => {
                     item.classList.add("active");
                 }, index * stepDuration);
 
-                // Marca la tarjeta como completada (muestra el check rosa)
+                // Completar paso
                 setTimeout(() => {
                     item.classList.remove("active");
                     item.classList.add("completed");
 
-                    // Activa el botón de continuar cuando finaliza el último paso
-                    if (index === items.length - 1) {
-                        continueBtn.classList.remove("disabled");
+                    // Comprobar si TODOS están completados
+                    const allCompleted = [...items].every(item =>
+                        item.classList.contains("completed")
+                    );
+
+                    if (allCompleted) {
+                        continueBtn.classList.add("ready");
                     }
+
                 }, (index + 1) * stepDuration);
             });
         });

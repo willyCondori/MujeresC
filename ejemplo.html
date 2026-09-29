@@ -1,1311 +1,1545 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>#MujeresConPoder - Tu perfil</title>
+    <title>Tu perfil - #MujeresConPoder</title>
 
-<style>
-    /* =========================================================
-   VARIABLES
+    <style>
+        /* =========================================================
+   #MUJERESCONPODER
+   SISTEMA VISUAL — GAMA FRÍA LILA
 ========================================================= */
 
-:root {
-    --primary: #8b5cf6;
-    --primary-dark: #7c3aed;
-    --primary-light: #f3efff;
+        :root {
 
-    --text: #241b35;
-    --text-secondary: #6f687c;
-    --text-light: #9b95a5;
+            /* =====================================================
+       PALETA PRINCIPAL
+    ===================================================== */
 
-    --background: #faf9fc;
-    --surface: #ffffff;
+            --primary: #8B5CF6;
+            --primary-dark: #7046D8;
+            --primary-deep: #5B3BB5;
+            --primary-light: #F1EDFF;
+            --primary-soft: #F7F4FF;
 
-    --border: #e7e3ed;
-    --border-hover: #cfc5e8;
+            /* Lila secundario */
+            --lilac: #A78BFA;
+            --lilac-light: #F4F0FF;
 
-    --success: #22c55e;
-    --danger: #ef4444;
+            /* Índigo */
+            --indigo: #6366F1;
+            --indigo-dark: #4F46E5;
+            --indigo-light: #EEF0FF;
 
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
+            /* Azul frío */
+            --blue-cold: #7C83FD;
+            --blue-light: #F0F2FF;
 
-    --shadow-card:
-        0 8px 30px rgba(37, 20, 67, 0.06);
-
-    --shadow-hover:
-        0 14px 35px rgba(37, 20, 67, 0.10);
-
-    --transition-fast: 0.18s ease;
-    --transition-normal: 0.25s ease;
-}
+            /* Azul grisáceo */
+            --slate: #64748B;
+            --slate-light: #F1F5F9;
 
 
-/* =========================================================
+            /* =====================================================
+       TEXTOS
+    ===================================================== */
+
+            --text: #29213D;
+            --text-secondary: #686477;
+            --text-light: #9792A8;
+            --text-muted: #AAA5B8;
+
+
+            /* =====================================================
+       FONDOS
+    ===================================================== */
+
+            --background: #F8F8FC;
+            --surface: #FFFFFF;
+            --surface-soft: #F6F5FA;
+            --surface-lilac: #FBF9FF;
+
+
+            /* =====================================================
+       BORDES
+    ===================================================== */
+
+            --border: #E6E2EF;
+            --border-light: #EEEAF5;
+            --border-hover: #CFC7E5;
+            --border-active: #A78BFA;
+
+
+            /* =====================================================
+       ESTADOS
+    ===================================================== */
+
+            --success: #35B88A;
+            --success-light: #ECFDF5;
+
+            --danger: #E8798F;
+            --danger-light: #FFF1F3;
+
+
+            /* =====================================================
+       RADIOS
+    ===================================================== */
+
+            --radius-xs: 6px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 22px;
+
+
+            /* =====================================================
+       SOMBRAS
+    ===================================================== */
+
+            --shadow-xs:
+                0 2px 8px rgba(62, 48, 100, 0.04);
+
+            --shadow-card:
+                0 8px 30px rgba(55, 45, 90, 0.07);
+
+            --shadow-hover:
+                0 14px 35px rgba(72, 61, 110, 0.12);
+
+            --shadow-active:
+                0 8px 24px rgba(99, 102, 241, 0.14);
+
+
+            /* =====================================================
+       TRANSICIONES
+    ===================================================== */
+
+            --transition-fast: 0.18s ease;
+            --transition-normal: 0.25s ease;
+            --transition-smooth: 0.35s cubic-bezier(.4, 0, .2, 1);
+        }
+
+
+        /* =========================================================
    RESET
 ========================================================= */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-html {
-    scroll-behavior: smooth;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-body {
-    min-height: 100vh;
+        body {
+            min-height: 100vh;
 
-    font-family:
-        Inter,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
 
-    color: var(--text);
-    background: var(--background);
+            color: var(--text);
 
-    -webkit-font-smoothing: antialiased;
-}
+            background: var(--background);
+
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
 
 
-/* =========================================================
+        /* =========================================================
    PAGE
 ========================================================= */
 
-.page {
-    min-height: 100vh;
+        .page-container {
 
-    background:
-        radial-gradient(
-            circle at 90% 0%,
-            rgba(139, 92, 246, 0.08),
-            transparent 30%
-        );
+            min-height: 100vh;
 
-    animation: pageEnter 0.35s ease both;
-}
+            background:
+                radial-gradient(circle at 92% 0%,
+                    rgba(139, 92, 246, 0.11),
+                    transparent 30%),
+                radial-gradient(circle at 0% 45%,
+                    rgba(99, 102, 241, 0.055),
+                    transparent 28%),
+                linear-gradient(180deg,
+                    #FAF9FE 0%,
+                    #F8F8FC 100%);
+
+            animation:
+                pageEnter 0.45s ease both;
+        }
 
 
-/* =========================================================
-   HEADER
+        /* =========================================================
+   MAIN CARD
 ========================================================= */
 
-.page-header {
-    width: min(1100px, calc(100% - 40px));
+        .main-card {
 
-    margin: auto;
+            position: relative;
 
-    padding: 26px 0;
+            width: min(760px, calc(100% - 40px));
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+            margin: 45px auto 60px;
 
-    gap: 40px;
-}
+            padding: 34px;
 
+            border: 1px solid rgba(230, 226, 239, 0.95);
 
-/* Brand */
+            border-radius: var(--radius-xl);
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+            background:
+                rgba(255, 255, 255, 0.96);
 
-.brand-icon {
-    width: 42px;
-    height: 42px;
+            box-shadow:
+                var(--shadow-card);
 
-    display: grid;
-    place-items: center;
-
-    border-radius: 12px;
-
-    color: white;
-    background: var(--primary);
-
-    font-weight: 800;
-    font-size: 18px;
-
-    box-shadow:
-        0 6px 18px rgba(139, 92, 246, 0.25);
-}
-
-.brand-name,
-.brand-subtitle {
-    display: block;
-}
-
-.brand-name {
-    font-size: 15px;
-    font-weight: 750;
-}
-
-.brand-subtitle {
-    margin-top: 2px;
-
-    color: var(--text-light);
-
-    font-size: 12px;
-}
+            animation:
+                cardEnter 0.5s ease 0.05s both;
+        }
 
 
-/* Progress */
-
-.progress-container {
-    width: 220px;
-}
-
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 7px;
-
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.progress-info strong {
-    color: var(--primary);
-}
-
-.progress {
-    width: 100%;
-    height: 6px;
-
-    overflow: hidden;
-
-    border-radius: 999px;
-
-    background: #e9e4f1;
-}
-
-.progress-value {
-    display: block;
-
-    width: 50%;
-    height: 100%;
-
-    border-radius: inherit;
-
-    background: var(--primary);
-
-    animation: progressEnter 0.6s ease both;
-}
-
-
-/* =========================================================
-   CONTENT
+        /* =========================================================
+   BACK NAVIGATION
 ========================================================= */
 
-.content {
-    width: min(760px, calc(100% - 40px));
+        .back-navigation-button {
 
-    margin: 35px auto 70px;
-}
+            position: absolute;
+
+            top: 22px;
+            left: 22px;
+
+            width: 40px;
+            height: 40px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            color: var(--text-secondary);
+
+            background: var(--surface);
+
+            text-decoration: none;
+
+            box-shadow: var(--shadow-xs);
+
+            transition:
+                color var(--transition-fast),
+                background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast);
+        }
+
+        .back-navigation-button svg {
+
+            width: 20px;
+            height: 20px;
+
+            fill: none;
+
+            stroke: currentColor;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .back-navigation-button:hover {
+
+            color: var(--primary);
+
+            border-color: var(--border-hover);
+
+            background: var(--primary-soft);
+
+            transform: translateX(-2px);
+
+            box-shadow:
+                0 5px 15px rgba(99, 102, 241, 0.08);
+        }
+
+        .back-navigation-button:active {
+
+            transform: scale(0.95);
+        }
 
 
-/* Intro */
-
-.intro {
-    margin-bottom: 26px;
-
-    animation: fadeUp 0.4s ease both;
-}
-
-.step-badge {
-    display: inline-flex;
-
-    padding: 5px 10px;
-
-    border-radius: 999px;
-
-    color: var(--primary);
-    background: var(--primary-light);
-
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-}
-
-.intro h1 {
-    margin-top: 13px;
-
-    font-size: clamp(27px, 5vw, 36px);
-    line-height: 1.15;
-    letter-spacing: -0.025em;
-}
-
-.intro p {
-    max-width: 620px;
-
-    margin-top: 10px;
-
-    color: var(--text-secondary);
-
-    line-height: 1.6;
-    font-size: 15px;
-}
-
-
-/* =========================================================
-   CARD
+        /* =========================================================
+   FORM HEADER
 ========================================================= */
 
-.profile-card {
-    padding: 30px;
+        .form-header {
 
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+            text-align: center;
 
-    background: var(--surface);
+            padding: 10px 30px 0;
 
-    box-shadow: var(--shadow-card);
+            animation:
+                fadeUp 0.45s ease 0.08s both;
+        }
 
-    animation:
-        fadeUp 0.45s ease 0.08s both;
-}
+        .form-header h1 {
+
+            color: var(--text);
+
+            font-size: clamp(26px, 5vw, 34px);
+
+            line-height: 1.15;
+
+            letter-spacing: -0.025em;
+
+            font-weight: 750;
+        }
+
+        .highlight {
+            color: var(--primary);
+
+            background:
+                linear-gradient(90deg,
+                    #8B5CF6 0%,
+                    #A855F7 45%,
+                    #EC4899 100%);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-description {
+
+            max-width: 600px;
+
+            margin: 14px auto 0;
+
+            color: var(--text-secondary);
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+        .form-header h2 {
+
+            margin-top: 27px;
+
+            color: var(--text);
+
+            font-size: 20px;
+
+            line-height: 1.35;
+        }
+
+        .helper-text {
+
+            margin-top: 7px;
+
+            color: var(--text-light);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
 
 
-/* Card header */
-
-.card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-
-    gap: 20px;
-
-    padding-bottom: 23px;
-
-    border-bottom: 1px solid var(--border);
-}
-
-.card-header h2 {
-    font-size: 19px;
-}
-
-.card-header p {
-    margin-top: 5px;
-
-    color: var(--text-secondary);
-
-    font-size: 13px;
-}
-
-.required-info {
-    white-space: nowrap;
-
-    color: var(--text-light);
-
-    font-size: 11px;
-}
-
-
-/* =========================================================
-   FORM
+        /* =========================================================
+   SECCIONES
 ========================================================= */
 
-.form-grid {
-    display: grid;
+        .profile-section {
 
-    grid-template-columns: repeat(2, 1fr);
+            margin-top: 28px;
 
-    gap: 20px;
+            animation:
+                fadeUp 0.45s ease 0.12s both;
+        }
 
-    padding-top: 25px;
-}
+        .section-heading {
 
-.form-group {
-    min-width: 0;
-}
+            margin-bottom: 14px;
+        }
 
-.form-group.full {
-    grid-column: 1 / -1;
-}
+        .section-heading h3 {
 
-.form-group label {
-    display: block;
+            color: var(--text);
 
-    margin-bottom: 8px;
+            font-size: 15px;
 
-    color: var(--text);
+            font-weight: 700;
+        }
 
-    font-size: 13px;
-    font-weight: 650;
-}
+        .section-heading p {
 
-.form-group label span {
-    color: var(--primary);
-}
+            margin-top: 4px;
+
+            color: var(--text-secondary);
+
+            font-size: 12px;
+        }
 
 
-/* Input */
-
-.input-wrapper {
-    position: relative;
-}
-
-.input-icon {
-    position: absolute;
-
-    left: 14px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: var(--text-light);
-
-    font-size: 15px;
-
-    pointer-events: none;
-
-    transition: color var(--transition-fast);
-}
-
-input,
-select {
-    width: 100%;
-    height: 48px;
-
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-
-    padding: 0 14px 0 43px;
-
-    outline: none;
-
-    color: var(--text);
-    background: #fff;
-
-    font-family: inherit;
-    font-size: 14px;
-
-    transition:
-        border-color var(--transition-fast),
-        box-shadow var(--transition-fast),
-        background-color var(--transition-fast);
-}
-
-input::placeholder {
-    color: #aaa4b1;
-}
-
-input:hover,
-select:hover {
-    border-color: var(--border-hover);
-}
-
-input:focus,
-select:focus {
-    border-color: var(--primary);
-
-    box-shadow:
-        0 0 0 3px rgba(139, 92, 246, 0.11);
-}
-
-.input-wrapper:focus-within .input-icon {
-    color: var(--primary);
-}
-
-select {
-    appearance: none;
-    cursor: pointer;
-}
-
-.select-wrapper::after {
-    content: "⌄";
-
-    position: absolute;
-
-    right: 15px;
-    top: 50%;
-
-    transform: translateY(-55%);
-
-    color: var(--text-light);
-
-    pointer-events: none;
-}
-
-.helper-text {
-    display: block;
-
-    margin-top: 6px;
-
-    color: var(--text-light);
-
-    font-size: 11px;
-}
-
-
-/* =========================================================
-   OCCUPATION
+        /* =========================================================
+   LISTA DE TARJETAS
 ========================================================= */
 
-.occupation-section {
-    margin-top: 30px;
-    padding-top: 27px;
+        .options-list {
 
-    border-top: 1px solid var(--border);
-}
+            display: flex;
 
-.section-title h3 {
-    font-size: 15px;
-}
+            flex-direction: column;
 
-.section-title p {
-    margin-top: 4px;
+            gap: 11px;
+        }
 
-    color: var(--text-secondary);
 
-    font-size: 12px;
-}
+        /* =========================================================
+   TARJETA BASE
+========================================================= */
 
+        .option-card {
 
-/* Options */
+            position: relative;
 
-.options {
-    display: grid;
+            display: flex;
 
-    grid-template-columns: repeat(2, 1fr);
+            align-items: center;
 
-    gap: 12px;
+            width: 100%;
 
-    margin-top: 16px;
-}
+            min-height: 72px;
 
-.option-card {
-    position: relative;
+            padding: 13px 16px;
 
-    display: flex;
-    align-items: center;
+            border: 1px solid var(--border);
 
-    min-height: 76px;
+            border-radius: var(--radius-md);
 
-    padding: 13px 15px;
+            background:
+                linear-gradient(135deg,
+                    #FFFFFF 0%,
+                    #FCFBFE 100%);
 
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+            cursor: pointer;
 
-    cursor: pointer;
+            box-shadow:
+                0 2px 8px rgba(62, 48, 100, 0.025);
 
-    background: #fff;
+            transition:
+                transform var(--transition-fast),
+                border-color var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background var(--transition-fast);
+        }
 
-    transition:
-        transform var(--transition-fast),
-        border-color var(--transition-fast),
-        box-shadow var(--transition-fast),
-        background-color var(--transition-fast);
-}
+        .option-card:hover {
 
-.option-card:hover {
-    border-color: var(--border-hover);
+            border-color: var(--border-hover);
 
-    transform: translateY(-2px);
+            background:
+                linear-gradient(135deg,
+                    #FFFFFF,
+                    #FAF8FF);
 
-    box-shadow: var(--shadow-hover);
-}
+            transform: translateY(-2px);
 
-.option-card:active {
-    transform: scale(0.99);
-}
+            box-shadow:
+                var(--shadow-hover);
+        }
 
+        .option-card:active {
 
-/* Hide radio */
+            transform: scale(0.992);
+        }
 
-.option-card input {
-    position: absolute;
 
-    width: 1px;
-    height: 1px;
+        /* =========================================================
+   ICONOS
+========================================================= */
 
-    opacity: 0;
+        .option-icon {
 
-    pointer-events: none;
-}
+            width: 42px;
+            height: 42px;
 
+            flex-shrink: 0;
 
-/* Icon */
+            display: grid;
 
-.option-icon {
-    width: 40px;
-    height: 40px;
+            place-items: center;
 
-    display: grid;
-    place-items: center;
+            border-radius: 12px;
 
-    flex-shrink: 0;
+            color: var(--indigo);
 
-    border-radius: 11px;
+            background:
+                linear-gradient(135deg,
+                    var(--primary-light),
+                    var(--indigo-light));
 
-    background: #f5f2fa;
+            font-size: 17px;
 
-    font-size: 17px;
+            box-shadow:
+                inset 0 0 0 1px rgba(139, 92, 246, 0.04);
 
-    transition:
-        transform var(--transition-fast),
-        background-color var(--transition-fast);
-}
+            transition:
+                transform var(--transition-fast),
+                background var(--transition-fast),
+                color var(--transition-fast);
+        }
 
+        .option-card:hover .option-icon {
 
-/* Content */
+            transform: scale(1.04);
 
-.option-content {
-    min-width: 0;
+            background:
+                linear-gradient(135deg,
+                    #EDE7FF,
+                    #E7E9FF);
+        }
 
-    margin-left: 11px;
-}
 
-.option-content strong {
-    display: block;
+        /* =========================================================
+   CONTENIDO DE TARJETA
+========================================================= */
 
-    font-size: 13px;
-}
+        .option-content {
 
-.option-content small {
-    display: block;
+            min-width: 0;
 
-    margin-top: 3px;
+            flex: 1;
 
-    color: var(--text-secondary);
+            margin-left: 12px;
 
-    font-size: 11px;
-    line-height: 1.35;
-}
+            display: flex;
 
+            flex-direction: column;
+        }
 
-/* Check */
+        .option-text {
 
-.option-check {
-    position: absolute;
+            display: block;
 
-    right: 13px;
-    top: 13px;
+            color: var(--text);
 
-    width: 17px;
-    height: 17px;
+            font-size: 13px;
 
-    border: 1.5px solid #d8d2df;
-    border-radius: 50%;
+            font-weight: 700;
 
-    transition:
-        border-color var(--transition-fast),
-        background-color var(--transition-fast),
-        transform var(--transition-fast);
-}
+            line-height: 1.35;
+        }
 
+        .option-description {
 
-/* Selected */
+            display: block;
 
-.option-card:has(input:checked) {
-    border-color: var(--primary);
+            margin-top: 3px;
 
-    background: rgba(139, 92, 246, 0.055);
+            color: var(--text-secondary);
 
-    box-shadow:
-        0 5px 18px rgba(139, 92, 246, 0.10);
-}
+            font-size: 11px;
 
-.option-card:has(input:checked) .option-icon {
-    background: var(--primary-light);
+            line-height: 1.4;
+        }
 
-    transform: scale(1.04);
-}
 
-.option-card:has(input:checked) .option-check {
-    border-color: var(--primary);
+        /* =========================================================
+   INPUTS DENTRO DE LAS TARJETAS
+========================================================= */
 
-    background: var(--primary);
+        .profile-input {
 
-    transform: scale(1.05);
-}
+            width: 100%;
 
-.option-card:has(input:checked) .option-check::after {
-    content: "";
+            height: 28px;
 
-    position: absolute;
+            margin-top: 4px;
 
-    width: 5px;
-    height: 8px;
+            padding: 0;
 
-    left: 5px;
-    top: 2px;
+            border: none;
 
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
+            outline: none;
 
-    transform: rotate(45deg);
-}
+            color: var(--text);
 
+            background: transparent;
 
-/* =========================================================
+            font-family: inherit;
+
+            font-size: 13px;
+
+            line-height: 1.4;
+        }
+
+        .profile-input::placeholder {
+
+            color: var(--text-light);
+        }
+
+        .profile-input:focus {
+
+            border: none;
+
+            outline: none;
+
+            box-shadow: none;
+        }
+
+
+        /* =========================================================
+   SELECT
+========================================================= */
+
+        select.profile-input {
+
+            appearance: none;
+
+            cursor: pointer;
+
+            padding-right: 5px;
+        }
+
+        select.profile-input option {
+
+            color: var(--text);
+        }
+
+
+        /* =========================================================
+   TARJETAS DE CAMPOS
+========================================================= */
+
+        .profile-card {
+
+            cursor: text;
+        }
+
+        .profile-card:focus-within {
+
+            border-color: var(--primary);
+
+            background:
+                linear-gradient(135deg,
+                    rgba(139, 92, 246, 0.045),
+                    rgba(99, 102, 241, 0.025));
+
+            box-shadow:
+                0 6px 20px rgba(99, 102, 241, 0.09);
+        }
+
+        .profile-card:focus-within .option-icon {
+
+            transform: scale(1.04);
+
+            background:
+                linear-gradient(135deg,
+                    #EDE7FF,
+                    #E8EAFF);
+        }
+
+
+        /* =========================================================
+   RADIO / CHECKBOX
+========================================================= */
+
+        .option-checkbox {
+
+            position: absolute;
+
+            width: 1px;
+            height: 1px;
+
+            opacity: 0;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+   ESTADO SELECCIONADO
+========================================================= */
+
+        .option-card:has(input:checked) {
+
+            border-color: var(--primary);
+
+            background:
+                linear-gradient(135deg,
+                    rgba(139, 92, 246, 0.075),
+                    rgba(99, 102, 241, 0.045));
+
+            box-shadow:
+                var(--shadow-active);
+        }
+
+        .option-card:has(input:checked) .option-icon {
+
+            color: var(--primary);
+
+            background:
+                linear-gradient(135deg,
+                    #EDE7FF,
+                    #E8EAFF);
+
+            transform: scale(1.04);
+        }
+
+
+        /* =========================================================
+   INDICADOR DE SELECCIÓN
+========================================================= */
+
+        .option-card:not(.profile-card)::after {
+
+            content: "";
+
+            position: absolute;
+
+            top: 50%;
+            right: 17px;
+
+            width: 17px;
+            height: 17px;
+
+            transform:
+                translateY(-50%);
+
+            border: 1.5px solid #D8D2E3;
+
+            border-radius: 50%;
+
+            transition:
+                border-color var(--transition-fast),
+                background-color var(--transition-fast),
+                box-shadow var(--transition-fast);
+        }
+
+        .option-card:not(.profile-card):has(input:checked)::after {
+
+            border-color: var(--primary);
+
+            background: var(--primary);
+
+            box-shadow:
+                0 0 0 3px rgba(139, 92, 246, 0.10);
+        }
+
+        .option-card:not(.profile-card):has(input:checked)::before {
+
+            content: "";
+
+            position: absolute;
+
+            right: 23px;
+            top: 50%;
+
+            width: 5px;
+            height: 8px;
+
+            border-right: 2px solid white;
+            border-bottom: 2px solid white;
+
+            transform:
+                translateY(-65%) rotate(45deg);
+
+            z-index: 2;
+        }
+
+
+        /* =========================================================
+   ERROR
+========================================================= */
+
+        .input-error {
+
+            color: var(--danger) !important;
+        }
+
+        .profile-card:has(.input-error) {
+
+            border-color: var(--danger);
+
+            background:
+                var(--danger-light);
+
+            box-shadow:
+                0 4px 15px rgba(232, 121, 143, 0.10);
+        }
+
+
+        /* =========================================================
    FOOTER
 ========================================================= */
 
-.form-footer {
-    margin-top: 30px;
-    padding-top: 22px;
+        .form-footer {
 
-    border-top: 1px solid var(--border);
-}
+            margin-top: 28px;
 
-.privacy {
-    color: var(--text-light);
+            padding-top: 22px;
 
-    font-size: 11px;
-    line-height: 1.5;
-}
+            border-top: 1px solid var(--border);
 
-.actions {
-    display: flex;
-    justify-content: flex-end;
+            animation:
+                fadeUp 0.45s ease 0.16s both;
+        }
 
-    gap: 10px;
+        .form-footer>.helper-text {
 
-    margin-top: 20px;
-}
+            margin: 0;
+
+            text-align: left;
+
+            color: var(--text-light);
+
+            font-size: 11px;
+        }
+
+        .form-footer-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 18px;
+        }
 
 
-/* =========================================================
-   BUTTONS
+        /* =========================================================
+   BOTONES
 ========================================================= */
 
-.btn {
-    min-height: 46px;
+        .btn-primary,
+        .btn-secondary {
+            min-height: 44px;
+            padding: 0 20px;
+            border-radius: 11px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: 0.01em;
+            cursor: pointer;
 
-    padding: 0 20px;
+            transition:
+                transform var(--transition-fast),
+                box-shadow var(--transition-fast),
+                background var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-fast);
+        }
 
-    border-radius: 11px;
+        /* =========================================
+   BOTÓN PRIMARIO — LILA → ROSA
+   ========================================= */
 
-    font-family: inherit;
+        .btn-primary {
+            border: 1px solid transparent;
 
-    font-size: 13px;
-    font-weight: 700;
+            color: #FFFFFF;
 
-    cursor: pointer;
+            background:
+                linear-gradient(90deg,
+                    #8B5CF6 0%,
+                    #A855F7 45%,
+                    #E879A9 100%);
 
-    transition:
-        transform var(--transition-fast),
-        box-shadow var(--transition-fast),
-        background-color var(--transition-fast),
-        border-color var(--transition-fast),
-        opacity var(--transition-fast);
-}
+            box-shadow:
+                0 6px 18px rgba(139, 92, 246, 0.20);
+        }
 
-.btn:active {
-    transform: scale(0.97);
-}
+        .btn-primary:hover {
+            transform: translateY(-2px);
 
+            background:
+                linear-gradient(90deg,
+                    #7C4FE8 0%,
+                    #9B46E8 45%,
+                    #DC6D9D 100%);
 
-/* Secondary */
+            box-shadow:
+                0 9px 24px rgba(139, 92, 246, 0.27);
+        }
 
-.btn-secondary {
-    border: 1px solid var(--border);
+        .btn-primary:active {
+            transform: translateY(0);
 
-    color: var(--text-secondary);
+            box-shadow:
+                0 4px 12px rgba(139, 92, 246, 0.18);
+        }
 
-    background: white;
-}
+        /* =========================================
+   BOTÓN SECUNDARIO
+   ========================================= */
 
-.btn-secondary:hover {
-    border-color: var(--border-hover);
+        .btn-secondary {
+            color: var(--text-secondary);
+            background: var(--surface);
+            border: 1px solid var(--border);
+        }
 
-    background: #faf9fc;
-}
-
-
-/* Primary */
-
-.btn-primary {
-    border: 1px solid var(--primary);
-
-    color: white;
-
-    background: var(--primary);
-
-    box-shadow:
-        0 5px 14px rgba(139, 92, 246, 0.20);
-}
-
-.btn-primary:hover {
-    background: var(--primary-dark);
-
-    box-shadow:
-        0 8px 20px rgba(139, 92, 246, 0.27);
-
-    transform: translateY(-2px);
-}
-
-.arrow {
-    display: inline-block;
-
-    margin-left: 6px;
-
-    transition: transform var(--transition-fast);
-}
-
-.btn-primary:hover .arrow {
-    transform: translateX(3px);
-}
+        .btn-secondary:hover {
+            color: var(--primary);
+            background: var(--primary-soft);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
 
 
-/* Loading */
-
-.btn.loading {
-    opacity: 0.8;
-
-    pointer-events: none;
-}
-
-.spinner {
-    display: inline-block;
-
-    width: 14px;
-    height: 14px;
-
-    margin-right: 7px;
-
-    vertical-align: -2px;
-
-    border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white;
-
-    border-radius: 50%;
-
-    animation: spin 0.7s linear infinite;
-}
-
-
-/* =========================================================
+        /* =========================================================
    FOCUS
 ========================================================= */
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-label:focus-visible {
-    outline: 3px solid rgba(139, 92, 246, 0.28);
-    outline-offset: 3px;
-}
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        a:focus-visible {
+
+            outline: 3px solid rgba(99, 102, 241, 0.22);
+
+            outline-offset: 3px;
+        }
 
 
-/* =========================================================
-   ANIMATIONS
+        /* =========================================================
+   ANIMACIONES
 ========================================================= */
 
-@keyframes pageEnter {
-    from {
-        opacity: 0;
-    }
+        @keyframes pageEnter {
 
-    to {
-        opacity: 1;
-    }
-}
+            from {
+                opacity: 0;
+            }
 
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes progressEnter {
-    from {
-        width: 0;
-    }
-
-    to {
-        width: 50%;
-    }
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
+            to {
+                opacity: 1;
+            }
+        }
 
 
-/* =========================================================
-   RESPONSIVE
+        @keyframes cardEnter {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(14px) scale(0.99);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0) scale(1);
+            }
+        }
+
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================================================
+   RESPONSIVE — TABLET
 ========================================================= */
 
-@media (max-width: 700px) {
+        @media (max-width: 700px) {
 
-    .page-header {
-        width: min(100% - 28px, 600px);
+            .main-card {
 
-        padding: 18px 0;
+                width: calc(100% - 28px);
 
-        align-items: flex-start;
+                margin:
+                    25px auto 35px;
 
-        flex-direction: column;
+                padding:
+                    28px 20px 24px;
 
-        gap: 17px;
-    }
-
-    .progress-container {
-        width: 100%;
-    }
-
-    .content {
-        width: min(100% - 28px, 600px);
-
-        margin-top: 22px;
-    }
-
-    .profile-card {
-        padding: 22px 18px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-group.full {
-        grid-column: auto;
-    }
-
-    .options {
-        grid-template-columns: 1fr;
-    }
-
-    .card-header {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .required-info {
-        order: 2;
-    }
-
-    .actions {
-        flex-direction: column-reverse;
-    }
-
-    .btn {
-        width: 100%;
-    }
-}
+                border-radius: 18px;
+            }
 
 
-/* =========================================================
-   MOBILE PEQUEÑO
+            .back-navigation-button {
+
+                top: 17px;
+                left: 17px;
+
+                width: 38px;
+                height: 38px;
+            }
+
+
+            .form-header {
+
+                padding:
+                    25px 5px 0;
+            }
+
+
+            .form-header h1 {
+
+                font-size: 27px;
+            }
+
+
+            .form-header h2 {
+
+                margin-top: 24px;
+
+                font-size: 18px;
+            }
+
+
+            .header-description {
+
+                font-size: 13px;
+            }
+
+
+            .profile-section {
+
+                margin-top: 24px;
+            }
+
+
+            .option-card {
+
+                min-height: 70px;
+
+                padding:
+                    12px 14px;
+            }
+
+
+            .option-icon {
+
+                width: 39px;
+                height: 39px;
+            }
+
+
+            .option-content {
+
+                margin-left: 10px;
+
+                padding-right: 22px;
+            }
+
+
+            .form-footer-actions {
+
+                flex-direction: column-reverse;
+            }
+
+
+            .btn-primary,
+            .btn-secondary {
+
+                width: 100%;
+            }
+        }
+
+
+        /* =========================================================
+   RESPONSIVE — CELULARES PEQUEÑOS
 ========================================================= */
 
-@media (max-width: 400px) {
+        @media (max-width: 430px) {
 
-    .page-header {
-        width: calc(100% - 22px);
-    }
+            .page-container {
 
-    .content {
-        width: calc(100% - 22px);
-    }
-
-    .profile-card {
-        padding: 18px 14px;
-    }
-
-    .intro h1 {
-        font-size: 26px;
-    }
-
-    .option-card {
-        padding-right: 35px;
-    }
-}
+                background:
+                    linear-gradient(180deg,
+                        #FAF9FE,
+                        #F7F7FB);
+            }
 
 
-/* =========================================================
+            .main-card {
+
+                width: calc(100% - 16px);
+
+                margin:
+                    8px auto 20px;
+
+                padding:
+                    24px 12px 18px;
+
+                border-radius: 16px;
+
+                box-shadow:
+                    0 6px 24px rgba(55, 45, 90, 0.06);
+            }
+
+
+            .back-navigation-button {
+
+                top: 13px;
+                left: 13px;
+
+                width: 36px;
+                height: 36px;
+            }
+
+
+            .form-header {
+
+                padding-top: 30px;
+            }
+
+
+            .form-header h1 {
+
+                font-size: 24px;
+            }
+
+
+            .form-header h2 {
+
+                font-size: 17px;
+            }
+
+
+            .header-description {
+
+                font-size: 12px;
+
+                line-height: 1.5;
+            }
+
+
+            .helper-text {
+
+                font-size: 11px;
+            }
+
+
+            .section-heading h3 {
+
+                font-size: 14px;
+            }
+
+
+            .section-heading p {
+
+                font-size: 11px;
+            }
+
+
+            .options-list {
+
+                gap: 9px;
+            }
+
+
+            .option-card {
+
+                min-height: 68px;
+
+                padding:
+                    11px 12px;
+            }
+
+
+            .option-icon {
+
+                width: 37px;
+                height: 37px;
+
+                border-radius: 10px;
+
+                font-size: 15px;
+            }
+
+
+            .option-text {
+
+                font-size: 12px;
+            }
+
+
+            .option-description {
+
+                font-size: 10px;
+            }
+
+
+            .profile-input {
+
+                font-size: 12px;
+            }
+
+
+            .option-card:not(.profile-card)::after {
+
+                right: 12px;
+
+                width: 16px;
+                height: 16px;
+            }
+
+
+            .option-card:not(.profile-card):has(input:checked)::before {
+
+                right: 18px;
+            }
+
+
+            .form-footer {
+
+                margin-top: 22px;
+
+                padding-top: 18px;
+            }
+        }
+
+
+        /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+        @media (prefers-reduced-motion: reduce) {
 
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-</style>
+            *,
+            *::before,
+            *::after {
 
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="page-container">
 
-    <main class="page">
+    <main class="main-card text-lg">
 
-        <!-- Encabezado -->
-        <header class="page-header">
-            <div class="brand">
-                <div class="brand-icon">M</div>
+        <!-- =====================================================
+             BOTÓN VOLVER
+        ====================================================== -->
 
-                <div>
-                    <span class="brand-name">#MujeresConPoder</span>
-                    <span class="brand-subtitle">Conoce tu potencial</span>
-                </div>
-            </div>
+        <a href="edad.html" class="back-navigation-button" aria-label="Volver" title="Volver">
 
-            <div class="progress-container">
-                <div class="progress-info">
-                    <span>Tu perfil</span>
-                    <strong>2 de 4</strong>
-                </div>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 
-                <div class="progress">
-                    <span class="progress-value"></span>
-                </div>
-            </div>
-        </header>
+                <path d="M19 12H5"></path>
+                <path d="M12 19l-7-7 7-7"></path>
+
+            </svg>
+
+        </a>
 
 
-        <!-- Contenido -->
-        <section class="content">
+        <!-- =====================================================
+             ENCABEZADO
+        ====================================================== -->
 
-            <div class="intro">
-                <span class="step-badge">PASO 2</span>
+        <div class="form-header">
 
-                <h1>Cuéntanos un poco sobre ti</h1>
+            <h1>
+                Completar formulario
+                <br>
+                <span class="highlight">
+                    #MujeresConPoder
+                </span>
+            </h1>
+
+            <p class="header-description">
+                Conoce tu potencial y ayúdanos a personalizar
+                tu experiencia.
+            </p>
+
+            <h2>
+                Cuéntanos un poco sobre ti
+            </h2>
+
+            <p class="helper-text">
+                Selecciona o completa la información solicitada.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             INFORMACIÓN PERSONAL
+        ====================================================== -->
+
+        <section class="profile-section">
+
+            <div class="section-heading">
+
+                <h3>
+                    Información personal
+                </h3>
 
                 <p>
-                    Esta información nos ayudará a personalizar
-                    tu experiencia y recomendarte un plan adecuado.
+                    Estos datos nos ayudarán a conocerte mejor.
                 </p>
+
             </div>
 
 
-            <!-- Formulario -->
-            <form class="profile-card" id="profileForm">
-
-                <div class="card-header">
-                    <div>
-                        <h2>Información personal</h2>
-                        <p>Completa los siguientes datos.</p>
-                    </div>
-
-                    <span class="required-info">* Obligatorio</span>
-                </div>
+            <div class="options-list">
 
 
-                <div class="form-grid">
+                <!-- =================================================
+                     NOMBRE
+                ================================================== -->
 
-                    <!-- Nombre -->
-                    <div class="form-group full">
-                        <label for="nombre">
+                <label class="option-card profile-card">
+
+                    <span class="option-icon">
+                        👤
+                    </span>
+
+                    <span class="option-content">
+
+                        <span class="option-text">
                             Nombre completo
-                            <span>*</span>
-                        </label>
+                        </span>
 
-                        <div class="input-wrapper">
-                            <span class="input-icon">👤</span>
+                        <input type="text" id="nombre" name="nombre" class="profile-input" placeholder="Ej. María López"
+                            autocomplete="name" required>
 
-                            <input
-                                type="text"
-                                id="nombre"
-                                name="nombre"
-                                placeholder="Ej. María López"
-                                autocomplete="name"
-                                required
-                            >
-                        </div>
+                    </span>
 
-                        <small class="helper-text">
-                            Escribe tu nombre y apellido.
-                        </small>
-                    </div>
+                </label>
 
 
-                    <!-- Correo -->
-                    <div class="form-group">
+                <!-- =================================================
+                     CORREO
+                ================================================== -->
 
-                        <label for="email">
+                <label class="option-card profile-card">
+
+                    <span class="option-icon">
+                        ✉️
+                    </span>
+
+                    <span class="option-content">
+
+                        <span class="option-text">
                             Correo electrónico
-                            <span>*</span>
-                        </label>
+                        </span>
 
-                        <div class="input-wrapper">
-                            <span class="input-icon">✉</span>
+                        <input type="email" id="email" name="email" class="profile-input"
+                            placeholder="ejemplo@correo.com" autocomplete="email" required>
 
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="ejemplo@correo.com"
-                                autocomplete="email"
-                                required
-                            >
-                        </div>
+                    </span>
 
-                    </div>
+                </label>
 
 
-                    <!-- WhatsApp -->
-                    <div class="form-group">
+                <!-- =================================================
+                     WHATSAPP
+                ================================================== -->
 
-                        <label for="whatsapp">
+                <label class="option-card profile-card">
+
+                    <span class="option-icon">
+                        📱
+                    </span>
+
+                    <span class="option-content">
+
+                        <span class="option-text">
                             WhatsApp
-                            <span>*</span>
-                        </label>
+                        </span>
 
-                        <div class="input-wrapper">
-                            <span class="input-icon">☎</span>
+                        <input type="tel" id="whatsapp" name="whatsapp" class="profile-input" inputmode="tel"
+                            autocomplete="tel" placeholder="+591 70000000" required>
 
-                            <input
-                                type="tel"
-                                id="whatsapp"
-                                name="whatsapp"
-                                inputmode="tel"
-                                autocomplete="tel"
-                                placeholder="+591 70000000"
-                                required
-                            >
-                        </div>
+                    </span>
 
-                    </div>
+                </label>
 
 
-                    <!-- País -->
-                    <div class="form-group">
+                <!-- =================================================
+                     PAÍS
+                ================================================== -->
 
-                        <label for="pais">
+                <label class="option-card profile-card">
+
+                    <span class="option-icon">
+                        🌎
+                    </span>
+
+                    <span class="option-content">
+
+                        <span class="option-text">
                             País
-                            <span>*</span>
-                        </label>
+                        </span>
 
-                        <div class="input-wrapper select-wrapper">
-                            <span class="input-icon">🌎</span>
+                        <select id="pais" name="pais" class="profile-input" required>
 
-                            <select id="pais" name="pais" required>
-                                <option value="">Selecciona tu país</option>
-                                <option value="BO">Bolivia</option>
-                                <option value="PE">Perú</option>
-                                <option value="AR">Argentina</option>
-                                <option value="CL">Chile</option>
-                                <option value="CO">Colombia</option>
-                                <option value="MX">México</option>
-                            </select>
-                        </div>
+                            <option value="">
+                                Selecciona tu país
+                            </option>
 
-                    </div>
+                            <option value="BO">
+                                Bolivia
+                            </option>
 
+                            <option value="PE">
+                                Perú
+                            </option>
 
-                    <!-- Ciudad -->
-                    <div class="form-group">
+                            <option value="AR">
+                                Argentina
+                            </option>
 
-                        <label for="ciudad">
-                            Ciudad
-                            <span>*</span>
-                        </label>
+                            <option value="CL">
+                                Chile
+                            </option>
 
-                        <div class="input-wrapper select-wrapper">
-                            <span class="input-icon">📍</span>
+                            <option value="CO">
+                                Colombia
+                            </option>
 
-                            <select id="ciudad" name="ciudad" required>
-                                <option value="">Selecciona tu ciudad</option>
-                                <option value="lapaz">La Paz</option>
-                                <option value="santacruz">Santa Cruz</option>
-                                <option value="cochabamba">Cochabamba</option>
-                                <option value="sucre">Sucre</option>
-                            </select>
-                        </div>
+                            <option value="MX">
+                                México
+                            </option>
 
-                    </div>
+                        </select>
 
-                </div>
+                    </span>
+
+                </label>
 
 
-                <!-- Ocupación -->
-                <div class="occupation-section">
-
-                    <div class="section-title">
-                        <h3>¿Cuál describe mejor tu situación actual?</h3>
-
-                        <p>
-                            Selecciona una opción.
-                        </p>
-                    </div>
-
-
-                    <div class="options">
-
-                        <label class="option-card">
-
-                            <input
-                                type="radio"
-                                name="ocupacion"
-                                value="estudiante"
-                                required
-                            >
-
-                            <span class="option-check"></span>
-
-                            <span class="option-icon">🎓</span>
-
-                            <span class="option-content">
-                                <strong>Estudiante</strong>
-                                <small>
-                                    Actualmente estoy estudiando.
-                                </small>
-                            </span>
-
-                        </label>
-
-
-                        <label class="option-card">
-
-                            <input
-                                type="radio"
-                                name="ocupacion"
-                                value="profesional"
-                            >
-
-                            <span class="option-check"></span>
-
-                            <span class="option-icon">💼</span>
-
-                            <span class="option-content">
-                                <strong>Profesional</strong>
-                                <small>
-                                    Trabajo o ejerzo una profesión.
-                                </small>
-                            </span>
-
-                        </label>
-
-
-                        <label class="option-card">
-
-                            <input
-                                type="radio"
-                                name="ocupacion"
-                                value="emprendedora"
-                            >
-
-                            <span class="option-check"></span>
-
-                            <span class="option-icon">🚀</span>
-
-                            <span class="option-content">
-                                <strong>Emprendedora</strong>
-                                <small>
-                                    Tengo un negocio o emprendimiento.
-                                </small>
-                            </span>
-
-                        </label>
-
-
-                        <label class="option-card">
-
-                            <input
-                                type="radio"
-                                name="ocupacion"
-                                value="otra"
-                            >
-
-                            <span class="option-check"></span>
-
-                            <span class="option-icon">✨</span>
-
-                            <span class="option-content">
-                                <strong>Otra situación</strong>
-                                <small>
-                                    Mi situación es diferente.
-                                </small>
-                            </span>
-
-                        </label>
-
-                    </div>
-
-                </div>
-
-
-                <!-- Footer formulario -->
-                <div class="form-footer">
-
-                    <p class="privacy">
-                        🔒 Tu información será utilizada únicamente
-                        para personalizar tu experiencia.
-                    </p>
-
-                    <div class="actions">
-
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                        >
-                            Atrás
-                        </button>
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary"
-                        >
-                            Continuar
-                            <span class="arrow">→</span>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </form>
+            </div>
 
         </section>
+
+
+        <div class="form-footer">
+
+            <p class="helper-text">
+                🔒 Tu información será utilizada únicamente
+                para personalizar tu experiencia.
+            </p>
+
+            <div class="form-footer-actions">
+
+                <button type="button" class="btn-secondary" onclick="history.back()">
+
+                    ATRÁS
+
+                </button>
+
+                <button type="button" class="btn-primary" id="continuarBtn">
+
+                    CONTINUAR
+
+                </button>
+
+            </div>
+
+        </div>
 
     </main>
 
 
+    <!-- =========================================================
+         SCRIPTS
+    ========================================================== -->
+
+    <script src="../js/backNavigation.js" defer></script>
+    <script src="../js/pageTransitions.js" defer></script>
+
     <script>
-        const form = document.getElementById("profileForm");
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
+        document.addEventListener("DOMContentLoaded", () => {
 
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+            const continuarBtn =
+                document.getElementById("continuarBtn");
 
-            const button = form.querySelector(".btn-primary");
+            const requiredFields =
+                document.querySelectorAll(
+                    "input[required], select[required]"
+                );
 
-            button.classList.add("loading");
-            button.innerHTML = `
-                <span class="spinner"></span>
-                Guardando...
-            `;
 
-            setTimeout(() => {
-                button.classList.remove("loading");
-                button.innerHTML = `
-                    Continuar
-                    <span class="arrow">→</span>
-                `;
-            }, 1200);
+            continuarBtn.addEventListener("click", () => {
+
+                let valid = true;
+
+
+                requiredFields.forEach(field => {
+
+                    if (!field.value.trim()) {
+
+                        valid = false;
+
+                        field.classList.add("input-error");
+
+                    } else {
+
+                        field.classList.remove("input-error");
+
+                    }
+
+                });
+
+
+                if (!valid) {
+
+                    const firstInvalid =
+                        document.querySelector(".input-error");
+
+                    if (firstInvalid) {
+                        firstInvalid.focus();
+                    }
+
+                    return;
+                }
+
+
+                window.location.href =
+                    "personalidad1.html";
+
+            });
+
         });
+
     </script>
 
 </body>
+
 </html>

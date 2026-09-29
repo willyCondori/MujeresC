@@ -45,6 +45,21 @@
     --shadow-btn: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
     --shadow-btn-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --shadow-option-selected: inset 0 4px 4px rgba(0, 0, 0, 0.25);
+    /* Acentos secundarios */
+    --color-accent-teal: #0f766e;
+    --color-accent-blue: #2563eb;
+    --color-accent-orange: #ea580c;
+    --color-accent-rose: #db2777;
+
+    --color-accent-teal-soft: #ccfbf1;
+    --color-accent-blue-soft: #dbeafe;
+    --color-accent-orange-soft: #ffedd5;
+    --color-accent-rose-soft: #fce7f3;
+
+    /* Degradado de marca (morado -> rosa), usado tanto en el texto
+       .highlight como en el botón principal y la opción seleccionada,
+       para que ambos se vean consistentes. */
+    --gradient-brand: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-rose) 100%);
 }
 
 * {
@@ -110,10 +125,6 @@ button {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    /* Red de seguridad: scroll interno SOLO si en una pantalla muy
-       pequeña el contenido no entra ni siquiera comprimido. En la
-       mayoría de dispositivos, con .page-container de alto fijo, esto
-       nunca debería activarse. */
     overflow-y: auto;
 }
 
@@ -148,8 +159,6 @@ button {
 
 .page-container {
     width: 100%;
-    /* Alto FIJO al viewport (no min-height) para que ninguna página
-       pueda crecer más que la pantalla y obligue a hacer scroll. */
     height: 100vh;
     height: 100dvh;
     min-height: auto;
@@ -186,6 +195,7 @@ button {
     font-weight: 500;
     color: var(--color-text-muted);
     line-height: 1.5;
+    margin-top: 10px;
 }
 
 .divider {
@@ -195,8 +205,56 @@ button {
 }
 
 .highlight {
-    color: var(--color-primary);
+    display: inline-block;
+
+    background: linear-gradient(
+        90deg,
+        #8B5CF6 0%,
+        #A855F7 30%,
+        #EC4899 50%,
+        #A855F7 70%,
+        #8B5CF6 100%
+    );
+
+    background-size: 200% auto;
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    animation:
+        highlightGradient 4s ease-in-out infinite,
+        highlightFloat 2.8s ease-in-out infinite;
 }
+
+@keyframes highlightGradient {
+    0% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 100% center;
+    }
+
+    100% {
+        background-position: 0% center;
+    }
+}
+
+@keyframes highlightFloat {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/*    
+
+*/
 
 .text-center {
     text-align: center;
@@ -208,7 +266,7 @@ button {
     align-items: center;
     width: 100%;
     min-height: 60px;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: var(--gradient-brand);
     color: var(--color-bg-white);
     text-align: center;
     text-decoration: none;
@@ -223,7 +281,9 @@ button {
 /* :hover solo en dispositivos con puntero real (mouse/trackpad), para
    que en móvil no se quede "pegado" el estado tras un tap */
 @media (hover: hover) and (pointer: fine) {
-    .btn-primary:hover {
+
+    .btn-primary:hover,
+    .btn-secondary-outline:hover {
         opacity: 0.95;
         transform: translateY(-1px);
         box-shadow: var(--shadow-btn-hover);
@@ -296,11 +356,12 @@ button {
 }
 
 .welcome-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    margin-top: clamp(40px, 8vh, 80px);
 }
 
 .icon-circle {
@@ -459,6 +520,7 @@ button {
 }
 
 @media (hover: hover) and (pointer: fine) {
+
     .option-card:hover,
     .option-card-custom:hover {
         border-color: var(--color-primary);
@@ -530,17 +592,19 @@ button {
 }
 
 .option-card:has(.option-checkbox:checked) {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: var(--gradient-brand);
     border-color: var(--color-primary);
     color: var(--color-bg-white);
     box-shadow: 0 6px 16px -4px rgba(139, 92, 246, 0.45), var(--shadow-btn);
 }
+
 .option-text {
     font-size: 16px;
     font-weight: 600;
     color: var(--color-text-body);
     line-height: 1.4;
-    text-align: left; /* Alineado a la izquierda para dejar espacio al checkbox a la derecha */
+    text-align: left;
+    /* Alineado a la izquierda para dejar espacio al checkbox a la derecha */
     flex-grow: 1;
     margin-right: 12px;
     transition: color 0.2s ease;
@@ -565,6 +629,7 @@ button {
 .main-card.text-lg .btn-primary {
     font-size: 1.1rem !important;
 }
+
 .option-card:has(.option-checkbox:checked) .option-text {
     color: var(--color-bg-white);
     font-weight: 700;
@@ -590,6 +655,14 @@ button {
 .form-footer {
     padding-top: 20px;
     margin-top: auto;
+}
+
+/* Botón "siguiente" oculto: en páginas de selección única, elegir una
+   opción dispara el clic de este botón por JS (js/quizNavigation.js)
+   para avanzar solo. Se repetía como style="display:none" inline en
+   24 páginas; ahora es una sola clase. */
+.form-footer--hidden {
+    display: none;
 }
 
 .progress-bar-container {
@@ -1243,6 +1316,10 @@ button {
 
 .main-card.text-center .transition-title .highlight {
     color: var(--color-primary);
+    background: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .main-card.text-center .transition-text {
@@ -1858,6 +1935,7 @@ button {
     display: block;
     text-decoration: none;
 }
+
 /* =========================================================
    ENTRADA DE PÁGINA
    ========================================================= */
@@ -1917,11 +1995,17 @@ body.page-container.page-enter-left .main-card {
 */
 
 body.page-container .main-card .form-header,
+body.page-container .main-card .question-motivation,
 body.page-container .main-card .options-list,
 body.page-container .main-card .age-options,
 body.page-container .main-card .form-footer {
     opacity: 0;
     animation: contentReveal 0.55s ease-out 0.30s forwards;
+}
+
+body.page-container .main-card .btn-secondary-outline {
+    opacity: 0;
+    animation: contentReveal 0.65s ease-out 0.40s forwards;
 }
 
 @keyframes contentReveal {
@@ -2058,7 +2142,7 @@ body.page-container .main-card .btn-primary {
         animation-delay: 0.61s;
     }
 
-    body.page-container .main-card .btn-primary {
+    body.page-container .main-card .btn-primary .btn-secondary-outline {
         animation-delay: 0.68s;
     }
 }
@@ -2067,16 +2151,6 @@ body.page-container .main-card .btn-primary {
 /* =========================================================
    SALIDA DE PÁGINA
    ========================================================= */
-
-/*
-   Se reproduce brevemente ANTES de navegar a la siguiente página
-   (ver pageTransitions.js), para que el cambio se sienta como una
-   transición continua y coherente con la entrada escalonada de
-   arriba, en vez de un salto brusco. Anima la misma .main-card
-   (no el body completo) para que visualmente sea "lo mismo pero
-   al revés". Solo usa transform/opacity (GPU), así que corre igual
-   de fluido en escritorio y en celular.
-*/
 
 body.page-container.page-exit-left .main-card {
     animation: pageExitLeft 0.22s cubic-bezier(0.4, 0, 1, 1) both;
@@ -2128,6 +2202,8 @@ body.page-container.page-exit-up .main-card {
     body.page-container .main-card .option-card,
     body.page-container .main-card .age-card,
     body.page-container .main-card .btn-primary,
+    body.page-container .main-card .btn-secondary-outline,
+    body.page-container .main-card .dimension-badge,
     body.page-container.page-exit-left .main-card,
     body.page-container.page-exit-up .main-card {
         opacity: 1 !important;
@@ -2135,14 +2211,19 @@ body.page-container.page-exit-up .main-card {
         animation: none !important;
     }
 }
+
 /* ---------------- RESPONSIVE - FORMULARIOS ---------------- */
 @media (max-width: 600px) {
 
     .form-header {
-        margin-top: 10px;
+        margin-top: 20px;
+    }
+    .page-container {
+        margin-bottom: 20px;
     }
 
 }
+
 /* =========================================
    BOTÓN PRINCIPAL
 ========================================= */
@@ -2185,4 +2266,113 @@ body.page-container.page-exit-up .main-card {
         0 2px 5px rgba(108, 56, 190, 0.22);
 
     filter: brightness(0.98);
+}
+
+/* =========================================================
+   FRASES MOTIVACIONALES
+   ========================================================= */
+.question-motivation {
+    position: relative;
+    max-width: 590px;
+    margin: 20px auto 30px;
+    padding: 0 18px;
+
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.55;
+    text-align: center;
+
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+/* Pequeño detalle decorativo */
+.question-motivation::before {
+    content: "✦";
+    display: inline-block;
+    margin-right: 7px;
+
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+
+    transform: translateY(-1px);
+}
+
+/* Línea decorativa muy sutil */
+.question-motivation::after {
+    display: block;
+
+    width: 42px;
+    height: 2px;
+
+    margin: 10px auto 0;
+
+    background: var(--color-primary);
+    border-radius: 999px;
+    opacity: 0.35;
+}
+
+/* Colores por dimensión */
+.main-card.dimension-1 .question-motivation::before {
+    color: var(--color-primary);
+}
+
+.main-card.dimension-1 .question-motivation::after {
+    background: var(--color-primary);
+}
+
+.main-card.dimension-2 .question-motivation::before {
+    color: var(--color-accent-teal);
+}
+
+.main-card.dimension-2 .question-motivation::after {
+    background: var(--color-accent-teal);
+}
+
+.main-card.dimension-3 .question-motivation::before {
+    color: var(--color-accent-orange);
+}
+
+.main-card.dimension-3 .question-motivation::after {
+    background: var(--color-accent-orange);
+}
+
+.main-card.dimension-4 .question-motivation::before {
+    color: var(--color-accent-rose);
+}
+
+.main-card.dimension-4 .question-motivation::after {
+    background: var(--color-accent-rose);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .question-motivation:hover {
+        color: #4b5563;
+        transform: translateY(-1px);
+    }
+}
+
+@media (max-width: 600px) {
+    .question-motivation {
+        margin: 16px auto 24px;
+        padding: 0 12px;
+        font-size: 12px;
+    }
+
+    .question-motivation::after {
+        width: 34px;
+        margin-top: 8px;
+    }
+}
+
+.paypal-wordmark {
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -0.02em;
+    line-height: 1;
 }

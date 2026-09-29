@@ -12,7 +12,7 @@
 
 <body class="page-container">
 
-    <main class="main-card">
+    <main class="main-card dimension-1">
         <a href="cuestionario1.html" class="back-navigation-button" aria-label="Volver" title="Volver">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M19 12H5"></path>
@@ -35,9 +35,17 @@
         </div>
 
         <!-- Encabezado -->
-        <div class="form-header">
-            <h2>¿Tomas decisiones importantes sin depender de la aprobación de otros?</h2>
+        <div class="form-header ">
+            <h2>¿Tomas decisiones importantes
+                <span class="highlight">
+                    sin depender de la aprobación de otros?
+                </span>
+            </h2>
         </div>
+
+        <p class="question-motivation">
+            Tomar tus propias decisiones fortalece tu confianza y te permite avanzar a tu manera.
+        </p>
 
         <!-- Opciones de Selección -->
         <div class="options-list">
@@ -53,7 +61,7 @@
 
             <label class="option-card">
                 <span class="option-text">3 = Frecuentemente</span>
-                <input type="radio" name="pregunta_decisiones" class="option-checkbox" value="3" >
+                <input type="radio" name="pregunta_decisiones" class="option-checkbox" value="3">
             </label>
 
             <label class="option-card">
@@ -63,7 +71,7 @@
         </div>
 
         <!-- Botón de Continuar -->
-        <div class="form-footer" style="display: none;">
+        <div class="form-footer form-footer--hidden">
             <a href="cuestionario3.html" class="btn-primary">SIGUIENTE</a>
         </div>
     </main>

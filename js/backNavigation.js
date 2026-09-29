@@ -1,9 +1,3 @@
-/*
-    Creado: Willy Condori
-    Fecha: 27/08/2026
-    Módulo: Navegación de cuestionarios y personalidad
-    Descripción: Permite regresar a la página anterior y conservar las respuestas seleccionadas.
-*/
 
 (function () {
     'use strict';

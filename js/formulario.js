@@ -257,6 +257,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // UBICACIÓN SEGÚN PAÍS
+    // ==========================================
+
+    function esBolivia(iso) {
+        return String(iso || '').toUpperCase() === 'BO';
+    }
+
+    function actualizarCamposUbicacion(iso, guardados = {}) {
+
+        // Si NO es Bolivia:
+        // no se consultan departamentos ni ciudades
+        // y ambos campos dejan de ser obligatorios.
+        if (!esBolivia(iso)) {
+
+            tokenDepartamentos++;
+            tokenCiudades++;
+
+            poblarSelect($departamento, {
+                placeholder: 'No requerido para este país',
+                deshabilitado: true
+            });
+
+            poblarSelect($ciudad, {
+                placeholder: 'No requerido para este país',
+                deshabilitado: true
+            });
+
+            $departamento.prop('required', false);
+            $ciudad.prop('required', false);
+
+            quitarError($departamento[0]);
+            quitarError($ciudad[0]);
+
+            return;
+        }
+
+        // Bolivia sí requiere departamento y ciudad
+        $departamento.prop('required', true);
+        $ciudad.prop('required', true);
+
+        cargarDepartamentos(iso, guardados);
+    }
+
+    // ==========================================
     // CARGAR DEPARTAMENTOS
     // ==========================================
 
@@ -444,7 +488,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // EVENTOS DE LOS COMBOS (jQuery, por Select2)
     // ==========================================
 
-    // País (select) -> sincroniza teléfono y carga departamentos
+    // País (select) -> sincroniza teléfono y ubicación
     $pais.on('change', function () {
 
         quitarError(this);
@@ -458,7 +502,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iti.setCountry(iso.toLowerCase());
         }
 
-        cargarDepartamentos(iso);
+        actualizarCamposUbicacion(iso);
         guardarBorrador();
     });
 
@@ -506,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         $pais.val(iso).trigger('change.select2');
         quitarError($pais[0]);
 
-        cargarDepartamentos(iso);
+        actualizarCamposUbicacion(iso);
         guardarBorrador();
     }
 
@@ -600,7 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 $pais.val(iso).trigger('change.select2');
 
-                await cargarDepartamentos(iso, {
+                actualizarCamposUbicacion(iso, {
                     departamento: datos.departamento || '',
                     ciudad: datos.ciudad || ''
                 });
@@ -636,9 +680,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!campo.hasAttribute('required')) return true;
 
         // Departamento y ciudad no pueden estar deshabilitados
+        // Departamento y ciudad solamente son obligatorios para Bolivia
         if (
             (campo.id === 'departamento' || campo.id === 'ciudad') &&
-            campo.disabled
+            campo.disabled &&
+            esBolivia($pais.val())
         ) {
             mostrarError(campo);
             return false;
