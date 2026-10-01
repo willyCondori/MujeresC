@@ -148,6 +148,12 @@
     color: var(--color-text-muted);
 }
 
+/* Dato que viene de la respuesta del cuestionario (tiempo diario) */
+.resumen-page .info-tiempo {
+    font-weight: 700;
+    color: var(--resumen-label);
+}
+
 /* ---------- Botón continuar ---------- */
 
 .resumen-page .form-footer {
