@@ -4,28 +4,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <title>Planes de Crecimiento - #MujeresConPoder</title>
 
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/plan.css">
     <link rel="stylesheet" href="../css/backNavigation.css">
-    <style>
-        .paypal-wordmark__pay {
-            color: #003087;
-        }
-
-        .paypal-wordmark__pal {
-            color: #009cde;
-        }
-
-        .profile-stat-value {
-            color: #000000;
-            font-weight: 700;
-            font-size: 14px;
-        }
-    </style>
 </head>
 
 <body class="page-container">
@@ -33,165 +18,132 @@
     <main class="main-card plan-page">
 
         <!-- ==================== HEADER ==================== -->
-        <div class="plan-header">
-
+        <header class="plan-header">
             <a href="personalidad18.html" class="back-navigation-button" aria-label="Volver" title="Volver">
-
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                     <path d="M19 12H5"></path>
                     <path d="M12 19l-7-7 7-7"></path>
                 </svg>
             </a>
-
-            <h1 class="plan-title">
-                Plan de crecimiento
-            </h1>
-
-            <button id="btnAbrirModal" class="btn-primary btn-header">
-                OBTENER MI PLAN
-            </button>
-
-        </div>
+            <div>
+                <h1 class="plan-title">Plan de crecimiento</h1>
+                <p class="plan-subtitle">Elige el ritmo que mejor se adapte a ti</p>
+            </div>
+        </header>
 
         <!-- ==================== COMPARACIÓN DE PERFIL ==================== -->
-        <div class="profile-compare">
+        <section class="profile-compare" aria-label="Comparación de tu perfil">
             <div class="profile-col">
-                <p class="profile-col-label">
-                    Ahora
-                </p>
+                <p class="profile-col-label">Ahora</p>
                 <div class="profile-avatar-small">
-                    <img src="../assets/img/avatars/rango2.jfif" alt="Avatar"
-                        onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                    <span class="profile-avatar-img">
+                        <img src="../assets/img/avatars/rango2.jfif" alt="Avatar actual"
+                            onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:user.svg'">
+                    </span>
                 </div>
-
-                <p class="profile-col-stat">
-                    <strong class="profile-stat-value">Nivel de confianza:</strong>
-                    Bajo
-                </p>
-
-                <p class="profile-col-stat profile-col-stat--second">
-                    <strong class="profile-stat-value">Capacidad de comunicación:</strong>
-                    Principiante
-                </p>
-
+                <dl class="profile-stats">
+                    <div class="profile-stat">
+                        <dt>Nivel de confianza</dt>
+                        <dd>Bajo</dd>
+                    </div>
+                    <div class="profile-stat">
+                        <dt>Capacidad de comunicación</dt>
+                        <dd>Principiante</dd>
+                    </div>
+                </dl>
             </div>
 
-            <div class="profile-col">
-                <p class="profile-col-label profile-col-label--target highlight">
-                    Tu objetivo
-                </p>
+            <span class="profile-arrow" aria-hidden="true">→</span>
 
+            <div class="profile-col profile-col--target">
+                <p class="profile-col-label">Tu objetivo</p>
                 <div class="profile-avatar-small">
-
-                    <img src="../assets/img/avatars/rango1.jfif" alt="Avatar Objetivo"
-                        onerror="this.src='https://api.iconify.design/lucide:user.svg'">
+                    <span class="profile-avatar-img">
+                        <img src="../assets/img/avatars/rango1.jfif" alt="Avatar objetivo"
+                            onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:user.svg'">
+                    </span>
                 </div>
-
-                <p class="profile-col-stat">
-                    <strong class="profile-stat-value">Nivel de confianza:</strong>
-                    <span >Alta</span>
-                </p>
-
-                <p class="profile-col-stat profile-col-stat--second">
-                    <strong class="profile-stat-value">Capacidad de comunicación:</strong>
-                    <span >Experto</span>
-                </p>
+                <dl class="profile-stats">
+                    <div class="profile-stat">
+                        <dt>Nivel de confianza</dt>
+                        <dd>Alta</dd>
+                    </div>
+                    <div class="profile-stat">
+                        <dt>Capacidad de comunicación</dt>
+                        <dd>Experto</dd>
+                    </div>
+                </dl>
             </div>
-        </div>
+        </section>
 
         <!-- ==================== PLANES ==================== -->
-        <div class="options-list plan-options-list">
-            <!-- PLAN 24 SEMANAS -->
-            <label class="option-card">
-                <div>
-                    <span class="option-text plan-name">
-                        Plan 24 semanas
-                    </span>
+        <h2 class="plan-section-title">Elige tu plan</h2>
 
-                    <span class="plan-price-old">
-                        $74.99
-                    </span>
+        <div class="options-list plan-options-list" role="radiogroup" aria-label="Planes disponibles">
 
-                    <span class="plan-price-new">
-                        $37.99
-                    </span>
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="74.99 USD" data-price-new="37.99 USD">
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 24 semanas</span>
+                        <span class="plan-badge plan-badge--soft">-49%</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$37.99</span>
+                        <span class="plan-price-old">$74.99</span>
+                    </div>
                 </div>
-                <div class="plan-price-box">
-                    <span class="plan-price-current">
-                        $0.45
-                    </span>
-
-                    <span class="plan-price-unit">
-                        por día
-                    </span>
+                <div class="plan-daily">
+                    <strong>$0.45</strong>
+                    <span>por día</span>
                 </div>
-                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="74.99 USD"
-                    data-price-new="37.99 USD">
             </label>
 
-            <!-- PLAN 12 SEMANAS -->
-            <label class="option-card">
-                <div>
-                    <span class="option-text plan-name">
-                        Plan 12 semanas
-                    </span>
-                    <span class="plan-price-old plan-price-old--plain">
-                        $39.99
-                    </span>
-                    <span class="plan-price-new">
-                        $19.99
-                    </span>
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="39.99 USD" data-price-new="19.99 USD" checked>
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 12 semanas</span>
+                        <span class="plan-badge">Recomendado</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$19.99</span>
+                        <span class="plan-price-old">$39.99</span>
+                    </div>
                 </div>
-
-                <div class="plan-price-box">
-                    <span class="plan-price-current">
-                        $0.48
-                    </span>
-
-                    <span class="plan-price-unit">
-                        por día
-                    </span>
+                <div class="plan-daily">
+                    <strong>$0.48</strong>
+                    <span>por día</span>
                 </div>
-
-                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="39.99 USD"
-                    data-price-new="19.99 USD" checked>
-
             </label>
 
-            <!-- PLAN 4 SEMANAS -->
-            <label class="option-card">
-                <div>
-                    <span class="option-text plan-name">
-                        Plan 4 semanas
-                    </span>
-
-                    <span class="plan-price-old plan-price-old--plain">
-                        $19.99
-                    </span>
-                    <span class="plan-price-new">
-                        $19.99
-                    </span>
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="19.99 USD" data-price-new="19.99 USD">
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 4 semanas</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$19.99</span>
+                    </div>
                 </div>
-
-                <div class="plan-price-box">
-                    <span class="plan-price-current">
-                        $0.71
-                    </span>
-
-                    <span class="plan-price-unit">
-                        por día
-                    </span>
+                <div class="plan-daily">
+                    <strong>$0.71</strong>
+                    <span>por día</span>
                 </div>
-
-                <input type="radio" name="plan_selection" class="option-checkbox" data-price-old="19.99 USD"
-                    data-price-new="9.99 USD">
             </label>
         </div>
 
-        <!-- ==================== BOTÓN INFERIOR ==================== -->
-        <button id="btnAbrirModalInferior" class="btn-primary btn-bottom">
-            OBTENER MI PLAN
-        </button>
+        <!-- ==================== PIE: TOTAL + BOTÓN ==================== -->
+        <footer class="plan-footer">
+            <div class="plan-total">
+                <span>Total</span>
+                <strong id="planTotal">$19.99 USD</strong>
+            </div>
+            <button id="btnAbrirModalInferior" class="btn-primary btn-bottom" type="button">
+                OBTENER MI PLAN
+            </button>
+        </footer>
     </main>
 
 

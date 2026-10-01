@@ -1,10 +1,42 @@
 /* =========================================================
-   CONFIGURACIÓN GENERAL
+   PÁGINA DE PLANES (pages/plan.html)
+   Todo lo de la página está acotado a .plan-page.
+   El modal de pago está más abajo y no se modificó.
    ========================================================= */
 
 .plan-page,
 .plan-page * {
     box-sizing: border-box;
+}
+
+.main-card.plan-page {
+    --plan-primary: var(--color-primary, #8b5cf6);
+    --plan-primary-dark: var(--color-primary-dark, #7c3aed);
+    --plan-soft: #f5f3ff;
+    --plan-border: #e5e7eb;
+    --plan-text: #111827;
+    --plan-muted: #4b5563;
+    --plan-faint: #9ca3af;
+    --plan-gradient: var(--gradient-brand, linear-gradient(135deg, #8b5cf6, #db2777));
+    --plan-pad: clamp(1rem, 3vh, 1.5rem);
+
+    /* sobrescribe el alto mínimo y el overflow globales de .main-card */
+    width: min(100%, 500px);
+    min-height: 0;
+    max-height: 100%;
+    margin: 0;
+    padding: var(--plan-pad) var(--plan-pad) 0;
+    gap: clamp(0.7rem, 2vh, 1rem);
+    justify-content: flex-start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    overscroll-behavior: contain;
+    box-shadow: 0 25px 50px -12px rgba(76, 29, 149, 0.2);
+}
+
+.main-card.plan-page::-webkit-scrollbar {
+    display: none;
 }
 
 
@@ -15,134 +47,148 @@
 .plan-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 0.75rem;
     width: 100%;
-    margin-bottom: 16px;
 }
 
-.plan-header .back-navigation-button {
+.plan-page .back-navigation-button {
     position: static;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     flex-shrink: 0;
-    width: 36px;
-    height: 36px;
     margin: 0;
 }
 
 .plan-title {
-    flex: 1;
     margin: 0;
-
-    font-size: 18px;
+    font-size: clamp(1.05rem, 3.8vh, 1.3rem);
     font-weight: 800;
     line-height: 1.2;
-
-    color: var(--color-text-dark, #111827);
+    color: #000000;
 }
 
-.plan-title br {
-    display: none;
-}
-
-.btn-header {
-    width: auto;
-    flex-shrink: 0;
-
-    padding: 8px 12px;
-
-    font-size: 11px;
-    font-weight: 700;
-    white-space: nowrap;
-
-    border-radius: 20px;
+.plan-subtitle {
+    margin: 0.15rem 0 0;
+    font-size: 0.75rem;
+    line-height: 1.3;
+    color: var(--plan-muted);
 }
 
 
 /* =========================================================
-   COMPARATIVA DE PERFILES
+   COMPARACIÓN: AHORA → TU OBJETIVO
    ========================================================= */
 
 .profile-compare {
+    --avatar: clamp(64px, 12vh, 88px);
+
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0.25rem;
     width: 100%;
-    margin-bottom: 16px;
-    padding: 12px 8px;
-
-    background: var(--color-bg-alt, #f8f9fa);
-    border-radius: 16px;
+    padding: clamp(0.75rem, 2vh, 1rem) 0.5rem;
+    background: linear-gradient(135deg, #faf7ff, #ffffff);
+    border: 1px solid #ebe7f5;
+    border-radius: 20px;
 }
 
 .profile-col {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    width: 100%;
     min-width: 0;
-
     text-align: center;
 }
 
 .profile-col-label {
-    margin: 0 0 6px;
-
-    font-size: 12px;
+    margin: 0 0 0.4rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    color: var(--color-text-muted, #666);
-
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--plan-faint);
     white-space: nowrap;
 }
 
-.profile-col-label--target {
-    color: var(--color-primary, #8b5cf6);
+.profile-col--target .profile-col-label {
+    color: var(--plan-primary-dark);
+}
+
+/* flecha central, alineada con el centro del avatar */
+.profile-arrow {
+    align-self: start;
+    width: 28px;
+    height: 28px;
+    margin-top: calc(1.2rem + (var(--avatar) / 2) - 14px);
+    display: grid;
+    place-items: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--plan-gradient);
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(219, 39, 119, 0.3);
 }
 
 .profile-avatar-small {
-    width: 100%;
-    max-width: 150px;
-    height: 120px;
-
-    margin: 0 auto 6px;
-
-    overflow: hidden;
-
-    background: #ffffff;
-    border-radius: 12px;
-
+    width: var(--avatar);
+    height: var(--avatar);
+    padding: 3px;
+    background: var(--plan-border);
+    border-radius: 50%;
     flex-shrink: 0;
 }
 
-.profile-avatar-small img {
-    display: block;
+.profile-col--target .profile-avatar-small {
+    background: var(--plan-gradient);
+}
 
+.profile-avatar-img {
+    display: block;
     width: 100%;
     height: 100%;
-
-    object-fit: cover;
-    transform: scale(2);
+    overflow: hidden;
+    background: #ffffff;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
 }
 
-.profile-col-stat {
+.profile-avatar-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* acerca el rostro dentro del círculo */
+    transform: scale(2);
+    transform-origin: 50% 30%;
+}
+
+.profile-stats {
     width: 100%;
     margin: 0;
-
-    font-size: 11px;
-    line-height: 1.25;
-
-    color: var(--color-text-body, #444);
-
-    text-align: center;
-    word-break: break-word;
 }
 
-.profile-col-stat--second {
-    margin-top: 5px;
+.profile-stat {
+    margin-top: 0.55rem;
+}
+
+.profile-stat dt {
+    font-size: 0.62rem;
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--plan-faint);
+}
+
+.profile-stat dd {
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--plan-text);
+}
+
+.profile-col--target .profile-stat dd {
+    background: var(--plan-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 
@@ -150,273 +196,338 @@
    TARJETAS DE PLANES
    ========================================================= */
 
+.plan-section-title {
+    margin: 0;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #3c07b6;
+}
+
 .plan-options-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-
+    flex-grow: 0;
+    justify-content: flex-start;
+    gap: 0.6rem;
     width: 100%;
+    margin-top: -0.35rem;
 }
 
-.plan-options-list .option-card {
+.plan-card {
     position: relative;
-
     display: flex;
     align-items: center;
-    justify-content: space-between;
-
+    gap: 0.75rem;
     width: 100%;
     min-width: 0;
-
-    gap: 14px;
-    padding: 13px 14px;
-
+    padding: 0.8rem 0.9rem;
     background: #ffffff;
-    border: 1.5px solid #e5e7eb;
-    border-radius: 14px;
-
+    border: 1.5px solid var(--plan-border);
+    border-radius: 16px;
     cursor: pointer;
-
-    box-shadow: 0 2px 5px rgba(45, 32, 70, 0.04);
-
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        background-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.plan-options-list .option-card > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-
-    min-width: 0;
-    flex: 1;
-}
-
-.plan-name {
-    font-size: 13px;
-    font-weight: 700;
-
-    color: #111827;
-
-    transition: color 0.2s ease;
-}
-
-.plan-price-old {
-    font-size: 10px;
-    color: #9ca3af;
-
-    text-decoration: line-through;
-
-    transition: color 0.2s ease;
-}
-
-.plan-price-new {
-    font-size: 13px;
-    font-weight: 800;
-
-    color: #111827;
-
-    transition: color 0.2s ease;
-}
-
-.plan-price-box {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    flex-shrink: 0;
-
-    margin: 0 4px;
-}
-
-.plan-price-current {
-    font-size: 15px;
-    font-weight: 800;
-    line-height: 1;
-
-    color: #111827;
-
-    transition: color 0.2s ease;
-}
-
-.plan-price-unit {
-    margin-top: 3px;
-
-    font-size: 9px;
-    color: #6b7280;
-
-    transition: color 0.2s ease;
-}
-
-
-/* =========================================================
-   HOVER DE PLAN
-   ========================================================= */
-
-@media (hover: hover) and (pointer: fine) {
-
-    .plan-options-list .option-card:hover {
-        transform: translateY(-2px);
-
-        background: #fcfaff;
-        border-color: #a78bfa;
-
-        box-shadow:
-            0 5px 12px rgba(139, 92, 246, 0.10);
-    }
-}
-
-
-/* =========================================================
-   PLAN SELECCIONADO
-   ========================================================= */
-
-.plan-options-list .option-card:has(.option-checkbox:checked) {
-    transform: translateY(-2px);
-
-    background: #8b5cf6;
-    border-color: #7c3aed;
-
-    box-shadow:
-        0 4px 0 rgba(91, 33, 182, 0.35),
-        0 9px 18px rgba(139, 92, 246, 0.22);
-}
-
-.plan-options-list
-.option-card:has(.option-checkbox:checked)
-.plan-name {
-    color: #ffffff;
-}
-
-.plan-options-list
-.option-card:has(.option-checkbox:checked)
-.plan-price-old {
-    color: rgba(255, 255, 255, 0.72);
-}
-
-.plan-options-list
-.option-card:has(.option-checkbox:checked)
-.plan-price-new {
-    color: #ffffff;
-}
-
-.plan-options-list
-.option-card:has(.option-checkbox:checked)
-.plan-price-current {
-    color: #ffffff;
-}
-
-.plan-options-list
-.option-card:has(.option-checkbox:checked)
-.plan-price-unit {
-    color: rgba(255, 255, 255, 0.78);
-}
-
-
-/* =========================================================
-   RADIO PERSONALIZADO
-   ========================================================= */
-
-.plan-options-list .option-checkbox {
-    appearance: none;
-    -webkit-appearance: none;
-
-    position: relative;
-
-    width: 21px;
-    height: 21px;
-    flex: 0 0 21px;
-
-    margin: 0;
-
-    background: #ffffff;
-    border: 2px solid #c4b5fd;
-    border-radius: 50%;
-
-    cursor: pointer;
-
     transition:
         border-color 0.2s ease,
         background-color 0.2s ease,
         box-shadow 0.2s ease,
-        transform 0.15s ease;
+        transform 0.2s ease;
 }
 
-.plan-options-list .option-checkbox:checked {
-    background: #8b5cf6;
-    border-color: #ffffff;
-
-    box-shadow:
-        0 0 0 3px rgba(255, 255, 255, 0.25);
-}
-
-.plan-options-list .option-checkbox:checked::after {
-    content: "";
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 7px;
-    height: 7px;
-
-    background: #ffffff;
-    border-radius: 50%;
-
-    transform: translate(-50%, -50%);
-
-    animation: radioAppear 0.2s ease both;
-}
-
-@keyframes radioAppear {
-
-    from {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0.4);
-    }
-
-    to {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+@media (hover: hover) and (pointer: fine) {
+    .plan-card:hover {
+        border-color: #c4b5fd;
+        transform: translateY(-1px);
     }
 }
 
-
-/* =========================================================
-   CLICK / FOCUS
-   ========================================================= */
-
-.plan-options-list .option-card:active {
-    transform: translateY(0);
+/* seleccionado: tinte suave + borde de marca */
+.plan-card:has(input:checked) {
+    border-color: var(--plan-primary);
+    background: var(--plan-soft);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
 }
 
-.plan-options-list .option-checkbox:active {
-    transform: scale(0.92);
-}
-
-.plan-options-list .option-checkbox:focus-visible {
-    outline: 3px solid rgba(139, 92, 246, 0.25);
+.plan-card:has(input:focus-visible) {
+    outline: 3px solid rgba(139, 92, 246, 0.45);
     outline-offset: 2px;
 }
 
+.plan-card:active {
+    transform: scale(0.99);
+}
+
+/* radio propio */
+.plan-card input {
+    appearance: none;
+    -webkit-appearance: none;
+    flex: 0 0 22px;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    background: #ffffff;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.plan-card input::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    background: #ffffff;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.2s ease;
+}
+
+.plan-card input:checked {
+    background: var(--plan-gradient);
+    border-color: transparent;
+}
+
+.plan-card input:checked::after {
+    transform: scale(1);
+}
+
+.plan-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.plan-name-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.4rem;
+}
+
+.plan-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--plan-text);
+}
+
+.plan-badge {
+    padding: 0.1rem 0.5rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    background: var(--plan-gradient);
+    border-radius: 9999px;
+    white-space: nowrap;
+}
+
+.plan-badge--soft {
+    color: var(--plan-primary-dark);
+    background: #ede9fe;
+}
+
+.plan-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-top: 0.15rem;
+}
+
+.plan-price-new {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--plan-text);
+}
+
+.plan-price-old {
+    font-size: 0.72rem;
+    color: var(--plan-faint);
+    text-decoration: line-through;
+}
+
+.plan-daily {
+    flex-shrink: 0;
+    text-align: right;
+    line-height: 1.1;
+}
+
+.plan-daily strong {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--plan-text);
+}
+
+.plan-daily span {
+    font-size: 0.62rem;
+    color: var(--plan-muted);
+}
+
 
 /* =========================================================
-   BOTÓN INFERIOR
+   PIE: TOTAL + BOTÓN (siempre visible al hacer scroll)
    ========================================================= */
 
-.btn-bottom {
+.plan-footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     width: 100%;
+    margin-top: auto;
+    padding: 0.75rem 0 calc(var(--plan-pad) + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(to top, #ffffff 80%, rgba(255, 255, 255, 0));
+}
 
-    margin-top: 14px;
-    padding: 14px;
+.plan-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 0.25rem;
+    font-size: 0.8rem;
+    color: var(--plan-muted);
+}
 
-    font-size: 14px;
-    font-weight: 700;
+.plan-total strong {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--plan-text);
+}
 
-    border-radius: 30px;
+.plan-page .btn-bottom {
+    min-height: 52px;
+    margin: 0;
+    padding: 0.8rem;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+    border: 0;
+    cursor: pointer;
+}
+
+.paypal-wordmark__pay {
+    color: #003087;
+}
+
+.paypal-wordmark__pal {
+    color: #009cde;
+}
+
+
+/* =========================================================
+   RESPONSIVE (página; el del modal está más abajo)
+   ========================================================= */
+
+/* Celular: tarjeta a pantalla completa, sin bordes */
+@media (max-width: 520px) {
+
+    .page-container {
+        padding: 0;
+    }
+
+    .main-card.plan-page {
+        width: 100%;
+        min-height: 100vh;
+        min-height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}
+
+/* Celulares angostos (≤ 360px) */
+@media (max-width: 360px) {
+
+    .main-card.plan-page {
+        --plan-pad: 0.85rem;
+    }
+
+    .plan-card {
+        gap: 0.55rem;
+        padding: 0.7rem 0.7rem;
+    }
+
+    .plan-name {
+        font-size: 0.85rem;
+    }
+
+    .plan-price-new {
+        font-size: 0.95rem;
+    }
+
+    .plan-daily strong {
+        font-size: 0.88rem;
+    }
+
+    .profile-stat dt {
+        font-size: 0.58rem;
+    }
+
+    .profile-stat dd {
+        font-size: 0.8rem;
+    }
+
+    .profile-arrow {
+        width: 24px;
+        height: 24px;
+        margin-top: calc(1.2rem + (var(--avatar) / 2) - 12px);
+        font-size: 0.8rem;
+    }
+}
+
+/* Poca altura (celular girado o ventanas bajas) */
+@media (max-height: 700px) {
+
+    .plan-subtitle {
+        display: none;
+    }
+
+    .profile-compare {
+        --avatar: 56px;
+    }
+}
+
+@media (max-height: 520px) {
+
+    .main-card.plan-page {
+        --plan-pad: 0.9rem;
+    }
+
+    .profile-compare {
+        --avatar: 44px;
+    }
+
+    /* total y botón en una sola fila para no tapar los planes */
+    .plan-footer {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.9rem;
+        padding-top: 0.5rem;
+    }
+
+    .plan-total {
+        flex-direction: column;
+        align-items: flex-start;
+        flex-shrink: 0;
+        padding: 0;
+    }
+
+    .plan-page .btn-bottom {
+        flex: 1;
+        min-height: 44px;
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .profile-stat {
+        margin-top: 0.35rem;
+    }
+
+    .plan-card {
+        padding: 0.6rem 0.8rem;
+    }
 }
 
 
@@ -889,24 +1000,6 @@
 
 @media (max-width: 520px) {
 
-    .page-container {
-        padding: 0;
-    }
-
-    .plan-page {
-        margin: 0;
-
-        min-height: 50vh;
-
-        border-radius: 0;
-        box-shadow: none;
-    }
-
-    .profile-avatar-small {
-        width: 80px;
-        height: 80px;
-    }
-
     /* Modal como panel inferior */
 
     .modal-overlay {
@@ -1045,8 +1138,9 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-    .plan-options-list .option-card,
-    .plan-options-list .option-checkbox,
+    .plan-card,
+    .plan-card input,
+    .plan-card input::after,
     .modal-content,
     .modal-close-btn,
     .country-option,

@@ -307,6 +307,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     );
     /* =====================================================
+       TOTAL VISIBLE EN LA PÁGINA
+    ===================================================== */
+    const planTotal =
+        document.getElementById('planTotal');
+
+    function actualizarTotalPagina() {
+
+        const elegido =
+            document.querySelector(
+                'input[name="plan_selection"]:checked'
+            );
+
+        if (!planTotal || !elegido) {
+            return;
+        }
+
+        planTotal.textContent =
+            '$' + elegido.dataset.priceNew;
+    }
+
+    /* =====================================================
        GUARDAR PLAN SELECCIONADO
     ===================================================== */
     const planes =
@@ -325,8 +346,11 @@ document.addEventListener('DOMContentLoaded', () => {
                      * inmediatamente.
                      */
                     actualizarPreciosModal();
+                    actualizarTotalPagina();
                 }
             );
         }
     );
+
+    actualizarTotalPagina();
 });
