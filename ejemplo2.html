@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planes de Crecimiento - #MujeresConPoder</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================================
+           TOKENS (mismos de css/styles.css)
+        ========================================================= */
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --primary-soft: #f5f3ff;
+            --rose: #db2777;
+            --text-dark: #111827;
+            --text-muted: #4b5563;
+            --text-faint: #9ca3af;
+            --border: #e5e7eb;
+            --gradient-brand: linear-gradient(135deg, var(--primary), var(--rose));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(.5rem, 3vh, 1.25rem);
+            background: #f7f8fc;
+            color: #1f2937;
+            overflow: hidden;
+        }
+
+        /* =========================================================
+           TARJETA
+        ========================================================= */
+        .main-card {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            max-height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(.7rem, 2vh, 1rem);
+            padding: clamp(1rem, 3vh, 1.5rem);
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 25px 50px -12px rgba(76, 29, 149, .2);
+            overflow-y: auto;
+            scrollbar-width: none;
+            animation: rise .5s ease both;
+        }
+        .main-card::-webkit-scrollbar { display: none; }
+
+        /* =========================================================
+           ENCABEZADO
+        ========================================================= */
+        .plan-header {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .back-navigation-button {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            color: #1f2937;
+            background: #fff;
+            border: 1.5px solid #ebe7f5;
+            border-radius: 50%;
+            transition: background .2s, border-color .2s, color .2s;
+        }
+        .back-navigation-button svg {
+            width: 20px; height: 20px; fill: none; stroke: currentColor;
+            stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+        }
+        .back-navigation-button:hover {
+            color: var(--primary-dark);
+            border-color: var(--primary);
+            background: var(--primary-soft);
+        }
+
+        .plan-title {
+            font-size: clamp(1.05rem, 3.8vh, 1.3rem);
+            font-weight: 800;
+            line-height: 1.2;
+            color: #000;
+        }
+        .plan-subtitle {
+            margin-top: .15rem;
+            font-size: .75rem;
+            color: var(--text-muted);
+        }
+
+        /* =========================================================
+           COMPARACIÓN: AHORA → TU OBJETIVO
+        ========================================================= */
+        .profile-compare {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .5rem;
+            padding: clamp(.75rem, 2vh, 1rem) .5rem;
+            background: linear-gradient(135deg, #faf7ff, #fff);
+            border: 1px solid #ebe7f5;
+            border-radius: 20px;
+        }
+
+        /* flecha central */
+        .profile-compare::after {
+            content: "→";
+            position: absolute;
+            top: clamp(2.2rem, 7vh, 3.2rem);
+            left: 50%;
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            transform: translateX(-50%);
+            font-size: .9rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--gradient-brand);
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(219, 39, 119, .3);
+        }
+
+        .profile-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 0;
+            text-align: center;
+        }
+
+        .profile-col-label {
+            margin-bottom: .4rem;
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--text-faint);
+        }
+        .profile-col--target .profile-col-label { color: var(--primary-dark); }
+
+        .profile-avatar {
+            width: clamp(64px, 12vh, 88px);
+            height: clamp(64px, 12vh, 88px);
+            padding: 3px;
+            background: var(--border);
+            border-radius: 50%;
+        }
+        .profile-col--target .profile-avatar { background: var(--gradient-brand); }
+
+        .profile-avatar-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+            border: 3px solid #fff;
+            border-radius: 50%;
+        }
+        .profile-avatar-img img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* acerca el rostro, como hacía el plan original */
+            transform: scale(2);
+            transform-origin: 50% 30%;
+        }
+
+        .profile-stat {
+            margin-top: .55rem;
+            width: 100%;
+        }
+        .profile-stat dt {
+            font-size: .62rem;
+            font-weight: 600;
+            color: var(--text-faint);
+        }
+        .profile-stat dd {
+            font-size: .88rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .profile-col--target .profile-stat dd {
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* =========================================================
+           PLANES
+        ========================================================= */
+        .plan-section-title {
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: #3c07b6;
+        }
+
+        .plan-options-list {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            margin-top: -.35rem;
+        }
+
+        .plan-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            padding: .8rem .9rem;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: border-color .2s, background .2s, box-shadow .2s, transform .2s;
+        }
+
+        .plan-card:hover {
+            border-color: #c4b5fd;
+            transform: translateY(-1px);
+        }
+
+        /* seleccionado: tinte suave + borde de marca (en vez de morado sólido) */
+        .plan-card:has(input:checked) {
+            border-color: var(--primary);
+            background: var(--primary-soft);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, .15);
+        }
+        .plan-card:has(input:focus-visible) {
+            outline: 3px solid rgba(139, 92, 246, .45);
+            outline-offset: 2px;
+        }
+
+        /* radio propio */
+        .plan-card input {
+            appearance: none;
+            -webkit-appearance: none;
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            display: grid;
+            place-items: center;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+        }
+        .plan-card input::after {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform .2s ease;
+        }
+        .plan-card input:checked {
+            border-color: transparent;
+            background: var(--gradient-brand);
+        }
+        .plan-card input:checked::after { transform: scale(1); }
+
+        .plan-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .plan-name-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .4rem;
+        }
+        .plan-name {
+            font-size: .92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .plan-badge {
+            padding: .1rem .5rem;
+            font-size: .6rem;
+            font-weight: 800;
+            letter-spacing: .03em;
+            color: #fff;
+            background: var(--gradient-brand);
+            border-radius: 9999px;
+            white-space: nowrap;
+        }
+        .plan-badge--soft {
+            color: var(--primary-dark);
+            background: #ede9fe;
+        }
+
+        .plan-prices {
+            display: flex;
+            align-items: baseline;
+            gap: .4rem;
+            margin-top: .15rem;
+        }
+        .plan-price-new {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+        .plan-price-old {
+            font-size: .72rem;
+            color: var(--text-faint);
+            text-decoration: line-through;
+        }
+
+        .plan-daily {
+            flex-shrink: 0;
+            text-align: right;
+            line-height: 1.1;
+        }
+        .plan-daily strong {
+            display: block;
+            font-size: .95rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+        .plan-daily span {
+            font-size: .62rem;
+            color: var(--text-muted);
+        }
+
+        /* =========================================================
+           CTA (un solo botón, con el total elegido)
+        ========================================================= */
+        .plan-footer {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-top: auto;
+        }
+
+        .plan-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0 .25rem;
+            font-size: .8rem;
+            color: var(--text-muted);
+        }
+        .plan-total strong {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--text-dark);
+        }
+
+        .btn-primary {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 52px;
+            padding: .8rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: .04em;
+            color: #fff;
+            background: var(--gradient-brand);
+            border: 0;
+            border-radius: 9999px;
+            box-shadow: 0 8px 18px -6px rgba(139, 92, 246, .5);
+            cursor: pointer;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -6px rgba(219, 39, 119, .45);
+        }
+        .btn-primary:active { transform: scale(.97); }
+
+        .btn-primary:focus-visible,
+        .back-navigation-button:focus-visible {
+            outline: 3px solid rgba(139, 92, 246, .35);
+            outline-offset: 3px;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 6px; }
+            .main-card { border-radius: 26px; }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="main-card plan-page">
+
+        <!-- ==================== HEADER ==================== -->
+        <header class="plan-header">
+            <a href="pages/personalidad18.html" class="back-navigation-button" aria-label="Volver" title="Volver">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M19 12H5" />
+                    <path d="M12 19l-7-7 7-7" />
+                </svg>
+            </a>
+            <div>
+                <h1 class="plan-title">Plan de crecimiento</h1>
+                <p class="plan-subtitle">Elige el ritmo que mejor se adapte a ti</p>
+            </div>
+        </header>
+
+        <!-- ==================== COMPARACIÓN ==================== -->
+        <section class="profile-compare" aria-label="Comparación de tu perfil">
+            <div class="profile-col">
+                <p class="profile-col-label">Ahora</p>
+                <div class="profile-avatar">
+                    <span class="profile-avatar-img"><img src="assets/img/avatars/rango2.jfif" alt="Avatar actual"
+                        onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:user.svg'"></span>
+                </div>
+                <dl>
+                    <div class="profile-stat">
+                        <dt>Nivel de confianza</dt>
+                        <dd>Bajo</dd>
+                    </div>
+                    <div class="profile-stat">
+                        <dt>Capacidad de comunicación</dt>
+                        <dd>Principiante</dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div class="profile-col profile-col--target">
+                <p class="profile-col-label">Tu objetivo</p>
+                <div class="profile-avatar">
+                    <span class="profile-avatar-img"><img src="assets/img/avatars/rango1.jfif" alt="Avatar objetivo"
+                        onerror="this.onerror=null; this.src='https://api.iconify.design/lucide:user.svg'"></span>
+                </div>
+                <dl>
+                    <div class="profile-stat">
+                        <dt>Nivel de confianza</dt>
+                        <dd>Alta</dd>
+                    </div>
+                    <div class="profile-stat">
+                        <dt>Capacidad de comunicación</dt>
+                        <dd>Experto</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+
+        <!-- ==================== PLANES ==================== -->
+        <h2 class="plan-section-title">Elige tu plan</h2>
+
+        <div class="plan-options-list" role="radiogroup" aria-label="Planes disponibles">
+
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="74.99 USD" data-price-new="37.99 USD">
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 24 semanas</span>
+                        <span class="plan-badge plan-badge--soft">-49%</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$37.99</span>
+                        <span class="plan-price-old">$74.99</span>
+                    </div>
+                </div>
+                <div class="plan-daily">
+                    <strong>$0.45</strong>
+                    <span>por día</span>
+                </div>
+            </label>
+
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="39.99 USD" data-price-new="19.99 USD" checked>
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 12 semanas</span>
+                        <span class="plan-badge">Recomendado</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$19.99</span>
+                        <span class="plan-price-old">$39.99</span>
+                    </div>
+                </div>
+                <div class="plan-daily">
+                    <strong>$0.48</strong>
+                    <span>por día</span>
+                </div>
+            </label>
+
+            <label class="plan-card">
+                <input type="radio" name="plan_selection" data-price-old="19.99 USD" data-price-new="19.99 USD">
+                <div class="plan-info">
+                    <div class="plan-name-row">
+                        <span class="plan-name">Plan 4 semanas</span>
+                    </div>
+                    <div class="plan-prices">
+                        <span class="plan-price-new">$19.99</span>
+                    </div>
+                </div>
+                <div class="plan-daily">
+                    <strong>$0.71</strong>
+                    <span>por día</span>
+                </div>
+            </label>
+        </div>
+
+        <!-- ==================== CTA ==================== -->
+        <footer class="plan-footer">
+            <div class="plan-total">
+                <span>Total</span>
+                <strong id="planTotal">$19.99 USD</strong>
+            </div>
+            <button id="btnAbrirModalInferior" class="btn-primary" type="button">OBTENER MI PLAN</button>
+        </footer>
+
+    </main>
+
+    <script>
+        // Actualiza el total según el plan elegido (usa los mismos data-price-* que modal.js)
+        const total = document.getElementById('planTotal');
+        const radios = document.querySelectorAll('input[name="plan_selection"]');
+
+        function actualizarTotal() {
+            const elegido = document.querySelector('input[name="plan_selection"]:checked');
+            if (elegido) total.textContent = elegido.dataset.priceNew.replace(' USD', '').replace(/^/, '$') + ' USD';
+        }
+
+        radios.forEach(r => r.addEventListener('change', actualizarTotal));
+        actualizarTotal();
+    </script>
+</body>
+
+</html>
