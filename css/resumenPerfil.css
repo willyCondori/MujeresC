@@ -1,231 +1,207 @@
-.main-card {
-            width: 100%;
-            max-width: 500px;
-            max-height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: clamp(0.5rem, 2vh, 1rem);
-            box-sizing: border-box;
-            padding: clamp(0.85rem, 3vh, 1.25rem);
-            margin: auto;
-            /* Red de seguridad: scroll interno solo si una pantalla es
-               extremadamente pequeña; con el clamp() de abajo no debería
-               activarse en dispositivos normales. */
-            overflow-y: auto;
-        }
+/* =========================================================
+   RESUMEN DE TU PERFIL (pages/personalidad15.html)
+   Todo está acotado a .resumen-page para no afectar otras páginas.
+   Reutiliza los tokens de styles.css (--color-*, --gradient-brand).
+   ========================================================= */
 
-        /* === CONTENEDOR PRINCIPAL: siempre cabe en una sola pantalla === */
-        .page-container {
-            height: 100vh;
-            height: 100dvh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-            padding: clamp(0.5rem, 3vh, 1rem);
-            overflow: hidden;
-        }
+.main-card.resumen-page {
+    --resumen-border: #ebe7f5;
+    --resumen-meter-bg: #ede9fe;
+    --resumen-label: #3c07b6;
 
+    width: 100%;
+    max-width: 500px;
+    max-height: 100%;
+    gap: clamp(0.7rem, 2vh, 1.1rem);
+    padding: clamp(1rem, 3vh, 1.6rem);
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(76, 29, 149, 0.2);
+    animation: resumenRise 0.5s ease both;
+}
 
+/* ---------- Encabezado ---------- */
 
-        /* === ENCABEZADO === */
-        .form-header h1 {
-            font-size: clamp(1.15rem, 4.5vh, 1.5rem);
-            line-height: 1.2;
-            margin-bottom: 0.25rem;
-        }
+.resumen-page .form-header h1 {
+    font-size: clamp(1.1rem, 4.2vh, 1.45rem);
+    font-weight: 800;
+    line-height: 1.2;
+}
 
-        .form-header .header-description {
-            padding: 0.35rem 0 0;
-            font-size: clamp(0.72rem, 2.2vh, 0.8rem);
-        }
+.resumen-page .header-description {
+    margin-top: 0.4rem;
+    padding: 0;
+    font-size: clamp(0.72rem, 2vh, 0.8rem);
+    line-height: 1.5;
+    color: var(--color-text-muted);
+}
 
-        .form-header h2 {
-            font-size: clamp(0.95rem, 3.5vh, 1.1rem);
-            margin-top: 0.15rem;
-        }
+.resumen-page .form-header h2 {
+    margin-top: clamp(0.5rem, 1.6vh, 0.9rem);
+    font-size: clamp(0.95rem, 3vh, 1.1rem);
+    font-weight: 800;
+}
 
-        /* === CONTENEDOR DE TARJETAS === */
-        .profile-content-body {
-            display: flex;
-            flex-direction: column;
-            gap: clamp(0.5rem, 1.8vh, 0.85rem);
-            width: 100%;
-        }
+/* ---------- Tarjetas ---------- */
 
-        .profile-summary-box,
-        .profile-info-box {
-            width: 100%;
-            box-sizing: border-box;
-            background: #ffffff;
-            border: 1px solid rgba(147, 51, 234, 0.15);
-            border-radius: 14px;
-            padding: clamp(0.7rem, 2.2vh, 1rem);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
+.resumen-page .profile-content-body {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.8vh, 0.9rem);
+    width: 100%;
+}
 
-        .profile-summary-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+.resumen-page .profile-summary-box,
+.resumen-page .profile-info-box {
+    width: 100%;
+    padding: clamp(0.85rem, 2.4vh, 1.1rem);
+    background: #ffffff;
+    border: 1px solid var(--resumen-border);
+    border-radius: 20px;
+    box-shadow: 0 4px 16px rgba(91, 59, 181, 0.06);
+}
 
-        .profile-summary-box:hover,
-        .profile-info-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.1);
-        }
+.resumen-page .profile-summary-box {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, #faf7ff, #ffffff);
+}
 
-        /* === AVATAR === */
-        .profile-avatar {
-            width: clamp(64px, 14vh, 105px);
-            height: clamp(64px, 14vh, 105px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+/* ---------- Indicadores ---------- */
 
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-        }
+.resumen-page .stats {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1.8vh, 0.8rem);
+}
 
-        /* === TIPOGRAFÍA Y ETIQUETAS === */
-        .label-purple {
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: #3c07b6;
-            margin-bottom: 0.15rem;
-            display: inline-block;
-        }
+.resumen-page .stat-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.3rem;
+}
 
-        .profile-text-data p {
-            margin-bottom: 0.4rem;
-        }
+.resumen-page .label-purple {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--resumen-label);
+}
 
-        .profile-text-data p:last-child {
-            margin-bottom: 0;
-        }
+.resumen-page .stat-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
 
-        .profile-text-data strong {
-            font-size: 0.95rem;
-            color: #111827;
-        }
+.resumen-page .meter {
+    height: 6px;
+    background: var(--resumen-meter-bg);
+    border-radius: 9999px;
+    overflow: hidden;
+}
 
-        .info-description {
-            line-height: 1.4;
-            color: #4b5563;
-            font-size: clamp(0.8rem, 2vh, 0.88rem);
-            margin-top: 0.25rem;
-        }
+.resumen-page .meter i {
+    display: block;
+    height: 100%;
+    width: var(--level);
+    background: var(--gradient-brand);
+    border-radius: inherit;
+    transform-origin: left;
+    animation: resumenFill 0.9s ease 0.3s both;
+}
 
-        /* === FOOTER Y BOTÓN === */
-        .form-footer {
-            width: 100%;
-            margin-top: 0.25rem;
-        }
+/* ---------- Avatar ---------- */
 
-        .btn-primary.profile-button {
-            width: 100%;
-            display: block;
-            text-align: center;
-            box-sizing: border-box;
-            padding: 0.75rem;
-            min-height: auto;
-        }
+.resumen-page .profile-avatar {
+    width: clamp(72px, 14vh, 100px);
+    height: clamp(72px, 14vh, 100px);
+    flex-shrink: 0;
+    padding: 3px;
+    background: var(--gradient-brand);
+    border-radius: 50%;
+}
 
-        /* ---------- Ajustes para Pantallas Pequeñas Móviles (Sin Scroll) ---------- */
+.resumen-page .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #ffffff;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+}
 
-        @media (max-width: 520px) {
+/* ---------- Información ---------- */
 
-            /* Permitir que la página se ajuste al alto exacto de la pantalla */
-            html,
-            body {
-                height: 100%;
-                margin: 0;
-                overflow-x: hidden;
-            }
+.resumen-page .label-info {
+    display: inline-block;
+    margin-bottom: 0.3rem;
+}
 
-            .page-container {
-                padding: 4px 8px;
-            }
+.resumen-page .info-description {
+    font-size: clamp(0.8rem, 2vh, 0.88rem);
+    line-height: 1.55;
+    color: var(--color-text-muted);
+}
 
-            .plan-page {
-                margin: 0;
-                border-radius: 0;
-                box-shadow: none;
-                min-height: auto;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding-bottom: 10px;
-            }
+/* ---------- Botón continuar ---------- */
 
-            /* Reducir márgenes y espacios generales en móvil */
-            .plan-header {
-                margin-bottom: 8px;
-                gap: 8px;
-            }
+.resumen-page .form-footer {
+    width: 100%;
+}
 
-            .plan-title {
-                font-size: 15px;
-            }
+.resumen-page .btn-primary.profile-button {
+    min-height: 52px;
+    padding: 0.8rem;
+    font-size: 1rem;
+    letter-spacing: 0.04em;
+}
 
-            .btn-header {
-                padding: 6px 10px;
-                font-size: 10px;
-            }
+/* ---------- Animaciones ---------- */
 
-            /* Reducir la sección de perfiles para que no ocupe tanto alto */
-            .profile-compare {
-                padding: 8px 6px;
-                margin-bottom: 8px;
-                gap: 6px;
-            }
+@keyframes resumenRise {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
 
-            .profile-avatar-small {
-                width: 50px;
-                height: 50px;
-                max-width: 50px;
-                margin-bottom: 4px;
-                border-radius: 8px;
-            }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
 
-            .profile-col-label {
-                font-size: 10px;
-                margin-bottom: 2px;
-            }
+@keyframes resumenFill {
+    from {
+        transform: scaleX(0);
+    }
 
-            .profile-col-stat {
-                font-size: 10px;
-            }
+    to {
+        transform: scaleX(1);
+    }
+}
 
-            /* Compactar la lista de opciones de planes */
-            .plan-options-list {
-                gap: 6px;
-            }
+@media (prefers-reduced-motion: reduce) {
 
-            .plan-options-list .option-card {
-                padding: 8px 10px;
-            }
+    .main-card.resumen-page,
+    .resumen-page .meter i {
+        animation: none;
+    }
+}
 
-            .plan-name {
-                font-size: 12px;
-            }
+/* ---------- Móvil ---------- */
 
-            .plan-price-current {
-                font-size: 13px;
-            }
+@media (max-width: 520px) {
+    .main-card.resumen-page {
+        border-radius: 26px;
+    }
 
-            /* Ajustar el botón inferior */
-            .btn-bottom {
-                margin-top: 8px;
-                padding: 10px;
-                font-size: 13px;
-            }
-        }
+    .resumen-page .profile-avatar {
+        width: 70px;
+        height: 70px;
+    }
+}
